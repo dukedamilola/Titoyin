@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Search — Titoyin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="site-header-placeholder"></div>
+
+<main id="main" role="main">
+
+  <!-- Search Hero -->
+  <section class="search-hero" aria-label="Search">
+    <div class="container">
+      <h1 class="search-title">Search <span style="color:var(--green-deep);">Titoyin</span></h1>
+      <form class="search-bar-lg" data-search-form role="search" aria-label="Search the site">
+        <input type="search" placeholder="Search for news, topics, people…" data-search-input id="main-search-input" aria-label="Search query" autocomplete="off">
+        <button type="submit">Search</button>
+      </form>
+      <p id="search-results-title" style="margin-top:16px;font-size:14px;color:var(--ink-muted);"></p>
+    </div>
+  </section>
+
+  <!-- Filters -->
+  <div style="border-bottom:1px solid var(--border);background:var(--white);">
+    <div class="container">
+      <div class="filter-bar" role="group" aria-label="Filter search results">
+        <span class="label-sm">Category:</span>
+        <button class="filter-chip active">All</button>
+        <button class="filter-chip">National</button>
+        <button class="filter-chip">Politics</button>
+        <button class="filter-chip">Entertainment</button>
+        <button class="filter-chip">Fashion</button>
+        <button class="filter-chip">Trending</button>
+        <button class="filter-chip">World</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" aria-label="Search results">
+    <div class="container">
+      <div class="content-sidebar">
+        <div>
+          <!-- Sort + per-page -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:10px;">
+            <p style="font-size:14px;color:var(--ink-muted);">Showing <strong>42 results</strong></p>
+            <div class="per-page-row" style="margin:0;">
+              <label for="search-per-page">Show:</label>
+              <select id="search-per-page" aria-label="Results per page">
+                <option>10</option>
+                <option selected>20</option>
+                <option>50</option>
+              </select>
+              <label for="search-sort" style="margin-left:10px;">Sort:</label>
+              <select id="search-sort" aria-label="Sort results">
+                <option>Most relevant</option>
+                <option>Newest first</option>
+                <option>Most read</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Results list -->
+          <div style="display:flex;flex-direction:column;">
+
+            <div class="post-list-card">
+              <img class="post-list-img" src="https://images.unsplash.com/photo-1573152143286-0c422b4d2175?w=200&q=80" alt="Result" loading="lazy">
+              <div class="post-list-body">
+                <span class="tag politics" style="margin-bottom:6px;display:inline-block;">Politics</span>
+                <a href="article.html" class="post-list-title" style="font-size:16px;">Senate Passes Electoral Amendment Bill on Third Reading</a>
+                <p style="font-size:13px;color:var(--ink-muted);margin:4px 0 0;line-height:1.5;">Lawmakers voted 87 to 12 in favour of changes to the Electoral Act that will affect how candidates are nominated by political parties...</p>
+                <div class="post-list-meta" style="margin-top:6px;">3 hours ago · Politics Desk</div>
+              </div>
+            </div>
+
+            <div class="post-list-card">
+              <img class="post-list-img" src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=200&q=80" alt="Result" loading="lazy">
+              <div class="post-list-body">
+                <span class="tag" style="margin-bottom:6px;display:inline-block;">National</span>
+                <a href="article.html" class="post-list-title" style="font-size:16px;">Nigeria's Economic Recovery Plan: What the New Budget Means</a>
+                <p style="font-size:13px;color:var(--ink-muted);margin:4px 0 0;line-height:1.5;">As the National Assembly debates the latest spending proposals, economists and ordinary Nigerians are asking the same question...</p>
+                <div class="post-list-meta" style="margin-top:6px;">2 hours ago · Editorial</div>
+              </div>
+            </div>
+
+            <div class="post-list-card">
+              <img class="post-list-img" src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=200&q=80" alt="Result" loading="lazy">
+              <div class="post-list-body">
+                <span class="tag entertainment" style="margin-bottom:6px;display:inline-block;">Entertainment</span>
+                <a href="article.html" class="post-list-title" style="font-size:16px;">Afrobeats Goes Global: Nigerian Artists Break Billboard Records</a>
+                <p style="font-size:13px;color:var(--ink-muted);margin:4px 0 0;line-height:1.5;">A historic week for Nigerian music as three artists simultaneously appear in the Billboard Hot 100...</p>
+                <div class="post-list-meta" style="margin-top:6px;">5 hours ago · Entertainment Desk</div>
+              </div>
+            </div>
+
+            <div class="post-list-card">
+              <img class="post-list-img" src="https://images.unsplash.com/photo-1590247813693-5541d1c609fd?w=200&q=80" alt="Result" loading="lazy">
+              <div class="post-list-body">
+                <span class="tag world" style="margin-bottom:6px;display:inline-block;">Health</span>
+                <a href="article.html" class="post-list-title" style="font-size:16px;">Is Nigeria Ready for Universal Health Coverage?</a>
+                <p style="font-size:13px;color:var(--ink-muted);margin:4px 0 0;line-height:1.5;">An investigative look at whether the infrastructure, funding, and political will exist to make universal health coverage a reality...</p>
+                <div class="post-list-meta" style="margin-top:6px;">Yesterday · Investigations</div>
+              </div>
+            </div>
+
+            <div class="post-list-card">
+              <img class="post-list-img" src="https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=200&q=80" alt="Result" loading="lazy">
+              <div class="post-list-body">
+                <span class="tag" style="background:#1565C0;margin-bottom:6px;display:inline-block;">Tech</span>
+                <a href="article.html" class="post-list-title" style="font-size:16px;">Nigerian Fintech Startups That Could Be Worth $1 Billion by 2026</a>
+                <p style="font-size:13px;color:var(--ink-muted);margin:4px 0 0;line-height:1.5;">From Lagos to Abuja, a new wave of payment and credit platforms is disrupting the continent's financial landscape...</p>
+                <div class="post-list-meta" style="margin-top:6px;">2 days ago · Business Desk</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="pagination" role="navigation" aria-label="Search results pages">
+            <a href="#" class="page-btn prev">← Prev</a>
+            <a href="#" class="page-btn active" aria-current="page">1</a>
+            <a href="#" class="page-btn">2</a>
+            <a href="#" class="page-btn">3</a>
+            <a href="#" class="page-btn next">Next →</a>
+          </div>
+        </div>
+
+        <aside class="sidebar">
+          <div class="newsletter-box">
+            <h3 class="newsletter-title">Never Miss a Story</h3>
+            <p class="newsletter-sub">Subscribe to our daily digest.</p>
+            <form class="newsletter-form" novalidate>
+              <input type="email" class="newsletter-input" placeholder="Your email" aria-label="Email">
+              <button type="submit" class="newsletter-btn">Subscribe</button>
+            </form>
+          </div>
+          <div class="ad-slot rectangle" role="complementary" aria-label="Advertisement">Advertisement 300×250</div>
+          <div class="sidebar-widget">
+            <div class="widget-head">Trending Searches</div>
+            <div class="widget-body" style="display:flex;flex-wrap:wrap;gap:8px;">
+              <a href="search.html?q=budget+2025" class="article-tag-pill">Budget 2025</a>
+              <a href="search.html?q=elections" class="article-tag-pill">Elections</a>
+              <a href="search.html?q=afrobeats" class="article-tag-pill">Afrobeats</a>
+              <a href="search.html?q=inflation" class="article-tag-pill">Inflation</a>
+              <a href="search.html?q=nollywood" class="article-tag-pill">Nollywood</a>
+              <a href="search.html?q=lagos" class="article-tag-pill">Lagos</a>
+              <a href="search.html?q=abuja" class="article-tag-pill">Abuja</a>
+              <a href="search.html?q=fashion+week" class="article-tag-pill">Fashion Week</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-footer-placeholder"></div>
+
+<script src="js/components.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

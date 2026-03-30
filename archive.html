@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse all Titoyin articles by date, category, and topic.">
+  <title>Archive — Titoyin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="site-header-placeholder"></div>
+<main id="main" role="main">
+
+<section style="background:var(--surface);padding:40px 0;border-bottom:1px solid var(--border);" aria-label="Archive header">
+  <div class="container">
+    <h1 style="font-family:var(--font-serif);font-size:clamp(26px,3vw,40px);font-weight:900;margin-bottom:8px;">Story Archive</h1>
+    <p style="font-size:15px;color:var(--ink-muted);">Browse all published stories by date or filter by category and topic.</p>
+  </div>
+</section>
+
+<section class="section" aria-label="Archive filters and content">
+  <div class="container">
+    <div class="content-sidebar">
+      <div>
+        <!-- Filter bar -->
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
+          <div class="filter-bar" style="padding:0;margin:0;" role="group" aria-label="Filter by category">
+            <button class="filter-chip active">All Categories</button>
+            <button class="filter-chip">National</button>
+            <button class="filter-chip">Politics</button>
+            <button class="filter-chip">Entertainment</button>
+            <button class="filter-chip">Fashion</button>
+            <button class="filter-chip">Trending</button>
+            <button class="filter-chip">World</button>
+          </div>
+          <div class="per-page-row" style="margin:0;">
+            <label for="archive-month">Month:</label>
+            <select id="archive-month" aria-label="Select month">
+              <option>All time</option>
+              <option>June 2025</option>
+              <option>May 2025</option>
+              <option>April 2025</option>
+              <option>March 2025</option>
+              <option>February 2025</option>
+              <option>January 2025</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Month groupings -->
+        <div>
+          <h2 style="font-family:var(--font-serif);font-size:20px;font-weight:700;color:var(--ink-muted);margin-bottom:16px;display:flex;align-items:center;gap:12px;">
+            June 2025
+            <span style="font-size:12px;background:var(--green-light);color:var(--green-deep);padding:3px 10px;border-radius:100px;font-weight:500;">24 stories</span>
+          </h2>
+
+          <div class="post-list-card">
+            <img class="post-list-img" src="https://images.unsplash.com/photo-1606412885434-f4d5a654e50a?w=200&q=80" alt="" loading="lazy">
+            <div class="post-list-body">
+              <div style="display:flex;gap:8px;margin-bottom:4px;">
+                <span class="tag">National</span>
+              </div>
+              <a href="article.html" class="post-list-title">NNPC Reports Record Oil Production as Petrol Queues Return</a>
+              <div class="post-list-meta">1 Jun 2025 · Staff Reporter · 4 min read</div>
+            </div>
+          </div>
+
+          <div class="post-list-card">
+            <img class="post-list-img" src="https://images.unsplash.com/photo-1573152143286-0c422b4d2175?w=200&q=80" alt="" loading="lazy">
+            <div class="post-list-body">
+              <div style="display:flex;gap:8px;margin-bottom:4px;">
+                <span class="tag politics">Politics</span>
+              </div>
+              <a href="article.html" class="post-list-title">Governors Forum Endorses New Revenue Sharing Formula</a>
+              <div class="post-list-meta">1 Jun 2025 · Politics Desk · 3 min read</div>
+            </div>
+          </div>
+
+          <div class="post-list-card">
+            <img class="post-list-img" src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=200&q=80" alt="" loading="lazy">
+            <div class="post-list-body">
+              <div style="display:flex;gap:8px;margin-bottom:4px;">
+                <span class="tag entertainment">Entertainment</span>
+              </div>
+              <a href="article.html" class="post-list-title">Afrobeats Goes Global: Nigerian Artists Break Billboard Records</a>
+              <div class="post-list-meta">31 May 2025 · Entertainment Desk · 3 min read</div>
+            </div>
+          </div>
+
+          <div class="post-list-card">
+            <img class="post-list-img" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=200&q=80" alt="" loading="lazy">
+            <div class="post-list-body">
+              <div style="display:flex;gap:8px;margin-bottom:4px;">
+                <span class="tag fashion">Fashion</span>
+              </div>
+              <a href="article.html" class="post-list-title">Lagos Fashion Week 2025: The Looks That Stopped Everyone</a>
+              <div class="post-list-meta">30 May 2025 · Style Desk · 4 min read</div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <h2 style="font-family:var(--font-serif);font-size:20px;font-weight:700;color:var(--ink-muted);margin-bottom:16px;display:flex;align-items:center;gap:12px;">
+            May 2025
+            <span style="font-size:12px;background:var(--green-light);color:var(--green-deep);padding:3px 10px;border-radius:100px;font-weight:500;">31 stories</span>
+          </h2>
+
+          <div class="post-list-card">
+            <img class="post-list-img" src="https://images.unsplash.com/photo-1569063640-7777aa7f7f47?w=200&q=80" alt="" loading="lazy">
+            <div class="post-list-body">
+              <div style="display:flex;gap:8px;margin-bottom:4px;">
+                <span class="tag politics">Politics</span>
+              </div>
+              <a href="article.html" class="post-list-title">Senate Passes Electoral Amendment Bill on Third Reading</a>
+              <div class="post-list-meta">28 May 2025 · Politics Desk · 5 min read</div>
+            </div>
+          </div>
+
+          <div class="post-list-card">
+            <img class="post-list-img" src="https://images.unsplash.com/photo-1501386761578-eaa54b9a1a47?w=200&q=80" alt="" loading="lazy">
+            <div class="post-list-body">
+              <div style="display:flex;gap:8px;margin-bottom:4px;">
+                <span class="tag entertainment">Entertainment</span>
+              </div>
+              <a href="article.html" class="post-list-title">New Nollywood Film Earns ₦200m at Box Office in Opening Weekend</a>
+              <div class="post-list-meta">27 May 2025 · Entertainment Desk · 3 min read</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pagination" role="navigation" aria-label="Archive pages">
+          <a href="#" class="page-btn prev">← Prev</a>
+          <a href="#" class="page-btn active" aria-current="page">1</a>
+          <a href="#" class="page-btn">2</a>
+          <a href="#" class="page-btn">3</a>
+          <a href="#" class="page-btn next">Next →</a>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="newsletter-box">
+          <h3 class="newsletter-title">Daily Briefing</h3>
+          <p class="newsletter-sub">Get top stories in your inbox every morning — free.</p>
+          <form class="newsletter-form" novalidate>
+            <input type="email" class="newsletter-input" placeholder="Your email" aria-label="Email">
+            <button type="submit" class="newsletter-btn">Subscribe</button>
+          </form>
+        </div>
+        <div class="sidebar-widget">
+          <div class="widget-head">Browse by Category</div>
+          <div class="widget-body" style="display:flex;flex-direction:column;gap:10px;">
+            <a href="category.html?cat=national" style="font-size:14px;color:var(--green-deep);">🇳🇬 National Events</a>
+            <a href="category.html?cat=politics" style="font-size:14px;color:var(--green-deep);">🏛️ Politics</a>
+            <a href="category.html?cat=entertainment" style="font-size:14px;color:var(--green-deep);">🎬 Entertainment</a>
+            <a href="category.html?cat=fashion" style="font-size:14px;color:var(--green-deep);">👗 Fashion & Style</a>
+            <a href="category.html?cat=trending" style="font-size:14px;color:var(--green-deep);">🔥 Trending</a>
+            <a href="category.html?cat=gossip" style="font-size:14px;color:var(--green-deep);">💬 Gossip</a>
+            <a href="category.html?cat=world" style="font-size:14px;color:var(--green-deep);">🌍 World</a>
+          </div>
+        </div>
+        <div class="ad-slot rectangle" role="complementary" aria-label="Advertisement">Advertisement 300×250</div>
+      </aside>
+    </div>
+  </div>
+</section>
+</main>
+<div id="site-footer-placeholder"></div>
+<script src="js/components.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

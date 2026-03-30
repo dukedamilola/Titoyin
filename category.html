@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse all stories in this category — Titoyin Nigeria's news, politics, entertainment and lifestyle platform.">
+  <title>Category — Titoyin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="site-header-placeholder"></div>
+
+<main id="main" role="main">
+
+  <!-- Category Hero Banner -->
+  <section class="section" style="background:var(--green-deep);padding:36px 0 32px;" aria-label="Category header">
+    <div class="container">
+      <p class="label-sm" style="color:rgba(255,255,255,0.55);margin-bottom:6px;">Browsing category</p>
+      <h1 id="cat-title" style="font-family:var(--font-serif);font-size:clamp(28px,4vw,44px);font-weight:900;color:white;margin-bottom:8px;">Politics</h1>
+      <p id="cat-desc" style="font-size:15px;color:rgba(255,255,255,0.65);max-width:520px;">
+        The latest political news, analysis, and commentary from Nigeria and across Africa.
+      </p>
+    </div>
+  </section>
+
+  <!-- Filter & Sort Bar -->
+  <section style="background:var(--surface);border-bottom:1px solid var(--border);padding:14px 0;" aria-label="Filter and sort">
+    <div class="container">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div class="filter-bar" style="padding:0;margin:0;" role="group" aria-label="Filter by type">
+          <span class="label-sm" style="margin-right:4px;">Filter:</span>
+          <button class="filter-chip active">All</button>
+          <button class="filter-chip">Breaking</button>
+          <button class="filter-chip">Analysis</button>
+          <button class="filter-chip">Opinion</button>
+          <button class="filter-chip">Photo Story</button>
+          <button class="filter-chip">Video</button>
+        </div>
+        <div class="per-page-row" style="margin:0;">
+          <label for="cat-per-page" style="font-size:13px;color:var(--ink-muted);">Show:</label>
+          <select id="cat-per-page" aria-label="Posts per page">
+            <option value="9">9 per page</option>
+            <option value="18" selected>18 per page</option>
+            <option value="36">36 per page</option>
+          </select>
+          <label for="cat-sort" style="font-size:13px;color:var(--ink-muted);margin-left:12px;">Sort:</label>
+          <select id="cat-sort" aria-label="Sort order">
+            <option>Newest first</option>
+            <option>Most read</option>
+            <option>Oldest first</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content + Sidebar -->
+  <section class="section" aria-label="Category posts">
+    <div class="container">
+      <div class="content-sidebar">
+
+        <!-- Posts Grid -->
+        <div>
+          <!-- Top Ad -->
+          <div class="ad-slot leaderboard" style="margin-bottom:24px;" role="complementary" aria-label="Advertisement">Advertisement — 728×90</div>
+
+          <div class="grid-3" id="category-posts-grid">
+            <!-- Post 1 -->
+            <article class="post-card post-feed-item" data-animate>
+              <a href="article.html" class="post-card-img-wrap">
+                <img class="post-card-img" src="https://images.unsplash.com/photo-1573152143286-0c422b4d2175?w=600&q=80" alt="Politics article" loading="lazy">
+              </a>
+              <div class="post-card-body">
+                <span class="tag politics">Politics</span>
+                <a href="article.html" class="post-card-title">Governors Forum Endorses New Revenue Formula</a>
+                <p class="post-card-excerpt">The body of Nigerian state governors reached a consensus on a new fiscal framework that could reshape how federal allocations are distributed.</p>
+                <div class="post-card-meta"><span>By Politics Desk</span><span>1 hour ago</span></div>
+              </div>
+            </article>
+
+            <article class="post-card post-feed-item" data-animate>
+              <a href="article.html" class="post-card-img-wrap">
+                <img class="post-card-img" src="https://images.unsplash.com/photo-1569063640-7777aa7f7f47?w=600&q=80" alt="Article image" loading="lazy">
+              </a>
+              <div class="post-card-body">
+                <span class="tag politics">Politics</span>
+                <a href="article.html" class="post-card-title">Senate Passes Electoral Amendment Bill on Third Reading</a>
+                <p class="post-card-excerpt">Lawmakers voted 87 to 12 in favour of changes to the Electoral Act that will affect how candidates are nominated by political parties ahead of 2027.</p>
+                <div class="post-card-meta"><span>By Politics Desk</span><span>3 hours ago</span></div>
+              </div>
+            </article>
+
+            <article class="post-card post-feed-item" data-animate>
+              <a href="article.html" class="post-card-img-wrap">
+                <img class="post-card-img" src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=600&q=80" alt="Article image" loading="lazy">
+              </a>
+              <div class="post-card-body">
+                <span class="tag politics">Politics</span>
+                <a href="article.html" class="post-card-title">What the President's Cabinet Reshuffle Reveals About 2027 Strategy</a>
+                <p class="post-card-excerpt">Political analysts weigh in on the strategic implications of the latest ministerial changes and what they signal about the administration's priorities.</p>
+                <div class="post-card-meta"><span>By Analysis Team</span><span>6 hours ago</span></div>
+              </div>
+            </article>
+
+            <article class="post-card post-feed-item" data-animate>
+              <a href="article.html" class="post-card-img-wrap">
+                <img class="post-card-img" src="https://images.unsplash.com/photo-1590247813693-5541d1c609fd?w=600&q=80" alt="Article image" loading="lazy">
+              </a>
+              <div class="post-card-body">
+                <span class="tag politics">Politics</span>
+                <a href="article.html" class="post-card-title">INEC Begins Registration of New Voters in 10 States Ahead of Schedule</a>
+                <p class="post-card-excerpt">The Independent National Electoral Commission has accelerated its continuous voter registration exercise in preparation for upcoming by-elections.</p>
+                <div class="post-card-meta"><span>By Staff Reporter</span><span>Yesterday</span></div>
+              </div>
+            </article>
+
+            <article class="post-card post-feed-item" data-animate>
+              <a href="article.html" class="post-card-img-wrap">
+                <img class="post-card-img" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80" alt="Article image" loading="lazy">
+              </a>
+              <div class="post-card-body">
+                <div style="display:flex;gap:6px;margin-bottom:8px;">
+                  <span class="tag politics">Politics</span>
+                  <span class="editors-pick">Editor's Pick</span>
+                </div>
+                <a href="article.html" class="post-card-title">Inside the APC National Council Meeting That Changed Everything</a>
+                <p class="post-card-excerpt">A comprehensive look at the decisions made behind closed doors and their likely impact on the party's direction over the next two years.</p>
+                <div class="post-card-meta"><span>By Investigations</span><span>2 days ago</span></div>
+              </div>
+            </article>
+
+            <article class="post-card post-feed-item" data-animate>
+              <a href="article.html" class="post-card-img-wrap">
+                <img class="post-card-img" src="https://images.unsplash.com/photo-1542401886-65d6c61db217?w=600&q=80" alt="Article image" loading="lazy">
+              </a>
+              <div class="post-card-body">
+                <span class="tag politics">Politics</span>
+                <a href="article.html" class="post-card-title">Opposition Parties Unite to Challenge Security Spending in New Budget</a>
+                <p class="post-card-excerpt">A coalition of opposition lawmakers has tabled a formal objection to proposed defence allocations, demanding greater transparency on procurement processes.</p>
+                <div class="post-card-meta"><span>By Politics Desk</span><span>3 days ago</span></div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Mid-content Ad -->
+          <div class="ad-slot leaderboard" style="margin:32px 0;" role="complementary" aria-label="Advertisement">Advertisement — 728×90</div>
+
+          <!-- More posts (list style) -->
+          <h2 class="section-title" style="margin-top:0;">More in <span>Politics</span></h2>
+
+          <div class="post-list-card">
+            <img class="post-list-img" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=200&q=80" alt="Article" loading="lazy">
+            <div class="post-list-body">
+              <a href="article.html" class="post-list-title">Federal Government Releases Revised Climate Action Roadmap</a>
+              <div class="post-list-meta">4 days ago · Politics Desk</div>
+            </div>
+          </div>
+
+          <div class="post-list-card">
+            <img class="post-list-img" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=200&q=80" alt="Article" loading="lazy">
+            <div class="post-list-body">
+              <a href="article.html" class="post-list-title">State Assemblies Ratify Constitutional Amendment on Local Government Autonomy</a>
+              <div class="post-list-meta">5 days ago · Analysis</div>
+            </div>
+          </div>
+
+          <div class="post-list-card">
+            <img class="post-list-img" src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=200&q=80" alt="Article" loading="lazy">
+            <div class="post-list-body">
+              <a href="article.html" class="post-list-title">Nigeria's Foreign Policy Under Review: What the New Diplomatic Appointments Signal</a>
+              <div class="post-list-meta">1 week ago · World Desk</div>
+            </div>
+          </div>
+
+          <div class="post-list-card">
+            <img class="post-list-img" src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=200&q=80" alt="Article" loading="lazy">
+            <div class="post-list-body">
+              <a href="article.html" class="post-list-title">NASS Public Hearing on Petroleum Industry Amendment Bill Begins Next Week</a>
+              <div class="post-list-meta">1 week ago · Politics Desk</div>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination" role="navigation" aria-label="Page navigation">
+            <a href="#" class="page-btn prev">← Prev</a>
+            <a href="#" class="page-btn active" aria-current="page">1</a>
+            <a href="#" class="page-btn">2</a>
+            <a href="#" class="page-btn">3</a>
+            <a href="#" class="page-btn">4</a>
+            <a href="#" class="page-btn next">Next →</a>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <div class="newsletter-box">
+            <h3 class="newsletter-title">Daily Briefing</h3>
+            <p class="newsletter-sub">Get top Nigerian stories in your inbox every morning — free.</p>
+            <form class="newsletter-form" novalidate>
+              <input type="email" class="newsletter-input" placeholder="Your email address" aria-label="Email">
+              <button type="submit" class="newsletter-btn">Subscribe Free</button>
+            </form>
+          </div>
+
+          <div class="ad-slot rectangle" role="complementary" aria-label="Advertisement">Advertisement 300×250</div>
+
+          <div class="sidebar-widget">
+            <div class="widget-head">Also in Politics</div>
+            <div class="widget-body">
+              <div class="post-list-card" style="padding:10px 0;">
+                <div class="post-list-body">
+                  <a href="article.html" class="post-list-title">Why Local Government Elections Matter More Than Ever</a>
+                  <div class="post-list-meta">2 days ago</div>
+                </div>
+              </div>
+              <div class="post-list-card" style="padding:10px 0;">
+                <div class="post-list-body">
+                  <a href="article.html" class="post-list-title">Reading the Party Defections: What They Mean for 2027</a>
+                  <div class="post-list-meta">4 days ago</div>
+                </div>
+              </div>
+              <div class="post-list-card" style="padding:10px 0;border:none;">
+                <div class="post-list-body">
+                  <a href="article.html" class="post-list-title">The Lawmakers Who Made the Biggest Noise This Session</a>
+                  <div class="post-list-meta">1 week ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ad-slot rectangle" role="complementary" aria-label="Advertisement">Advertisement 300×250</div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-footer-placeholder"></div>
+
+<script src="js/components.js"></script>
+<script src="js/main.js"></script>
+<script>
+// Populate category title from URL
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const cat = params.get('cat') || 'national';
+  const catMap = {
+    national: { title: 'National Events', desc: 'Breaking news and in-depth coverage of events across Nigeria.' },
+    politics: { title: 'Politics', desc: 'The latest political news, analysis, and commentary from Nigeria and across Africa.' },
+    entertainment: { title: 'Entertainment', desc: 'Nollywood, Afrobeats, celebrity news, and everything in between.' },
+    fashion: { title: 'Fashion & Style', desc: 'Nigerian and international fashion, trends, beauty, and lifestyle.' },
+    trending: { title: 'Trending Stories', desc: "The stories Nigerians can't stop talking about right now." },
+    gossip: { title: 'Gossip', desc: 'Celebrity gossip, relationship news, and industry buzz.' },
+    world: { title: 'World', desc: 'International events and global stories relevant to Nigeria.' },
+  };
+  const data = catMap[cat] || catMap.national;
+  const el = document.getElementById('cat-title');
+  const desc = document.getElementById('cat-desc');
+  if (el) el.textContent = data.title;
+  if (desc) desc.textContent = data.desc;
+  document.title = data.title + ' — Titoyin';
+})();
+</script>
+</body>
+</html>

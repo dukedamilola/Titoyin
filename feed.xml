@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Titoyin — Nigeria's News, Media &amp; Lifestyle Platform</title>
+    <link>https://titoyin.com</link>
+    <description>The latest Nigerian and international news, politics, entertainment, fashion, and trending stories.</description>
+    <language>en-NG</language>
+    <copyright>Copyright 2025, Titoyin. All rights reserved.</copyright>
+    <managingEditor>editorial@titoyin.com (Titoyin Editorial)</managingEditor>
+    <atom:link href="https://titoyin.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Sun, 01 Jun 2025 09:00:00 +0100</lastBuildDate>
+    <ttl>60</ttl>
+    <image>
+      <url>https://titoyin.com/assets/logo.png</url>
+      <title>Titoyin</title>
+      <link>https://titoyin.com</link>
+    </image>
+
+    <item>
+      <title>Nigeria's Economic Recovery Plan: What the New Budget Means for Every Nigerian Household</title>
+      <link>https://titoyin.com/article.html</link>
+      <description>As the National Assembly debates the latest spending proposals, economists and ordinary Nigerians are asking the same question — who actually benefits?</description>
+      <pubDate>Sun, 01 Jun 2025 09:00:00 +0100</pubDate>
+      <guid isPermaLink="true">https://titoyin.com/article.html</guid>
+      <category>National</category>
+      <author>editorial@titoyin.com (Titoyin Editorial Desk)</author>
+    </item>
+
+    <item>
+      <title>Senate Passes Electoral Amendment Bill on Third Reading</title>
+      <link>https://titoyin.com/article.html</link>
+      <description>Lawmakers voted 87 to 12 in favour of changes to the Electoral Act that will affect how candidates are nominated by political parties.</description>
+      <pubDate>Sun, 01 Jun 2025 06:00:00 +0100</pubDate>
+      <guid isPermaLink="true">https://titoyin.com/article-2.html</guid>
+      <category>Politics</category>
+      <author>editorial@titoyin.com (Politics Desk)</author>
+    </item>
+
+    <item>
+      <title>Afrobeats Goes Global: Nigerian Artists Break Billboard Records</title>
+      <link>https://titoyin.com/article.html</link>
+      <description>A historic week for Nigerian music as three artists simultaneously chart in the Billboard Hot 100.</description>
+      <pubDate>Sat, 31 May 2025 14:00:00 +0100</pubDate>
+      <guid isPermaLink="true">https://titoyin.com/article-3.html</guid>
+      <category>Entertainment</category>
+      <author>editorial@titoyin.com (Entertainment Desk)</author>
+    </item>
+
+  </channel>
+</rss>
