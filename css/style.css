@@ -6,20 +6,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
 
 :root {
-  --green-deep: #006B3F;
-  --green-mid:  #008C52;
-  --green-light:#E6F4ED;
+  --green-deep: #1B2A6B;
+  --green-mid:  #2A3D99;
+  --green-light:#EEF0FA;
   --white:      #FFFFFF;
   --ink:        #0F0F0F;
   --ink-soft:   #2C2C2C;
   --ink-muted:  #5A5A5A;
   --border:     #E0E0E0;
-  --surface:    #F7F7F5;
-  --surface2:   #EFEFEC;
+  --surface:    #F8F8FB;
+  --surface2:   #EFEFF5;
   --accent:     #C8102E;
   --accent-soft:#FFF0F2;
   --gold:       #B8860B;
   --gold-light: #FFF8E1;
+  --navy:       #1B2A6B;
+  --navy-mid:   #2A3D99;
+  --navy-light: #EEF0FA;
+  --cream:      #FAFAF7;
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans:  'DM Sans', system-ui, sans-serif;
   --font-mono:  'DM Mono', monospace;
@@ -185,6 +189,20 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    HEADER & NAVIGATION
    ============================================= */
 
+/* Top ad banner strip above header */
+.header-ad-strip {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 0;
+  text-align: center;
+}
+.header-ad-strip .ad-slot {
+  margin: 0 auto;
+  max-width: 728px;
+  min-height: 90px;
+  border-radius: var(--radius);
+}
+
 .site-header {
   position: sticky;
   top: 0;
@@ -195,23 +213,46 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .header-top {
-  padding: 12px 0;
+  padding: 10px 0;
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+/* Logo using actual image */
 .site-logo {
-  font-family: var(--font-serif);
-  font-size: clamp(24px, 3vw, 32px);
-  font-weight: 900;
-  color: var(--green-deep);
-  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  text-decoration: none;
+}
+.site-logo img {
+  height: 52px;
+  width: auto;
+  display: block;
+  object-fit: contain;
 }
 
-.site-logo span {
-  color: var(--accent);
+/* Fallback text logo if image fails */
+.site-logo-text {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(22px, 2.5vw, 30px);
+  font-weight: 900;
+  color: var(--navy);
+  letter-spacing: -0.02em;
+  font-style: italic;
+}
+.site-logo-text span { color: var(--accent); }
+.site-logo-tagline {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-style: normal;
+  display: block;
+  margin-top: -2px;
 }
 
 .header-meta {
@@ -609,7 +650,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* Trending strip */
 .trending-strip {
-  background: var(--green-deep);
+  background: var(--navy);
   padding: 24px 0;
   color: var(--white);
 }
@@ -708,7 +749,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* Newsletter */
 .newsletter-box {
-  background: var(--green-deep);
+  background: var(--navy);
   border-radius: var(--radius-lg);
   padding: 28px 22px;
   color: var(--white);

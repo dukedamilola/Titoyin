@@ -39,11 +39,31 @@ function renderHeader() {
     </div>
   </div>
 
+  <!-- Top Header Ad Strip (728×90 leaderboard) -->
+  <div class="header-ad-strip" role="complementary" aria-label="Advertisement">
+    <div class="container">
+      <div class="ad-slot leaderboard" style="margin:0 auto;max-width:728px;">Advertisement — 728×90 Header Banner</div>
+    </div>
+  </div>
+
   <!-- Site Header -->
   <header class="site-header" role="banner">
     <div class="container">
       <div class="header-top">
-        <a href="index.html" class="site-logo">Tito<span>yin</span></a>
+
+        <!-- Logo -->
+        <a href="index.html" class="site-logo" aria-label="Titoyin — Home">
+          <img
+            src="assets/titoyin-logo.jpg"
+            alt="Titoyin's Blog — Lifestyle, Politics"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          >
+          <span class="site-logo-text" style="display:none;">
+            Titoyin<span>'s Blog</span>
+            <span class="site-logo-tagline">Lifestyle · Politics</span>
+          </span>
+        </a>
+
         <div class="header-meta">
           <form class="header-search" data-search-form role="search" aria-label="Site search">
             <span class="search-icon" aria-hidden="true">&#128269;</span>
@@ -98,7 +118,10 @@ function renderFooter() {
 
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="index.html" class="site-logo" style="color:white;">Tito<span style="color:var(--accent);">yin</span></a>
+          <a href="index.html" class="site-logo" style="margin-bottom:12px;display:inline-flex;" aria-label="Titoyin Home">
+            <img src="assets/titoyin-logo.jpg" alt="Titoyin's Blog" style="height:44px;width:auto;filter:brightness(0) invert(1);opacity:0.85;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+            <span style="display:none;font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:white;font-style:italic;">Titoyin<span style="color:var(--accent);">'s Blog</span></span>
+          </a>
           <p class="footer-desc">Nigeria's go-to platform for national news, politics, entertainment, fashion, and trending stories. Stay informed. Stay empowered.</p>
           <div class="footer-social">
             <a href="#" aria-label="Facebook" rel="noopener noreferrer" target="_blank">f</a>
