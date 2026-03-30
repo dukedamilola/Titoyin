@@ -228,12 +228,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   text-decoration: none;
 }
 .site-logo img {
-  height: 52px;
+  height: 56px;
   width: auto;
   display: block;
   object-fit: contain;
   background: #ffffff;
-  border-radius: 4px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #eeeeee;
 }
 
 /* Fallback text logo if image fails */
@@ -1213,8 +1215,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .footer-bottom-links a { color: rgba(255,255,255,0.35); transition: var(--transition); }
 .footer-bottom-links a:hover { color: rgba(255,255,255,0.7); }
 
-/* In-footer ad */
-.footer-ad {
+.footer-brand .site-logo img {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
   background: rgba(255,255,255,0.04);
   border: 1px dashed rgba(255,255,255,0.12);
   border-radius: var(--radius-lg);
