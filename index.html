@@ -1,81 +1,494 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-NG">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Titoyin Admin — Login</title>
-  <link rel="stylesheet" href="css/admin.css">
+  <meta name="description" content="Titoyin — Nigeria's trusted source for national news, politics, entertainment, fashion, trending stories and international events.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Titoyin — Nigeria's News, Media & Lifestyle Platform">
+  <meta property="og:description" content="Stay informed with the latest Nigerian and international news, politics, entertainment, and trending stories.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://titoyin.com">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://titoyin.com">
+  <link rel="alternate" type="application/rss+xml" title="Titoyin RSS Feed" href="feed.xml">
+  <title>Titoyin — Nigeria's News, Media &amp; Lifestyle Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
-<body class="login-page">
+<body>
 
-<div class="login-wrap">
-  <div class="login-logo">
-    <img src="../assets/titoyin-logo.png" alt="Titoyin's Blog" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
-    <span style="display:none;font-family:Georgia,serif;font-size:24px;font-weight:900;color:#1B2A6B;font-style:italic;">Titoyin's Blog</span>
-  </div>
+<!-- Header (injected by components.js) -->
+<div id="site-header-placeholder"></div>
 
-  <div class="login-card">
-    <h1 class="login-title">Admin Login</h1>
-    <p class="login-sub">Sign in to manage your website</p>
+<main id="main" role="main">
 
-    <div id="login-error" class="alert alert-error" style="display:none;">
-      Incorrect password. Please try again.
-    </div>
+  <!-- ══ HERO SECTION ══════════════════════════ -->
+  <section class="hero" aria-label="Top stories">
+    <div class="container">
 
-    <form id="login-form" autocomplete="off">
-      <div class="field-group">
-        <label for="admin-pass">Password</label>
-        <div class="input-wrap">
-          <input
-            type="password"
-            id="admin-pass"
-            placeholder="Enter your admin password"
-            autocomplete="current-password"
-            required
+      <!-- Top Ad Leaderboard -->
+      <div class="ad-slot leaderboard" style="margin-bottom:24px;" role="complementary" aria-label="Advertisement">
+        Advertisement — 728×90 Leaderboard
+      </div>
+
+      <div class="hero-grid">
+        <!-- LEAD STORY -->
+        <article class="hero-lead">
+          <img
+            class="hero-lead-img"
+            src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=900&q=80"
+            alt="Nigerian government building at sunset — lead story placeholder"
+            loading="eager"
           >
-          <button type="button" class="toggle-pass" aria-label="Show password" onclick="togglePassword()">👁</button>
+          <div class="hero-lead-content">
+            <span class="tag">National</span>
+            <a href="article.html">
+              <h1 class="hero-lead-title">
+                Nigeria's Economic Recovery Plan: What the New Budget Means for Every Nigerian Household
+              </h1>
+            </a>
+            <p class="hero-lead-meta">By Titoyin Editorial · 2 hours ago &nbsp;·&nbsp; 5 min read</p>
+          </div>
+        </article>
+
+        <!-- SECONDARY STORIES -->
+        <div class="hero-secondary">
+          <article class="hero-card" data-animate>
+            <img class="hero-card-img" src="https://images.unsplash.com/photo-1573152143286-0c422b4d2175?w=300&q=80" alt="Politics story">
+            <div class="hero-card-body">
+              <span class="tag politics">Politics</span>
+              <a href="article.html" class="hero-card-title">Senate Debates Electoral Reform Bill as 2027 Elections Draw Closer</a>
+              <p class="hero-card-meta">3 hours ago · 4 min read</p>
+            </div>
+          </article>
+
+          <article class="hero-card" data-animate>
+            <img class="hero-card-img" src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=300&q=80" alt="Entertainment story">
+            <div class="hero-card-body">
+              <span class="tag entertainment">Entertainment</span>
+              <a href="article.html" class="hero-card-title">Afrobeats Goes Global: Nigerian Artists Break New Records on Billboard Charts</a>
+              <p class="hero-card-meta">5 hours ago · 3 min read</p>
+            </div>
+          </article>
+
+          <article class="hero-card" data-animate>
+            <img class="hero-card-img" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=300&q=80" alt="Fashion story">
+            <div class="hero-card-body">
+              <span class="tag fashion">Fashion &amp; Style</span>
+              <a href="article.html" class="hero-card-title">Lagos Fashion Week 2025: The Looks That Stopped Everyone in Their Tracks</a>
+              <p class="hero-card-meta">7 hours ago · 4 min read</p>
+            </div>
+          </article>
         </div>
       </div>
-      <button type="submit" class="btn-login" id="login-btn">Sign In</button>
-    </form>
+    </div>
+  </section>
 
-    <p class="login-hint">
-      🔒 This page is private. Do not share the URL or password.
-    </p>
+  <!-- ══ CATEGORY STRIP ════════════════════════ -->
+  <section class="section" style="padding:20px 0;" aria-label="Browse by category">
+    <div class="container">
+      <div class="category-strip" data-filter-group role="navigation" aria-label="Category navigation">
+        <a href="category.html?cat=national" class="cat-pill active">
+          <span class="cat-pill-icon" aria-hidden="true">🇳🇬</span>
+          <span class="cat-pill-name">National</span>
+        </a>
+        <a href="category.html?cat=politics" class="cat-pill">
+          <span class="cat-pill-icon" aria-hidden="true">🏛️</span>
+          <span class="cat-pill-name">Politics</span>
+        </a>
+        <a href="category.html?cat=entertainment" class="cat-pill">
+          <span class="cat-pill-icon" aria-hidden="true">🎬</span>
+          <span class="cat-pill-name">Entertainment</span>
+        </a>
+        <a href="category.html?cat=fashion" class="cat-pill">
+          <span class="cat-pill-icon" aria-hidden="true">👗</span>
+          <span class="cat-pill-name">Fashion</span>
+        </a>
+        <a href="category.html?cat=trending" class="cat-pill">
+          <span class="cat-pill-icon" aria-hidden="true">🔥</span>
+          <span class="cat-pill-name">Trending</span>
+        </a>
+        <a href="category.html?cat=gossip" class="cat-pill">
+          <span class="cat-pill-icon" aria-hidden="true">💬</span>
+          <span class="cat-pill-name">Gossip</span>
+        </a>
+        <a href="category.html?cat=world" class="cat-pill">
+          <span class="cat-pill-icon" aria-hidden="true">🌍</span>
+          <span class="cat-pill-name">World</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ LATEST STORIES + SIDEBAR ═════════════ -->
+  <section class="section" aria-label="Latest stories">
+    <div class="container">
+      <div class="content-sidebar">
+
+        <!-- MAIN FEED -->
+        <div>
+          <h2 class="section-title">Latest <span>Stories</span></h2>
+
+          <!-- Per-page selector (desktop) -->
+          <div class="per-page-row" style="justify-content:flex-end;">
+            <label for="per-page-select" style="color:var(--ink-muted);font-size:13px;">Show:</label>
+            <select id="per-page-select" aria-label="Posts per page">
+              <option value="6">6 per page</option>
+              <option value="12" selected>12 per page</option>
+              <option value="24">24 per page</option>
+            </select>
+          </div>
+
+          <div class="grid-2" style="gap:20px;margin-bottom:32px;">
+            <!-- Post Cards -->
+            <article class="post-card post-feed-item" data-animate>
+              <a href="article.html" class="post-card-img-wrap" aria-label="Read article">
+                <img class="post-card-img" src="https://images.unsplash.com/photo-1606412885434-f4d5a654e50a?w=600&q=80" alt="National story image" loading="lazy">
+              </a>
+              <div class="post-card-body">
+                <span class="tag">National</span>
+                <a href="article.html" class="post-card-title">NNPC Reports Record Oil Production as Petrol Queues Return to Abuja Filling Stations</a>
+                <p class="post-card-excerpt">Despite reports of increasing crude production, motorists in the Federal Capital Territory face renewed fuel scarcity as distribution challenges persist across depots.</p>
+                <div class="post-card-meta">
+                  <span>By Staff Reporter</span>
+                  <span>1 hour ago</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="post-card post-feed-item" data-animate>
+              <a href="article.html" class="post-card-img-wrap">
+                <img class="post-card-img" src="https://images.unsplash.com/photo-1493612276216-ee3925520721?w=600&q=80" alt="Gossip story" loading="lazy">
+              </a>
+              <div class="post-card-body">
+                <span class="tag gossip">Gossip</span>
+                <a href="article.html" class="post-card-title">Inside the Relationship Rumours Rocking Nollywood This Week</a>
+                <p class="post-card-excerpt">Sources close to a popular actress confirm what fans have been speculating for months, as industry insiders speak out on the growing tension.</p>
+                <div class="post-card-meta">
+                  <span>Entertainment Desk</span>
+                  <span>2 hours ago</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="post-card post-feed-item" data-animate>
+              <a href="article.html" class="post-card-img-wrap">
+                <img class="post-card-img" src="https://images.unsplash.com/photo-1569063640-7777aa7f7f47?w=600&q=80" alt="Politics story" loading="lazy">
+              </a>
+              <div class="post-card-body">
+                <span class="tag politics">Politics</span>
+                <a href="article.html" class="post-card-title">Governors Forum Endorses New Revenue Sharing Formula Ahead of Federal Council Meeting</a>
+                <p class="post-card-excerpt">The Nigerian Governors Forum issued a joint communiqué backing changes to the fiscal distribution model, citing the need for state-level infrastructure funding.</p>
+                <div class="post-card-meta">
+                  <span>Politics Desk</span>
+                  <span>3 hours ago</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="post-card post-feed-item" data-animate>
+              <a href="article.html" class="post-card-img-wrap">
+                <img class="post-card-img" src="https://images.unsplash.com/photo-1501386761578-eaa54b9a1a47?w=600&q=80" alt="Entertainment story" loading="lazy">
+              </a>
+              <div class="post-card-body">
+                <span class="tag entertainment">Entertainment</span>
+                <a href="article.html" class="post-card-title">New Nollywood Film Earns ₦200m at Box Office in Opening Weekend</a>
+                <p class="post-card-excerpt">A highly anticipated drama has broken local cinema records, drawing massive crowds across Lagos, Abuja, Port Harcourt, and over 30 other cities nationwide.</p>
+                <div class="post-card-meta">
+                  <span>Entertainment Desk</span>
+                  <span>4 hours ago</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="post-card post-feed-item" data-animate>
+              <a href="article.html" class="post-card-img-wrap">
+                <img class="post-card-img" src="https://images.unsplash.com/photo-1523381294911-8d3cead13475?w=600&q=80" alt="Fashion story" loading="lazy">
+              </a>
+              <div class="post-card-body">
+                <span class="tag fashion">Fashion</span>
+                <a href="article.html" class="post-card-title">Aso-Oke Renaissance: How Traditional Nigerian Fabric is Winning Paris Runways</a>
+                <p class="post-card-excerpt">A new generation of Nigerian designers is putting aso-oke at the centre of global fashion conversations, with major couture houses taking notice.</p>
+                <div class="post-card-meta">
+                  <span>Style Desk</span>
+                  <span>5 hours ago</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="post-card post-feed-item" data-animate>
+              <a href="article.html" class="post-card-img-wrap">
+                <img class="post-card-img" src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&q=80" alt="World story" loading="lazy">
+              </a>
+              <div class="post-card-body">
+                <span class="tag world">World</span>
+                <a href="article.html" class="post-card-title">African Union Summit Calls for Unified Debt Relief Framework Among Member States</a>
+                <p class="post-card-excerpt">Leaders from 44 member nations gathered in Addis Ababa to address rising sovereign debt levels, proposing a pan-African response to external creditor pressure.</p>
+                <div class="post-card-meta">
+                  <span>International Desk</span>
+                  <span>6 hours ago</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Load More / Pagination -->
+          <div class="pagination" role="navigation" aria-label="Page navigation">
+            <a href="#" class="page-btn prev" aria-label="Previous page">← Prev</a>
+            <a href="#" class="page-btn active" aria-current="page">1</a>
+            <a href="#" class="page-btn">2</a>
+            <a href="#" class="page-btn">3</a>
+            <span class="page-btn" style="border:none;color:var(--ink-muted);">…</span>
+            <a href="#" class="page-btn">12</a>
+            <a href="#" class="page-btn next" aria-label="Next page">Next →</a>
+          </div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar" aria-label="Sidebar">
+
+          <!-- Newsletter -->
+          <div class="newsletter-box" role="complementary">
+            <h3 class="newsletter-title">Stay in the Know</h3>
+            <p class="newsletter-sub">Get the biggest Nigerian stories delivered to your inbox daily — free.</p>
+            <form class="newsletter-form" novalidate>
+              <input type="email" class="newsletter-input" placeholder="Enter your email address" aria-label="Email address" required>
+              <button type="submit" class="newsletter-btn">Subscribe Now</button>
+            </form>
+          </div>
+
+          <!-- Sidebar Ad Rectangle -->
+          <div class="ad-slot rectangle" role="complementary" aria-label="Advertisement">Advertisement — 300×250</div>
+
+          <!-- Trending Widget -->
+          <div class="sidebar-widget">
+            <div class="widget-head">🔥 Most Read Today</div>
+            <div class="widget-body">
+              <div class="trending-numbers">
+                <div class="post-numbered">
+                  <span class="post-num">01</span>
+                  <a href="article.html" class="post-num-title">CBN Raises Interest Rate Again: What This Means for Your Loans and Savings</a>
+                </div>
+                <div class="post-numbered">
+                  <span class="post-num">02</span>
+                  <a href="article.html" class="post-num-title">Breaking: Lagos Governor Announces Emergency Infrastructure Plan for Island</a>
+                </div>
+                <div class="post-numbered">
+                  <span class="post-num">03</span>
+                  <a href="article.html" class="post-num-title">Davido's World Tour Dates Confirmed — Nigerian Leg Tickets Now on Sale</a>
+                </div>
+                <div class="post-numbered">
+                  <span class="post-num">04</span>
+                  <a href="article.html" class="post-num-title">Why Nigeria's Textile Industry is Finally Making a Comeback</a>
+                </div>
+                <div class="post-numbered">
+                  <span class="post-num">05</span>
+                  <a href="article.html" class="post-num-title">EFCC Arrests 47 in New Cybercrime Crackdown Across Three States</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Follow -->
+          <div class="sidebar-widget">
+            <div class="widget-head">Follow Titoyin</div>
+            <div class="widget-body">
+              <div class="social-follow">
+                <button class="social-btn facebook" aria-label="Follow on Facebook">f Facebook</button>
+                <button class="social-btn twitter" aria-label="Follow on X">𝕏 Twitter/X</button>
+                <button class="social-btn instagram" aria-label="Follow on Instagram">◻ Instagram</button>
+                <button class="social-btn whatsapp" aria-label="Join WhatsApp channel">W WhatsApp</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar Ad 2 -->
+          <div class="ad-slot rectangle" role="complementary" aria-label="Advertisement">Advertisement — 300×250</div>
+
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ TRENDING STRIP ════════════════════════ -->
+  <section class="trending-strip" aria-label="Trending stories">
+    <div class="container">
+      <div class="content-sidebar" style="gap:32px;">
+        <div>
+          <h2 class="section-title">Trending <span style="color:rgba(255,255,255,0.6);">Now</span></h2>
+          <div class="trending-numbers">
+            <div class="trending-item">
+              <span class="trending-num">1</span>
+              <div>
+                <div class="trending-cat">Politics</div>
+                <a href="article.html" class="trending-title">Tinubu Signs New Executive Order on Power Sector Reforms</a>
+              </div>
+            </div>
+            <div class="trending-item">
+              <span class="trending-num">2</span>
+              <div>
+                <div class="trending-cat">Gossip</div>
+                <a href="article.html" class="trending-title">The Celebrity Split Everyone Is Talking About This Week</a>
+              </div>
+            </div>
+            <div class="trending-item">
+              <span class="trending-num">3</span>
+              <div>
+                <div class="trending-cat">National</div>
+                <a href="article.html" class="trending-title">ASUU Threatens New Strike Over University Funding Shortfall</a>
+              </div>
+            </div>
+            <div class="trending-item">
+              <span class="trending-num">4</span>
+              <div>
+                <div class="trending-cat">Entertainment</div>
+                <a href="article.html" class="trending-title">Burna Boy's New Album Hits 100 Million Streams in 48 Hours</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;justify-content:center;">
+          <div class="ad-slot" style="min-height:200px;border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.3);" role="complementary" aria-label="Advertisement">
+            Advertisement — 300×200
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ EDITOR'S PICKS ════════════════════════ -->
+  <section class="section section-alt" aria-label="Editor's picks">
+    <div class="container">
+      <h2 class="section-title">Editor's <span>Picks</span></h2>
+      <div class="grid-3">
+
+        <article class="post-card" data-animate>
+          <a href="article.html" class="post-card-img-wrap">
+            <img class="post-card-img" src="https://images.unsplash.com/photo-1590247813693-5541d1c609fd?w=600&q=80" alt="Health article" loading="lazy">
+          </a>
+          <div class="post-card-body">
+            <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;">
+              <span class="tag world">Health</span>
+              <span class="editors-pick">Editor's Pick</span>
+            </div>
+            <a href="article.html" class="post-card-title">Is Nigeria Ready for Universal Health Coverage? A Deep Dive into the New Policy</a>
+            <p class="post-card-excerpt">An investigative look at whether the infrastructure, funding, and political will exist to make universal health coverage a reality for 220 million Nigerians.</p>
+            <div class="post-card-meta">
+              <span>Investigations</span>
+              <span>Yesterday</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="post-card" data-animate>
+          <a href="article.html" class="post-card-img-wrap">
+            <img class="post-card-img" src="https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=600&q=80" alt="Tech article" loading="lazy">
+          </a>
+          <div class="post-card-body">
+            <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;">
+              <span class="tag" style="background:#1565C0;">Tech</span>
+              <span class="editors-pick">Editor's Pick</span>
+            </div>
+            <a href="article.html" class="post-card-title">Nigerian Fintech Startups That Could Be Worth $1 Billion by 2026</a>
+            <p class="post-card-excerpt">From Lagos to Abuja, a new wave of payment and credit platforms is disrupting the continent's financial landscape — and attracting serious global capital.</p>
+            <div class="post-card-meta">
+              <span>Business Desk</span>
+              <span>2 days ago</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="post-card" data-animate>
+          <a href="article.html" class="post-card-img-wrap">
+            <img class="post-card-img" src="https://images.unsplash.com/photo-1542401886-65d6c61db217?w=600&q=80" alt="Feature article" loading="lazy">
+          </a>
+          <div class="post-card-body">
+            <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;">
+              <span class="tag fashion">Fashion</span>
+              <span class="editors-pick">Editor's Pick</span>
+            </div>
+            <a href="article.html" class="post-card-title">The Women Redefining Nigerian Fashion from the Ground Up</a>
+            <p class="post-card-excerpt">Meet the designers, stylists, and entrepreneurs turning local fabric into global fashion statements — without leaving Nigeria to do it.</p>
+            <div class="post-card-meta">
+              <span>Style Desk</span>
+              <span>3 days ago</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ENTERTAINMENT SECTION ═════════════════ -->
+  <section class="section" aria-label="Entertainment stories">
+    <div class="container">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0;">
+        <h2 class="section-title" style="margin-bottom:0;border-bottom:0;padding-bottom:0;">Entertainment</h2>
+        <a href="category.html?cat=entertainment" class="btn btn-outline" style="font-size:12px;">See all →</a>
+      </div>
+      <hr class="divider" style="margin-top:12px;margin-bottom:24px;">
+
+      <div class="grid-4">
+        <article class="post-card" data-animate>
+          <a href="article.html" class="post-card-img-wrap">
+            <img class="post-card-img" src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&q=80" alt="Music story" loading="lazy">
+          </a>
+          <div class="post-card-body">
+            <span class="tag entertainment">Music</span>
+            <a href="article.html" class="post-card-title">Afrobeats Artist Wins Third Grammy Nomination in a Row</a>
+            <div class="post-card-meta"><span>4 hours ago</span></div>
+          </div>
+        </article>
+
+        <article class="post-card" data-animate>
+          <a href="article.html" class="post-card-img-wrap">
+            <img class="post-card-img" src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&q=80" alt="Film story" loading="lazy">
+          </a>
+          <div class="post-card-body">
+            <span class="tag entertainment">Film</span>
+            <a href="article.html" class="post-card-title">Nollywood's Biggest Budget Production Yet Begins Shooting in Lagos</a>
+            <div class="post-card-meta"><span>Yesterday</span></div>
+          </div>
+        </article>
+
+        <article class="post-card" data-animate>
+          <a href="article.html" class="post-card-img-wrap">
+            <img class="post-card-img" src="https://images.unsplash.com/photo-1603190287605-e6ade32fa852?w=400&q=80" alt="Celebrity story" loading="lazy">
+          </a>
+          <div class="post-card-body">
+            <span class="tag gossip">Gossip</span>
+            <a href="article.html" class="post-card-title">The Engagement Everyone Has Been Waiting For Finally Happened</a>
+            <div class="post-card-meta"><span>2 days ago</span></div>
+          </div>
+        </article>
+
+        <article class="post-card" data-animate>
+          <a href="article.html" class="post-card-img-wrap">
+            <img class="post-card-img" src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=400&q=80" alt="Events story" loading="lazy">
+          </a>
+          <div class="post-card-body">
+            <span class="tag entertainment">Events</span>
+            <a href="article.html" class="post-card-title">Headies Awards 2025: Full Nominations List and How to Watch</a>
+            <div class="post-card-meta"><span>3 days ago</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER AD ══════════════════════════════ -->
+  <div class="container" style="padding:0 20px 32px;">
+    <div class="ad-slot leaderboard" role="complementary" aria-label="Advertisement">Advertisement — 728×90 Leaderboard</div>
   </div>
 
-  <p class="login-footer">Titoyin Admin Panel · <a href="../index.html">← Back to site</a></p>
-</div>
+</main>
 
-<script src="js/auth.js"></script>
-<script>
-document.getElementById('login-form').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const pass = document.getElementById('admin-pass').value;
-  const btn = document.getElementById('login-btn');
-  const err = document.getElementById('login-error');
+<!-- Footer (injected by components.js) -->
+<div id="site-footer-placeholder"></div>
 
-  btn.textContent = 'Signing in…';
-  btn.disabled = true;
-
-  setTimeout(() => {
-    if (adminLogin(pass)) {
-      window.location.href = 'dashboard.html';
-    } else {
-      err.style.display = 'block';
-      btn.textContent = 'Sign In';
-      btn.disabled = false;
-      document.getElementById('admin-pass').value = '';
-      document.getElementById('admin-pass').focus();
-    }
-  }, 500);
-});
-
-function togglePassword() {
-  const inp = document.getElementById('admin-pass');
-  inp.type = inp.type === 'password' ? 'text' : 'password';
-}
-</script>
+<script src="js/components.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Titoyin Admin — Login</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="login-page">
+
+<div class="login-wrap">
+  <div class="login-logo">
+    <img src="../assets/titoyin-logo.png" alt="Titoyin's Blog" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+    <span style="display:none;font-family:Georgia,serif;font-size:24px;font-weight:900;color:#1B2A6B;font-style:italic;">Titoyin's Blog</span>
+  </div>
+
+  <div class="login-card">
+    <h1 class="login-title">Admin Login</h1>
+    <p class="login-sub">Sign in to manage your website</p>
+
+    <div id="login-error" class="alert alert-error" style="display:none;">
+      Incorrect password. Please try again.
+    </div>
+
+    <form id="login-form" autocomplete="off">
+      <div class="field-group">
+        <label for="admin-pass">Password</label>
+        <div class="input-wrap">
+          <input
+            type="password"
+            id="admin-pass"
+            placeholder="Enter your admin password"
+            autocomplete="current-password"
+            required
+          >
+          <button type="button" class="toggle-pass" aria-label="Show password" onclick="togglePassword()">👁</button>
+        </div>
+      </div>
+      <button type="submit" class="btn-login" id="login-btn">Sign In</button>
+    </form>
+
+    <p class="login-hint">
+      🔒 This page is private. Do not share the URL or password.
+    </p>
+  </div>
+
+  <p class="login-footer">Titoyin Admin Panel · <a href="../index.html">← Back to site</a></p>
+</div>
+
+<script src="js/auth.js"></script>
+<script>
+document.getElementById('login-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const pass = document.getElementById('admin-pass').value;
+  const btn = document.getElementById('login-btn');
+  const err = document.getElementById('login-error');
+
+  btn.textContent = 'Signing in…';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    if (adminLogin(pass)) {
+      window.location.href = 'dashboard.html';
+    } else {
+      err.style.display = 'block';
+      btn.textContent = 'Sign In';
+      btn.disabled = false;
+      document.getElementById('admin-pass').value = '';
+      document.getElementById('admin-pass').focus();
+    }
+  }, 500);
+});
+
+function togglePassword() {
+  const inp = document.getElementById('admin-pass');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+</script>
+</body>
+</html>
