@@ -232,6 +232,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   width: auto;
   display: block;
   object-fit: contain;
+  background: #ffffff;
+  border-radius: 4px;
 }
 
 /* Fallback text logo if image fails */

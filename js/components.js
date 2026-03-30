@@ -54,8 +54,9 @@ function renderHeader() {
         <!-- Logo -->
         <a href="index.html" class="site-logo" aria-label="Titoyin — Home">
           <img
-            src="assets/titoyin-logo.jpg"
+            src="assets/titoyin-logo.png"
             alt="Titoyin's Blog — Lifestyle, Politics"
+            style="height:56px;width:auto;display:block;background:white;"
             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
           >
           <span class="site-logo-text" style="display:none;">
@@ -119,7 +120,7 @@ function renderFooter() {
       <div class="footer-grid">
         <div class="footer-brand">
           <a href="index.html" class="site-logo" style="margin-bottom:12px;display:inline-flex;" aria-label="Titoyin Home">
-            <img src="assets/titoyin-logo.jpg" alt="Titoyin's Blog" style="height:44px;width:auto;filter:brightness(0) invert(1);opacity:0.85;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+            <img src="assets/titoyin-logo-footer.png" alt="Titoyin's Blog" style="height:48px;width:auto;display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
             <span style="display:none;font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:white;font-style:italic;">Titoyin<span style="color:var(--accent);">'s Blog</span></span>
           </a>
           <p class="footer-desc">Nigeria's go-to platform for national news, politics, entertainment, fashion, and trending stories. Stay informed. Stay empowered.</p>
