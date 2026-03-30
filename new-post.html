@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>New Post — Titoyin Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<!-- GUIDED FIRST-POST WALKTHROUGH OVERLAY -->
+<div class="guide-overlay" id="guide-overlay">
+  <div class="guide-card">
+    <div class="guide-step" id="guide-step-label">Step 1 of 6</div>
+    <div class="guide-title" id="guide-title">Welcome to the Post Editor! 👋</div>
+    <div class="guide-body" id="guide-body">
+      This is where you create and publish all your stories. The form is simple — fill in each section and click Publish when ready. This quick guide will walk you through it in under 2 minutes.
+    </div>
+    <div class="guide-dots" id="guide-dots"></div>
+    <div class="guide-actions">
+      <button class="btn btn-ghost" onclick="skipGuide()">Skip guide</button>
+      <button class="btn btn-primary" id="guide-next-btn" onclick="nextGuideStep()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/titoyin-logo.png" alt="Titoyin" onerror="this.style.display='none'">
+      <div>
+        <div class="sidebar-logo-text">Titoyin's Blog</div>
+        <div class="sidebar-logo-sub">Admin Panel</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="new-post.html"   class="nav-item active"><span class="nav-icon">✏️</span> New Post</a>
+      <a href="posts.html"      class="nav-item"><span class="nav-icon">📰</span> All Posts</a>
+      <div class="nav-section-label">Content</div>
+      <a href="editorial.html"  class="nav-item"><span class="nav-icon">⭐</span> Editorial Control</a>
+      <a href="ads.html"        class="nav-item"><span class="nav-icon">📢</span> Advertisements</a>
+      <a href="media.html"      class="nav-item"><span class="nav-icon">🖼️</span> Media Library</a>
+      <div class="nav-section-label">Site</div>
+      <a href="metrics.html"    class="nav-item"><span class="nav-icon">📈</span> Metrics</a>
+      <a href="settings.html"   class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
+      <a href="activity.html"   class="nav-item"><span class="nav-icon">📋</span> Activity Log</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../index.html" target="_blank" class="nav-item"><span class="nav-icon">🌐</span> View Site</a>
+      <a href="#" class="nav-item" onclick="adminLogout()"><span class="nav-icon">🚪</span> Log Out</a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- Top Bar -->
+  <div class="admin-topbar">
+    <button class="topbar-menu-btn" id="topbar-menu-btn" aria-label="Menu">☰</button>
+    <span class="topbar-title" id="page-title">New Post</span>
+    <div class="topbar-actions">
+      <span id="autosave-indicator" class="text-xs text-muted" style="display:none;"></span>
+      <button class="btn btn-outline btn-sm" onclick="saveDraft()">Save Draft</button>
+      <button class="btn btn-primary btn-sm" onclick="publishPost()">Publish Now</button>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <main class="admin-main">
+
+    <form id="post-form" onsubmit="return false;">
+      <input type="hidden" id="post-id" value="">
+
+      <div style="display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start;">
+
+        <!-- LEFT: Main content -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+
+          <!-- Title & Subtitle -->
+          <div class="card">
+            <div class="field-group">
+              <label for="post-title">
+                Post Title <span class="field-required">*</span>
+                <span class="helper-btn" tabindex="0">?</span>
+                <div class="helper-popup">The headline of your story. Make it clear, specific, and compelling. Keep it under 90 characters for best results on social media.</div>
+              </label>
+              <input type="text" id="post-title" name="post-title" placeholder="Enter your story headline here…" style="font-size:18px;font-weight:600;padding:12px 14px;">
+            </div>
+            <div class="field-group" style="margin-bottom:0;">
+              <label for="post-subtitle">
+                Subtitle / Teaser
+                <span class="helper-btn">?</span>
+                <div class="helper-popup">A one or two sentence summary that appears below the headline. Optional but recommended — it encourages readers to click through.</div>
+              </label>
+              <input type="text" id="post-subtitle" name="post-subtitle" placeholder="A brief summary of the story (optional)…">
+            </div>
+          </div>
+
+          <!-- Body Content -->
+          <div class="card">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <label style="font-size:13px;font-weight:500;color:var(--ink-soft);">
+                Body Content <span class="field-required">*</span>
+                <span class="helper-btn">?</span>
+                <div class="helper-popup">Write the full story here. Use the toolbar above to format text — bold, italic, headings, bullet points, and quotes. Write naturally as if explaining to a reader.</div>
+              </label>
+              <span id="word-count" class="text-xs text-muted">0 words</span>
+            </div>
+            <div class="editor-toolbar">
+              <button type="button" onclick="execFormat('bold')" title="Bold"><strong>B</strong></button>
+              <button type="button" onclick="execFormat('italic')" title="Italic"><em>I</em></button>
+              <button type="button" onclick="execFormat('underline')" title="Underline"><u>U</u></button>
+              <div class="sep"></div>
+              <button type="button" onclick="execFormat('formatBlock','h2')" title="Heading">H2</button>
+              <button type="button" onclick="execFormat('formatBlock','h3')" title="Subheading">H3</button>
+              <button type="button" onclick="execFormat('formatBlock','p')" title="Paragraph">¶</button>
+              <div class="sep"></div>
+              <button type="button" onclick="execFormat('insertUnorderedList')" title="Bullet list">• List</button>
+              <button type="button" onclick="execFormat('formatBlock','blockquote')" title="Quote">" Quote</button>
+              <div class="sep"></div>
+              <button type="button" onclick="execFormat('createLink', prompt('Enter URL:'))" title="Link">🔗</button>
+              <button type="button" onclick="execFormat('removeFormat')" title="Clear format" style="color:var(--ink-muted);font-size:11px;">Clear</button>
+            </div>
+            <div
+              class="editor-area"
+              id="post-body-editor"
+              contenteditable="true"
+              aria-label="Post body content"
+              aria-multiline="true"
+            ></div>
+            <textarea id="post-body-hidden" name="post-body" style="display:none;"></textarea>
+          </div>
+
+          <!-- Featured Image -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Featured Image</div>
+                <div class="card-subtitle">Main image shown on homepage and social media previews</div>
+              </div>
+            </div>
+            <div class="image-upload-zone" id="featured-img-zone">
+              <div class="upload-icon">🖼️</div>
+              <p><strong>Click to upload</strong> or drag and drop here<br><span style="font-size:12px;">JPG, PNG, WEBP — max 5MB — compress at squoosh.app first</span></p>
+              <input type="file" id="featured-img-input" accept="image/*" style="display:none;">
+              <img id="featured-img-preview" class="image-preview" style="display:none;" alt="Preview">
+            </div>
+            <div class="field-group mt-3" style="margin-top:12px;margin-bottom:0;">
+              <label for="img-caption">Image Caption <span style="color:var(--ink-muted);font-weight:400;">(optional)</span></label>
+              <input type="text" id="img-caption" name="img-caption" placeholder="Describe the image or add photo credit…">
+            </div>
+          </div>
+
+          <!-- Social Media Link -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Social Media Link</div>
+                <div class="card-subtitle">Paste a TikTok, Instagram, YouTube, X, or Facebook link to embed it in the post</div>
+              </div>
+              <span class="helper-btn">?</span>
+              <div class="helper-popup">Paste the full URL of a social media post. Example: https://www.instagram.com/p/xxxxx. It will display as an embedded preview or reference card in your article.</div>
+            </div>
+            <div class="field-group" style="margin-bottom:8px;">
+              <input type="url" id="social-link" name="social-link" placeholder="https://www.tiktok.com/@username/video/…">
+            </div>
+            <div class="field-group" style="margin-bottom:0;">
+              <label for="social-credit">Credit / Attribution</label>
+              <input type="text" id="social-credit" name="social-credit" placeholder="e.g. Video: @username on TikTok">
+            </div>
+          </div>
+
+          <!-- Source Reference -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Source Reference</div>
+              <span class="helper-btn">?</span>
+              <div class="helper-popup">Add the original source of the information. This is important for credibility and editorial standards. Paste the URL and add a short description of the source.</div>
+            </div>
+            <div class="field-row">
+              <div class="field-group" style="margin-bottom:0;">
+                <label for="source-url">Source URL</label>
+                <input type="url" id="source-url" name="source-url" placeholder="https://example.com/original-story">
+              </div>
+              <div class="field-group" style="margin-bottom:0;">
+                <label for="source-name">Source Name</label>
+                <input type="text" id="source-name" name="source-name" placeholder="e.g. The Punch, NAN, BBC Africa">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: Settings panel -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+
+          <!-- Publish Controls -->
+          <div class="card">
+            <div class="card-title" style="margin-bottom:14px;">Publish Settings</div>
+
+            <div class="field-group">
+              <label for="post-status">Status</label>
+              <select id="post-status" name="post-status">
+                <option value="draft">Draft</option>
+                <option value="review">Ready for Review</option>
+                <option value="published">Published</option>
+                <option value="scheduled">Scheduled</option>
+              </select>
+            </div>
+
+            <div class="field-group" id="schedule-wrap" style="display:none;">
+              <label for="schedule-time">
+                Publish Date & Time (WAT)
+                <span class="helper-btn">?</span>
+                <div class="helper-popup">Choose when this post should go live. The time is set to Nigerian (WAT) timezone automatically.</div>
+              </label>
+              <input type="datetime-local" id="schedule-time" name="schedule-time">
+            </div>
+
+            <div class="field-group">
+              <label for="post-type">Post Type</label>
+              <select id="post-type" name="post-type">
+                <option value="article">Standard Article</option>
+                <option value="breaking">Breaking News</option>
+                <option value="photo">Photo Story</option>
+                <option value="video">Video Post</option>
+                <option value="social">Embedded Social Post</option>
+                <option value="sponsored">Sponsored Post</option>
+                <option value="editorial">Editorial Feature</option>
+                <option value="live">Live Update</option>
+              </select>
+            </div>
+
+            <hr class="divider">
+
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <label class="toggle-wrap">
+                <span class="toggle"><input type="checkbox" id="is-featured" name="is-featured"><span class="toggle-slider"></span></span>
+                <span class="toggle-label">
+                  Featured Story
+                  <span class="helper-btn">?</span>
+                  <div class="helper-popup">Featured stories appear prominently in the hero section of the homepage.</div>
+                </span>
+              </label>
+              <label class="toggle-wrap">
+                <span class="toggle"><input type="checkbox" id="is-pinned" name="is-pinned"><span class="toggle-slider"></span></span>
+                <span class="toggle-label">
+                  Pinned Post
+                  <span class="helper-btn">?</span>
+                  <div class="helper-popup">Pinned posts stay at the top of category and listing pages regardless of publish date.</div>
+                </span>
+              </label>
+              <label class="toggle-wrap">
+                <span class="toggle"><input type="checkbox" id="is-trending" name="is-trending"><span class="toggle-slider"></span></span>
+                <span class="toggle-label">Mark as Trending</span>
+              </label>
+              <label class="toggle-wrap">
+                <span class="toggle"><input type="checkbox" id="is-editors-pick" name="is-editors-pick"><span class="toggle-slider"></span></span>
+                <span class="toggle-label">Editor's Pick</span>
+              </label>
+            </div>
+
+            <hr class="divider">
+
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <button type="button" class="btn btn-success btn-full btn-lg" onclick="publishPost()">🚀 Publish Now</button>
+              <button type="button" class="btn btn-outline btn-full" onclick="saveDraft()">💾 Save as Draft</button>
+              <button type="button" class="btn btn-ghost btn-full btn-sm" onclick="previewPost()">👁 Preview</button>
+            </div>
+          </div>
+
+          <!-- Category & Tags -->
+          <div class="card">
+            <div class="card-title" style="margin-bottom:14px;">
+              Category & Tags
+              <span class="helper-btn">?</span>
+              <div class="helper-popup">Choose the main category for this story. Tags help readers find related content — add as many as are relevant, pressing Enter or comma after each one.</div>
+            </div>
+            <div class="field-group">
+              <label for="post-category">Category <span class="field-required">*</span></label>
+              <select id="post-category" name="post-category">
+                <option value="">Select category…</option>
+                <option value="national">National Events</option>
+                <option value="politics">Politics</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="fashion">Fashion & Style</option>
+                <option value="trending">Trending</option>
+                <option value="gossip">Gossip</option>
+                <option value="world">World</option>
+                <option value="health">Health</option>
+                <option value="tech">Technology</option>
+                <option value="business">Business</option>
+              </select>
+            </div>
+            <div class="field-group" style="margin-bottom:0;">
+              <label>Tags</label>
+              <div class="tags-wrap" id="tags-wrap">
+                <input type="text" class="tags-input" placeholder="Type a tag and press Enter…" aria-label="Add tag">
+              </div>
+              <input type="hidden" id="post-tags" name="post-tags">
+              <div class="field-hint">Press Enter or comma after each tag</div>
+            </div>
+          </div>
+
+          <!-- Social Sharing -->
+          <div class="card">
+            <div class="card-title" style="margin-bottom:14px;">
+              Social Sharing
+              <span class="helper-btn">?</span>
+              <div class="helper-popup">Control how this post is shared on social media. You can write a custom caption for each platform or use the default headline.</div>
+            </div>
+            <label class="toggle-wrap" style="margin-bottom:12px;">
+              <span class="toggle"><input type="checkbox" id="auto-share" name="auto-share" checked><span class="toggle-slider"></span></span>
+              <span class="toggle-label">Auto-share when published</span>
+            </label>
+            <div class="field-group" style="margin-bottom:0;">
+              <label for="social-caption">Custom Social Caption <span style="font-weight:400;color:var(--ink-muted)">(optional)</span></label>
+              <textarea id="social-caption" name="social-caption" style="min-height:70px;" placeholder="Leave blank to use the post title automatically…"></textarea>
+            </div>
+          </div>
+
+          <!-- Editorial Notes -->
+          <div class="card">
+            <div class="card-title" style="margin-bottom:12px;">Editorial Notes</div>
+            <div class="field-group" style="margin-bottom:0;">
+              <textarea id="editorial-note" name="editorial-note" style="min-height:70px;" placeholder="Internal notes for the editorial team — not published…"></textarea>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </form>
+
+  </main>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+<script>
+// ── GUIDED WALKTHROUGH ────────────────────────
+const guideSteps = [
+  {
+    title: 'Welcome to the Post Editor! 👋',
+    body: "This is where you write and publish all your stories. It takes about 5 minutes to publish your first post. This guide will walk you through each section — click Next to begin."
+  },
+  {
+    title: '1. Write your headline',
+    body: "The Title field at the top is your story headline. Make it clear and specific. The Subtitle is optional — it's a short summary that appears below the headline."
+  },
+  {
+    title: '2. Write your story',
+    body: "The Body Content area is where you write the full article. Use the toolbar buttons to format text — bold, italic, headings, and quotes. Just write naturally."
+  },
+  {
+    title: '3. Add an image',
+    body: "The Featured Image section lets you upload a photo for your story. Click the upload box and choose an image from your phone or computer. Always add an image — it makes your story look much better."
+  },
+  {
+    title: '4. Choose a category',
+    body: "On the right side, select the Category that best fits your story — National, Politics, Entertainment, Fashion, etc. You can also add Tags to help readers find the story."
+  },
+  {
+    title: '5. Publish your story!',
+    body: "When you're ready, click the green Publish Now button. Your story will go live on titoyin.com immediately. You can also click Save Draft to save without publishing and come back to it later. That's it — you're ready!"
+  }
+];
+
+let guideStep = 0;
+
+function renderGuide() {
+  const step = guideSteps[guideStep];
+  document.getElementById('guide-step-label').textContent = `Step ${guideStep + 1} of ${guideSteps.length}`;
+  document.getElementById('guide-title').textContent = step.title;
+  document.getElementById('guide-body').textContent = step.body;
+  document.getElementById('guide-next-btn').textContent = guideStep === guideSteps.length - 1 ? 'Start Writing ✓' : 'Next →';
+
+  const dots = document.getElementById('guide-dots');
+  dots.innerHTML = guideSteps.map((_, i) =>
+    `<div class="guide-dot ${i === guideStep ? 'active' : ''}"></div>`
+  ).join('');
+}
+
+function nextGuideStep() {
+  guideStep++;
+  if (guideStep >= guideSteps.length) {
+    skipGuide();
+  } else {
+    renderGuide();
+  }
+}
+
+function skipGuide() {
+  document.getElementById('guide-overlay').classList.remove('show');
+  localStorage.setItem('titoyin_guide_done', '1');
+}
+
+// Show guide only on first use
+if (!localStorage.getItem('titoyin_guide_done') && !getPostIdFromUrl()) {
+  renderGuide();
+  document.getElementById('guide-overlay').classList.add('show');
+}
+
+// ── WORD COUNT ────────────────────────────────
+document.getElementById('post-body-editor').addEventListener('input', function() {
+  const text = this.innerText || '';
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  document.getElementById('word-count').textContent = words + ' word' + (words !== 1 ? 's' : '');
+  document.getElementById('post-body-hidden').value = this.innerHTML;
+});
+
+// ── SCHEDULE TOGGLE ───────────────────────────
+document.getElementById('post-status').addEventListener('change', function() {
+  document.getElementById('schedule-wrap').style.display = this.value === 'scheduled' ? 'block' : 'none';
+});
+
+// ── EDIT EXISTING POST ────────────────────────
+function getPostIdFromUrl() {
+  return new URLSearchParams(window.location.search).get('id');
+}
+
+function loadExistingPost() {
+  const id = getPostIdFromUrl();
+  if (!id) return;
+  const posts = getPosts();
+  const post = posts.find(p => p.id === id);
+  if (!post) return;
+
+  document.getElementById('page-title').textContent = 'Edit Post';
+  document.getElementById('post-id').value = post.id;
+  document.getElementById('post-title').value    = post.title || '';
+  document.getElementById('post-subtitle').value = post.subtitle || '';
+  document.getElementById('post-body-editor').innerHTML  = post.body || '';
+  document.getElementById('post-body-hidden').value      = post.body || '';
+  document.getElementById('img-caption').value   = post.imgCaption || '';
+  document.getElementById('social-link').value   = post.socialLink || '';
+  document.getElementById('social-credit').value = post.socialCredit || '';
+  document.getElementById('source-url').value    = post.sourceUrl || '';
+  document.getElementById('source-name').value   = post.sourceName || '';
+  document.getElementById('post-status').value   = post.status || 'draft';
+  document.getElementById('post-type').value     = post.type || 'article';
+  document.getElementById('post-category').value = post.category || '';
+  document.getElementById('post-tags').value     = post.tags || '';
+  document.getElementById('is-featured').checked     = post.featured || false;
+  document.getElementById('is-pinned').checked       = post.pinned || false;
+  document.getElementById('is-trending').checked     = post.trending || false;
+  document.getElementById('is-editors-pick').checked = post.editorsPick || false;
+  document.getElementById('social-caption').value    = post.socialCaption || '';
+  document.getElementById('editorial-note').value    = post.editorialNote || '';
+
+  if (post.imgSrc) {
+    const preview = document.getElementById('featured-img-preview');
+    preview.src = post.imgSrc;
+    preview.style.display = 'block';
+  }
+}
+
+// ── BUILD POST OBJECT ─────────────────────────
+function buildPost(status) {
+  const id = document.getElementById('post-id').value || generateId();
+  const now = new Date().toLocaleDateString('en-NG', { timeZone: 'Africa/Lagos', day:'numeric', month:'long', year:'numeric' });
+  const preview = document.getElementById('featured-img-preview');
+
+  return {
+    id,
+    status,
+    title:         document.getElementById('post-title').value.trim(),
+    subtitle:      document.getElementById('post-subtitle').value.trim(),
+    body:          document.getElementById('post-body-hidden').value,
+    imgSrc:        (preview && preview.style.display !== 'none') ? preview.src : '',
+    imgCaption:    document.getElementById('img-caption').value.trim(),
+    socialLink:    document.getElementById('social-link').value.trim(),
+    socialCredit:  document.getElementById('social-credit').value.trim(),
+    sourceUrl:     document.getElementById('source-url').value.trim(),
+    sourceName:    document.getElementById('source-name').value.trim(),
+    type:          document.getElementById('post-type').value,
+    category:      document.getElementById('post-category').value,
+    tags:          document.getElementById('post-tags').value,
+    featured:      document.getElementById('is-featured').checked,
+    pinned:        document.getElementById('is-pinned').checked,
+    trending:      document.getElementById('is-trending').checked,
+    editorsPick:   document.getElementById('is-editors-pick').checked,
+    socialCaption: document.getElementById('social-caption').value.trim(),
+    editorialNote: document.getElementById('editorial-note').value.trim(),
+    date:          now,
+    modified:      now
+  };
+}
+
+// ── SAVE DRAFT ────────────────────────────────
+function saveDraft() {
+  const post = buildPost('draft');
+  if (!post.title) { showToast('Please enter a title first', 'error'); return; }
+  savePost(post);
+  document.getElementById('post-id').value = post.id;
+  clearAutosave('post');
+  logActivity('draft', 'Draft saved: ' + post.title);
+  showToast('Draft saved successfully', 'success');
+}
+
+// ── PUBLISH ───────────────────────────────────
+function publishPost() {
+  const post = buildPost('published');
+  if (!post.title) { showToast('Please enter a title first', 'error'); return; }
+  if (!post.category) { showToast('Please select a category', 'error'); return; }
+  if (!post.body || post.body.replace(/<[^>]+>/g,'').trim().length < 20) {
+    showToast('Please write some content before publishing', 'error'); return;
+  }
+  savePost(post);
+  document.getElementById('post-id').value = post.id;
+  clearAutosave('post');
+  logActivity('publish', 'Published: ' + post.title);
+  showToast('Post published successfully! 🎉', 'success');
+
+  setTimeout(() => {
+    if (confirm('Post published! Go back to All Posts?')) {
+      window.location.href = 'posts.html';
+    }
+  }, 1200);
+}
+
+// ── PREVIEW ───────────────────────────────────
+function previewPost() {
+  const title = document.getElementById('post-title').value || 'Preview';
+  const body  = document.getElementById('post-body-editor').innerHTML;
+  const win   = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>Preview: ${title}</title>
+  <style>body{font-family:Georgia,serif;max-width:720px;margin:40px auto;padding:0 20px;line-height:1.8;font-size:17px;}
+  h1{font-size:32px;margin-bottom:12px;}blockquote{border-left:4px solid #1B2A6B;padding:12px 20px;background:#EEF0FA;margin:24px 0;}</style>
+  </head><body>
+  <p style="font-size:11px;background:#FEF3C7;padding:8px 12px;border-radius:6px;font-family:sans-serif;">PREVIEW — Not published yet</p>
+  <h1>${title}</h1>${body}</body></html>`);
+}
+
+// Init
+initTagInput('tags-wrap', 'post-tags');
+loadExistingPost();
+</script>
+</body>
+</html>

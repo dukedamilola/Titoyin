@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Advertisements — Titoyin Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/titoyin-logo.png" alt="Titoyin" onerror="this.style.display='none'">
+      <div><div class="sidebar-logo-text">Titoyin's Blog</div><div class="sidebar-logo-sub">Admin Panel</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="new-post.html"  class="nav-item"><span class="nav-icon">✏️</span> New Post</a>
+      <a href="posts.html"     class="nav-item"><span class="nav-icon">📰</span> All Posts</a>
+      <div class="nav-section-label">Content</div>
+      <a href="editorial.html" class="nav-item"><span class="nav-icon">⭐</span> Editorial Control</a>
+      <a href="ads.html"       class="nav-item active"><span class="nav-icon">📢</span> Advertisements</a>
+      <a href="media.html"     class="nav-item"><span class="nav-icon">🖼️</span> Media Library</a>
+      <div class="nav-section-label">Site</div>
+      <a href="metrics.html"   class="nav-item"><span class="nav-icon">📈</span> Metrics</a>
+      <a href="settings.html"  class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
+      <a href="activity.html"  class="nav-item"><span class="nav-icon">📋</span> Activity Log</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../index.html" target="_blank" class="nav-item"><span class="nav-icon">🌐</span> View Site</a>
+      <a href="#" class="nav-item" onclick="adminLogout()"><span class="nav-icon">🚪</span> Log Out</a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <div class="admin-topbar">
+    <button class="topbar-menu-btn" id="topbar-menu-btn">☰</button>
+    <span class="topbar-title">Advertisements</span>
+  </div>
+
+  <main class="admin-main">
+
+    <div class="alert alert-info mb-6" style="margin-bottom:20px;">
+      <strong>ℹ️ How to add an ad:</strong> Click any slot below, upload your ad image, add the advertiser's link, set an expiry date if needed, then click Save. The ad goes live on your next GitHub push.
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;" id="ad-slots-grid">
+    </div>
+
+  </main>
+</div>
+
+<!-- Ad Edit Modal -->
+<div id="ad-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;align-items:center;justify-content:center;padding:16px;">
+  <div style="background:white;border-radius:12px;padding:24px;max-width:440px;width:100%;max-height:90vh;overflow-y:auto;">
+    <h2 style="font-size:17px;font-weight:700;margin-bottom:16px;" id="modal-title">Edit Ad Slot</h2>
+
+    <div class="field-group">
+      <label>Ad Image</label>
+      <div class="image-upload-zone" id="ad-img-zone" style="padding:20px;">
+        <div class="upload-icon">🖼️</div>
+        <p><strong>Click to upload</strong> ad banner image</p>
+        <input type="file" id="ad-img-input" accept="image/*" style="display:none;">
+        <img id="ad-img-preview" style="display:none;max-height:100px;width:auto;margin:10px auto 0;border-radius:6px;" alt="Ad preview">
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label for="ad-link">Advertiser URL <span class="field-required">*</span></label>
+      <input type="url" id="ad-link" placeholder="https://advertiser.com">
+    </div>
+
+    <div class="field-group">
+      <label for="ad-alt">Ad Description (for accessibility)</label>
+      <input type="text" id="ad-alt" placeholder="e.g. Advertisement: Company Name">
+    </div>
+
+    <div class="field-group">
+      <label for="ad-expiry">Expiry Date (optional)</label>
+      <input type="date" id="ad-expiry">
+    </div>
+
+    <div class="field-group" style="margin-bottom:0;">
+      <label class="toggle-wrap">
+        <span class="toggle"><input type="checkbox" id="ad-active" checked><span class="toggle-slider"></span></span>
+        <span class="toggle-label">Ad is active</span>
+      </label>
+    </div>
+
+    <hr class="divider">
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button class="btn btn-outline" onclick="closeAdModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveAd()">Save Ad</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+<script>
+const AD_SLOTS = [
+  { id: 'header-banner',    name: 'Header Banner',        size: '728×90',  desc: 'Above navigation — highest visibility' },
+  { id: 'hero-side-1',      name: 'Homepage Side 1',      size: '300×250', desc: 'Sidebar rectangle — homepage' },
+  { id: 'hero-side-2',      name: 'Homepage Side 2',      size: '300×250', desc: 'Second sidebar slot — homepage' },
+  { id: 'article-inline',   name: 'Article Inline',       size: '728×90',  desc: 'Inside article body' },
+  { id: 'category-banner',  name: 'Category Page Banner', size: '728×90',  desc: 'Top of category listing pages' },
+  { id: 'footer-banner',    name: 'Footer Banner',        size: '728×90',  desc: 'Bottom of every page' },
+  { id: 'sponsored-block',  name: 'Sponsored Feature',    size: 'Custom',  desc: 'Full-width sponsored content block' },
+];
+
+let currentSlotId = null;
+
+function renderAdSlots() {
+  const ads = getAds();
+  const grid = document.getElementById('ad-slots-grid');
+  grid.innerHTML = AD_SLOTS.map(slot => {
+    const ad = ads[slot.id];
+    const hasAd = ad && ad.active && ad.imgSrc;
+    return `
+      <div class="ad-slot-card ${hasAd ? 'has-ad' : ''}" onclick="openAdModal('${slot.id}')">
+        <div class="ad-slot-name">${slot.name}</div>
+        <div class="ad-slot-size">${slot.size} — ${slot.desc}</div>
+        ${hasAd ? `
+          <img src="${ad.imgSrc}" class="ad-preview" alt="Ad preview">
+          <div style="font-size:11px;color:var(--success);font-weight:600;margin-bottom:8px;">✓ Active</div>
+          ${ad.expiry ? `<div style="font-size:11px;color:var(--ink-muted);">Expires: ${ad.expiry}</div>` : ''}
+        ` : `
+          <div style="font-size:28px;margin:12px 0;">+</div>
+          <div style="font-size:13px;color:var(--ink-muted);">Click to add an ad</div>
+        `}
+        <button class="btn btn-outline btn-sm" style="margin-top:12px;width:100%;">
+          ${hasAd ? 'Edit Ad' : 'Add Ad'}
+        </button>
+      </div>
+    `;
+  }).join('');
+}
+
+function openAdModal(slotId) {
+  currentSlotId = slotId;
+  const slot = AD_SLOTS.find(s => s.id === slotId);
+  const ads  = getAds();
+  const ad   = ads[slotId] || {};
+
+  document.getElementById('modal-title').textContent = 'Ad Slot: ' + (slot ? slot.name : slotId);
+  document.getElementById('ad-link').value   = ad.link || '';
+  document.getElementById('ad-alt').value    = ad.alt || '';
+  document.getElementById('ad-expiry').value = ad.expiry || '';
+  document.getElementById('ad-active').checked = ad.active !== false;
+
+  const preview = document.getElementById('ad-img-preview');
+  if (ad.imgSrc) {
+    preview.src = ad.imgSrc;
+    preview.style.display = 'block';
+  } else {
+    preview.style.display = 'none';
+  }
+
+  document.getElementById('ad-modal').style.display = 'flex';
+
+  // Wire upload
+  const zone  = document.getElementById('ad-img-zone');
+  const input = document.getElementById('ad-img-input');
+  zone.onclick = () => input.click();
+  input.onchange = function() {
+    if (this.files[0]) handleImageFile(this.files[0], preview, null);
+  };
+}
+
+function closeAdModal() {
+  document.getElementById('ad-modal').style.display = 'none';
+  currentSlotId = null;
+}
+
+function saveAd() {
+  if (!currentSlotId) return;
+  const link    = document.getElementById('ad-link').value.trim();
+  const preview = document.getElementById('ad-img-preview');
+
+  if (!link)               { showToast('Please enter the advertiser URL', 'error'); return; }
+  if (!preview.src || preview.style.display === 'none') { showToast('Please upload an ad image', 'error'); return; }
+
+  const ads = getAds();
+  ads[currentSlotId] = {
+    link,
+    imgSrc:  preview.src,
+    alt:     document.getElementById('ad-alt').value.trim(),
+    expiry:  document.getElementById('ad-expiry').value,
+    active:  document.getElementById('ad-active').checked,
+    updated: new Date().toISOString()
+  };
+  saveAds(ads);
+  logActivity('ad', 'Ad updated: ' + currentSlotId);
+  showToast('Ad saved successfully', 'success');
+  closeAdModal();
+  renderAdSlots();
+}
+
+renderAdSlots();
+</script>
+</body>
+</html>

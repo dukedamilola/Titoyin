@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Media Library — Titoyin Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/titoyin-logo.png" alt="Titoyin" onerror="this.style.display='none'">
+      <div><div class="sidebar-logo-text">Titoyin's Blog</div><div class="sidebar-logo-sub">Admin Panel</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="new-post.html"  class="nav-item"><span class="nav-icon">✏️</span> New Post</a>
+      <a href="posts.html"     class="nav-item"><span class="nav-icon">📰</span> All Posts</a>
+      <div class="nav-section-label">Content</div>
+      <a href="editorial.html" class="nav-item"><span class="nav-icon">⭐</span> Editorial Control</a>
+      <a href="ads.html"       class="nav-item"><span class="nav-icon">📢</span> Advertisements</a>
+      <a href="media.html"     class="nav-item active"><span class="nav-icon">🖼️</span> Media Library</a>
+      <div class="nav-section-label">Site</div>
+      <a href="metrics.html"   class="nav-item"><span class="nav-icon">📈</span> Metrics</a>
+      <a href="settings.html"  class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
+      <a href="activity.html"  class="nav-item"><span class="nav-icon">📋</span> Activity Log</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../index.html" target="_blank" class="nav-item"><span class="nav-icon">🌐</span> View Site</a>
+      <a href="#" class="nav-item" onclick="adminLogout()"><span class="nav-icon">🚪</span> Log Out</a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  <div class="admin-topbar">
+    <button class="topbar-menu-btn" id="topbar-menu-btn">☰</button>
+    <span class="topbar-title">Media Library</span>
+    <div class="topbar-actions">
+      <button class="btn btn-primary btn-sm" onclick="document.getElementById('bulk-upload').click()">+ Upload Images</button>
+      <input type="file" id="bulk-upload" accept="image/*" multiple style="display:none;" onchange="handleBulkUpload(this)">
+    </div>
+  </div>
+  <main class="admin-main">
+
+    <div class="alert alert-info" style="margin-bottom:20px;">
+      <strong>💡 Image tip:</strong> Compress images before uploading at <a href="https://squoosh.app" target="_blank" style="color:var(--navy);font-weight:600;">squoosh.app</a> (free). Aim for under 200KB per image for fast loading on mobile networks.
+    </div>
+
+    <div class="card">
+      <!-- Upload zone -->
+      <div class="image-upload-zone" id="media-drop-zone" style="margin-bottom:20px;">
+        <div class="upload-icon">📁</div>
+        <p><strong>Drag images here</strong> or click the Upload button above<br>
+        <span style="font-size:12px;">JPG, PNG, WEBP · Multiple files supported · Compress first at squoosh.app</span></p>
+      </div>
+
+      <!-- Media grid -->
+      <div id="media-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;"></div>
+      <div id="media-empty" style="text-align:center;padding:32px;color:var(--ink-muted);">
+        <div style="font-size:40px;margin-bottom:10px;">🖼️</div>
+        <div style="font-weight:500;margin-bottom:6px;">No images uploaded yet</div>
+        <div style="font-size:13px;">Upload images here to use in your posts and ads</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+<script>
+function getMedia() {
+  try { return JSON.parse(localStorage.getItem('titoyin_media') || '[]'); } catch { return []; }
+}
+function saveMedia(media) { localStorage.setItem('titoyin_media', JSON.stringify(media)); }
+
+function renderMedia() {
+  const media = getMedia();
+  const grid  = document.getElementById('media-grid');
+  const empty = document.getElementById('media-empty');
+  if (!media.length) { empty.style.display = 'block'; grid.innerHTML = ''; return; }
+  empty.style.display = 'none';
+  grid.innerHTML = media.map((m, i) => `
+    <div style="position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--surface);">
+      <img src="${m.src}" alt="${m.name}" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;">
+      <div style="padding:6px 8px;">
+        <div style="font-size:11px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${m.name}</div>
+        <div style="font-size:10px;color:var(--ink-muted);">${m.date}</div>
+      </div>
+      <div style="display:flex;gap:4px;padding:0 6px 8px;">
+        <button class="btn btn-outline btn-sm" style="flex:1;font-size:11px;" onclick="copyUrl(${i})">Copy URL</button>
+        <button class="btn btn-danger btn-sm btn-icon" onclick="deleteMedia(${i})" title="Delete">🗑</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function handleBulkUpload(input) {
+  const files = Array.from(input.files);
+  const media = getMedia();
+  let loaded = 0;
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      media.unshift({
+        src: e.target.result,
+        name: file.name,
+        date: new Date().toLocaleDateString('en-NG')
+      });
+      loaded++;
+      if (loaded === files.length) {
+        saveMedia(media);
+        renderMedia();
+        showToast(`${files.length} image${files.length>1?'s':''} uploaded`, 'success');
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function copyUrl(idx) {
+  const media = getMedia();
+  if (media[idx]) {
+    navigator.clipboard.writeText(media[idx].src).then(() => showToast('Image URL copied', 'success'));
+  }
+}
+
+function deleteMedia(idx) {
+  const media = getMedia();
+  confirmAction('Delete this image?', () => {
+    media.splice(idx, 1);
+    saveMedia(media);
+    renderMedia();
+    showToast('Image deleted', 'info');
+  });
+}
+
+// Drop zone
+const dropZone = document.getElementById('media-drop-zone');
+dropZone.addEventListener('click', () => document.getElementById('bulk-upload').click());
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.style.borderColor='var(--navy)'; });
+dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor=''; });
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.style.borderColor='';
+  const fakeInput = { files: e.dataTransfer.files };
+  handleBulkUpload(fakeInput);
+});
+
+renderMedia();
+</script>
+</body>
+</html>

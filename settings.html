@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Settings — Titoyin Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/titoyin-logo.png" alt="Titoyin" onerror="this.style.display='none'">
+      <div><div class="sidebar-logo-text">Titoyin's Blog</div><div class="sidebar-logo-sub">Admin Panel</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="new-post.html"  class="nav-item"><span class="nav-icon">✏️</span> New Post</a>
+      <a href="posts.html"     class="nav-item"><span class="nav-icon">📰</span> All Posts</a>
+      <div class="nav-section-label">Content</div>
+      <a href="editorial.html" class="nav-item"><span class="nav-icon">⭐</span> Editorial Control</a>
+      <a href="ads.html"       class="nav-item"><span class="nav-icon">📢</span> Advertisements</a>
+      <a href="media.html"     class="nav-item"><span class="nav-icon">🖼️</span> Media Library</a>
+      <div class="nav-section-label">Site</div>
+      <a href="metrics.html"   class="nav-item"><span class="nav-icon">📈</span> Metrics</a>
+      <a href="settings.html"  class="nav-item active"><span class="nav-icon">⚙️</span> Settings</a>
+      <a href="activity.html"  class="nav-item"><span class="nav-icon">📋</span> Activity Log</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../index.html" target="_blank" class="nav-item"><span class="nav-icon">🌐</span> View Site</a>
+      <a href="#" class="nav-item" onclick="adminLogout()"><span class="nav-icon">🚪</span> Log Out</a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <div class="admin-topbar">
+    <button class="topbar-menu-btn" id="topbar-menu-btn">☰</button>
+    <span class="topbar-title">Settings</span>
+    <div class="topbar-actions">
+      <button class="btn btn-primary btn-sm" onclick="saveAllSettings()">Save Settings</button>
+    </div>
+  </div>
+
+  <main class="admin-main">
+
+    <!-- Password Change -->
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-header">
+        <div><div class="card-title">🔐 Change Admin Password</div>
+        <div class="card-subtitle">Change your login password. Choose something strong and memorable.</div></div>
+      </div>
+      <div class="alert alert-warning" style="margin-bottom:16px;">
+        After changing your password, open <code style="background:#F3F4F6;padding:2px 6px;border-radius:4px;">admin/js/auth.js</code> in VS Code and update the <code>ADMIN_PASSWORD</code> value, then push to GitHub.
+      </div>
+      <div class="field-row">
+        <div class="field-group" style="margin-bottom:0;">
+          <label for="new-pass">New Password</label>
+          <input type="password" id="new-pass" placeholder="Enter new password">
+        </div>
+        <div class="field-group" style="margin-bottom:0;">
+          <label for="confirm-pass">Confirm Password</label>
+          <input type="password" id="confirm-pass" placeholder="Repeat new password">
+        </div>
+      </div>
+      <div style="margin-top:12px;">
+        <button class="btn btn-outline btn-sm" onclick="showNewPassword()">Generate Strong Password</button>
+        <span id="gen-pass" style="font-size:13px;font-weight:600;color:var(--navy);margin-left:12px;"></span>
+      </div>
+    </div>
+
+    <!-- Site Settings -->
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-header">
+        <div><div class="card-title">🌐 Site Settings</div></div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label for="site-name">Site Name</label>
+          <input type="text" id="site-name" value="Titoyin's Blog">
+        </div>
+        <div class="field-group">
+          <label for="site-tagline">Tagline</label>
+          <input type="text" id="site-tagline" value="Lifestyle, Politics">
+        </div>
+      </div>
+      <div class="field-group">
+        <label for="site-desc">Site Description (for search engines)</label>
+        <input type="text" id="site-desc" value="Nigeria's trusted source for national news, politics, entertainment, fashion, and trending stories.">
+      </div>
+      <div class="field-group" style="margin-bottom:0;">
+        <label for="contact-email">Contact Email (not shown publicly)</label>
+        <input type="email" id="contact-email" value="titoyin.blog@gmail.com">
+      </div>
+    </div>
+
+    <!-- Social Media Links -->
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-header">
+        <div><div class="card-title">📱 Social Media Profiles</div>
+        <div class="card-subtitle">Update the social media links in your site footer</div></div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label for="social-facebook">Facebook Page URL</label>
+          <input type="url" id="social-facebook" placeholder="https://facebook.com/yourpage">
+        </div>
+        <div class="field-group">
+          <label for="social-twitter">X / Twitter URL</label>
+          <input type="url" id="social-twitter" placeholder="https://x.com/yourhandle">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label for="social-instagram">Instagram URL</label>
+          <input type="url" id="social-instagram" placeholder="https://instagram.com/yourhandle">
+        </div>
+        <div class="field-group">
+          <label for="social-tiktok">TikTok URL</label>
+          <input type="url" id="social-tiktok" placeholder="https://tiktok.com/@yourhandle">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label for="social-whatsapp">WhatsApp Channel URL</label>
+          <input type="url" id="social-whatsapp" placeholder="https://whatsapp.com/channel/…">
+        </div>
+        <div class="field-group">
+          <label for="social-telegram">Telegram Channel URL</label>
+          <input type="url" id="social-telegram" placeholder="https://t.me/yourchannel">
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics -->
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-header">
+        <div><div class="card-title">📊 Google Analytics</div>
+        <div class="card-subtitle">Paste your Google Analytics Measurement ID to track site traffic</div></div>
+      </div>
+      <div class="field-group" style="margin-bottom:8px;">
+        <label for="ga-id">Measurement ID</label>
+        <input type="text" id="ga-id" placeholder="G-XXXXXXXXXX">
+      </div>
+      <div class="alert alert-info">
+        Get your free Measurement ID at <a href="https://analytics.google.com" target="_blank" style="color:var(--navy);font-weight:600;">analytics.google.com</a> → Create a new property for titoyin.com
+      </div>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-header">
+        <div><div class="card-title">📧 Newsletter Integration</div>
+        <div class="card-subtitle">Connect your Mailchimp or Brevo list to the newsletter signup forms</div></div>
+      </div>
+      <div class="field-group" style="margin-bottom:0;">
+        <label for="newsletter-url">Newsletter Form Action URL</label>
+        <input type="url" id="newsletter-url" placeholder="https://your-mailchimp-or-brevo-form-url">
+        <div class="field-hint">Get this URL from your Mailchimp or Brevo account → Embedded forms → Form action URL</div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-lg" onclick="saveAllSettings()">Save All Settings</button>
+
+  </main>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+<script>
+function loadSettings() {
+  const s = getSettings();
+  if (s.siteName)     document.getElementById('site-name').value      = s.siteName;
+  if (s.siteTagline)  document.getElementById('site-tagline').value   = s.siteTagline;
+  if (s.siteDesc)     document.getElementById('site-desc').value      = s.siteDesc;
+  if (s.contactEmail) document.getElementById('contact-email').value  = s.contactEmail;
+  if (s.gaId)         document.getElementById('ga-id').value          = s.gaId;
+  if (s.newsletterUrl)document.getElementById('newsletter-url').value = s.newsletterUrl;
+  if (s.facebook)     document.getElementById('social-facebook').value  = s.facebook;
+  if (s.twitter)      document.getElementById('social-twitter').value   = s.twitter;
+  if (s.instagram)    document.getElementById('social-instagram').value = s.instagram;
+  if (s.tiktok)       document.getElementById('social-tiktok').value    = s.tiktok;
+  if (s.whatsapp)     document.getElementById('social-whatsapp').value  = s.whatsapp;
+  if (s.telegram)     document.getElementById('social-telegram').value  = s.telegram;
+}
+
+function saveAllSettings() {
+  const s = getSettings();
+  s.siteName      = document.getElementById('site-name').value;
+  s.siteTagline   = document.getElementById('site-tagline').value;
+  s.siteDesc      = document.getElementById('site-desc').value;
+  s.contactEmail  = document.getElementById('contact-email').value;
+  s.gaId          = document.getElementById('ga-id').value;
+  s.newsletterUrl = document.getElementById('newsletter-url').value;
+  s.facebook      = document.getElementById('social-facebook').value;
+  s.twitter       = document.getElementById('social-twitter').value;
+  s.instagram     = document.getElementById('social-instagram').value;
+  s.tiktok        = document.getElementById('social-tiktok').value;
+  s.whatsapp      = document.getElementById('social-whatsapp').value;
+  s.telegram      = document.getElementById('social-telegram').value;
+  saveSettings(s);
+  logActivity('settings', 'Settings updated');
+  showToast('Settings saved', 'success');
+}
+
+function showNewPassword() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$';
+  let pass = '';
+  for (let i = 0; i < 14; i++) pass += chars[Math.floor(Math.random() * chars.length)];
+  document.getElementById('gen-pass').textContent = pass;
+  document.getElementById('new-pass').value    = pass;
+  document.getElementById('confirm-pass').value = pass;
+  showToast('Generated! Copy this password and update auth.js', 'info', 5000);
+}
+
+loadSettings();
+</script>
+</body>
+</html>

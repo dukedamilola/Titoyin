@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Metrics — Titoyin Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/titoyin-logo.png" alt="Titoyin" onerror="this.style.display='none'">
+      <div><div class="sidebar-logo-text">Titoyin's Blog</div><div class="sidebar-logo-sub">Admin Panel</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="new-post.html"  class="nav-item"><span class="nav-icon">✏️</span> New Post</a>
+      <a href="posts.html"     class="nav-item"><span class="nav-icon">📰</span> All Posts</a>
+      <div class="nav-section-label">Content</div>
+      <a href="editorial.html" class="nav-item"><span class="nav-icon">⭐</span> Editorial Control</a>
+      <a href="ads.html"       class="nav-item"><span class="nav-icon">📢</span> Advertisements</a>
+      <a href="media.html"     class="nav-item"><span class="nav-icon">🖼️</span> Media Library</a>
+      <div class="nav-section-label">Site</div>
+      <a href="metrics.html"   class="nav-item active"><span class="nav-icon">📈</span> Metrics</a>
+      <a href="settings.html"  class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
+      <a href="activity.html"  class="nav-item"><span class="nav-icon">📋</span> Activity Log</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../index.html" target="_blank" class="nav-item"><span class="nav-icon">🌐</span> View Site</a>
+      <a href="#" class="nav-item" onclick="adminLogout()"><span class="nav-icon">🚪</span> Log Out</a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <div class="admin-topbar">
+    <button class="topbar-menu-btn" id="topbar-menu-btn">☰</button>
+    <span class="topbar-title">Metrics & Analytics</span>
+  </div>
+
+  <main class="admin-main">
+
+    <div class="alert alert-info" style="margin-bottom:20px;">
+      <strong>📊 To see full traffic metrics:</strong> Set up your free Google Analytics account at <a href="https://analytics.google.com" target="_blank" style="color:var(--navy);font-weight:600;">analytics.google.com</a>, then add your Measurement ID in <a href="settings.html" style="color:var(--navy);font-weight:600;">Settings</a>. Below are your content statistics from this admin panel.
+    </div>
+
+    <!-- Content Stats -->
+    <div class="stats-grid" style="margin-bottom:20px;">
+      <div class="stat-card">
+        <div class="stat-label">Total Posts</div>
+        <div class="stat-value" id="m-total">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Published</div>
+        <div class="stat-value" id="m-published">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Drafts</div>
+        <div class="stat-value" id="m-drafts">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Categories Used</div>
+        <div class="stat-value" id="m-cats">0</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+
+      <!-- Posts by category -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:16px;">Posts by Category</div>
+        <div id="cat-breakdown"></div>
+      </div>
+
+      <!-- Posts by type -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:16px;">Posts by Type</div>
+        <div id="type-breakdown"></div>
+      </div>
+
+    </div>
+
+    <!-- Google Analytics Embed -->
+    <div class="card" style="margin-top:20px;">
+      <div class="card-title" style="margin-bottom:8px;">Google Analytics</div>
+      <div class="card-subtitle" style="margin-bottom:16px;">After adding your GA ID in Settings, your full analytics dashboard will appear here</div>
+      <div id="ga-embed" style="background:var(--surface);border-radius:8px;padding:32px;text-align:center;color:var(--ink-muted);">
+        <div style="font-size:36px;margin-bottom:12px;">📈</div>
+        <div style="font-weight:500;margin-bottom:6px;">Google Analytics not connected yet</div>
+        <div style="font-size:13px;margin-bottom:16px;">Add your Measurement ID in Settings to see page views, visitors, traffic sources, and more</div>
+        <a href="settings.html" class="btn btn-primary btn-sm">Go to Settings →</a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+<script>
+function renderMetrics() {
+  const posts = getPosts();
+  document.getElementById('m-total').textContent     = posts.length;
+  document.getElementById('m-published').textContent = posts.filter(p => p.status === 'published').length;
+  document.getElementById('m-drafts').textContent    = posts.filter(p => p.status === 'draft').length;
+
+  // Category breakdown
+  const cats = {};
+  posts.forEach(p => { if (p.category) cats[p.category] = (cats[p.category]||0) + 1; });
+  const catTotal = posts.length || 1;
+  document.getElementById('m-cats').textContent = Object.keys(cats).length;
+  document.getElementById('cat-breakdown').innerHTML = Object.keys(cats).length ?
+    Object.entries(cats).sort((a,b) => b[1]-a[1]).map(([cat, count]) => `
+      <div class="metric-bar-wrap">
+        <div class="metric-bar-label">
+          <span style="text-transform:capitalize;">${cat}</span>
+          <span style="font-weight:600;">${count}</span>
+        </div>
+        <div class="metric-bar"><div class="metric-bar-fill" style="width:${Math.round(count/catTotal*100)}%"></div></div>
+      </div>
+    `).join('') : '<div class="text-sm text-muted">No posts yet</div>';
+
+  // Type breakdown
+  const types = {};
+  posts.forEach(p => { const t = p.type||'article'; types[t] = (types[t]||0) + 1; });
+  document.getElementById('type-breakdown').innerHTML = Object.keys(types).length ?
+    Object.entries(types).sort((a,b) => b[1]-a[1]).map(([type, count]) => `
+      <div class="metric-bar-wrap">
+        <div class="metric-bar-label">
+          <span style="text-transform:capitalize;">${type}</span>
+          <span style="font-weight:600;">${count}</span>
+        </div>
+        <div class="metric-bar"><div class="metric-bar-fill" style="width:${Math.round(count/catTotal*100)}%;background:var(--accent);"></div></div>
+      </div>
+    `).join('') : '<div class="text-sm text-muted">No posts yet</div>';
+
+  // GA embed
+  const gaId = getSettings().gaId;
+  if (gaId) {
+    document.getElementById('ga-embed').innerHTML = `
+      <div style="font-size:14px;margin-bottom:12px;">Google Analytics connected: <strong>${gaId}</strong></div>
+      <a href="https://analytics.google.com" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Open Analytics Dashboard →</a>
+    `;
+  }
+}
+renderMetrics();
+</script>
+</body>
+</html>

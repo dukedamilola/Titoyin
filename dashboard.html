@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dashboard — Titoyin Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/titoyin-logo.png" alt="Titoyin" onerror="this.style.display='none'">
+      <div>
+        <div class="sidebar-logo-text">Titoyin's Blog</div>
+        <div class="sidebar-logo-sub">Admin Panel</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html" class="nav-item active"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="new-post.html"   class="nav-item"><span class="nav-icon">✏️</span> New Post</a>
+      <a href="posts.html"      class="nav-item"><span class="nav-icon">📰</span> All Posts</a>
+
+      <div class="nav-section-label">Content</div>
+      <a href="editorial.html"  class="nav-item"><span class="nav-icon">⭐</span> Editorial Control</a>
+      <a href="ads.html"        class="nav-item"><span class="nav-icon">📢</span> Advertisements</a>
+      <a href="media.html"      class="nav-item"><span class="nav-icon">🖼️</span> Media Library</a>
+
+      <div class="nav-section-label">Site</div>
+      <a href="metrics.html"    class="nav-item"><span class="nav-icon">📈</span> Metrics</a>
+      <a href="settings.html"   class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
+      <a href="activity.html"   class="nav-item"><span class="nav-icon">📋</span> Activity Log</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../index.html" target="_blank" class="nav-item"><span class="nav-icon">🌐</span> View Site</a>
+      <a href="#" class="nav-item" onclick="adminLogout()"><span class="nav-icon">🚪</span> Log Out</a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- Top Bar -->
+  <div class="admin-topbar">
+    <button class="topbar-menu-btn" id="topbar-menu-btn" aria-label="Menu">☰</button>
+    <span class="topbar-title">Dashboard</span>
+    <div class="topbar-actions">
+      <span class="topbar-btn topbar-btn-ghost" id="topbar-time" style="font-size:12px;"></span>
+      <a href="new-post.html" class="btn btn-primary btn-sm">+ New Post</a>
+      <div class="topbar-avatar">A</div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="admin-main">
+
+    <!-- Welcome banner (first visit) -->
+    <div id="welcome-banner" class="alert alert-info mb-6" style="display:none;">
+      <strong>👋 Welcome to your Titoyin Admin Panel!</strong> Start by creating your first post — click <a href="new-post.html" style="color:var(--navy);font-weight:600;">New Post</a> to begin. The guided walkthrough will help you through every step.
+    </div>
+
+    <!-- Breaking News Control -->
+    <div class="breaking-control mb-6" id="breaking-control">
+      <div class="breaking-header">
+        <span class="breaking-title">🔴 Breaking News Banner</span>
+        <label class="toggle">
+          <input type="checkbox" id="breaking-toggle" onchange="toggleBreaking(this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div id="breaking-form" style="display:none;">
+        <input type="text" id="breaking-text" placeholder="Type your breaking news headline…" style="width:100%;padding:9px 12px;border:1.5px solid #FECACA;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:10px;">
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-danger btn-sm" onclick="saveBreaking()">Activate Banner</button>
+          <button class="btn btn-outline btn-sm" onclick="clearBreaking()">Clear Banner</button>
+        </div>
+      </div>
+      <p id="breaking-status" class="text-sm text-muted" style="margin-top:6px;">Banner is currently <strong>OFF</strong></p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Posts</div>
+        <div class="stat-value" id="stat-posts">0</div>
+        <div class="stat-change">All time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Published</div>
+        <div class="stat-value" id="stat-published">0</div>
+        <div class="stat-change">Live on site</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Drafts</div>
+        <div class="stat-value" id="stat-drafts">0</div>
+        <div class="stat-change">Unpublished</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Featured</div>
+        <div class="stat-value" id="stat-featured">0</div>
+        <div class="stat-change">On homepage</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;">
+
+      <!-- Recent Posts -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Recent Posts</div>
+            <div class="card-subtitle">Your latest published and draft content</div>
+          </div>
+          <a href="posts.html" class="btn btn-outline btn-sm">View all</a>
+        </div>
+        <div id="recent-posts-list">
+          <div style="text-align:center;padding:32px;color:var(--ink-muted);">
+            <div style="font-size:36px;margin-bottom:10px;">📝</div>
+            <div style="font-size:15px;font-weight:500;margin-bottom:6px;">No posts yet</div>
+            <div style="font-size:13px;margin-bottom:16px;">Create your first post to get started</div>
+            <a href="new-post.html" class="btn btn-primary btn-sm">+ Create First Post</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div style="display:flex;flex-direction:column;gap:16px;">
+
+        <!-- Quick Actions -->
+        <div class="card">
+          <div class="card-title mb-4" style="margin-bottom:14px;">Quick Actions</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <a href="new-post.html" class="btn btn-primary btn-full">✏️ &nbsp;Write New Post</a>
+            <a href="editorial.html" class="btn btn-outline btn-full">⭐ &nbsp;Editorial Control</a>
+            <a href="ads.html" class="btn btn-outline btn-full">📢 &nbsp;Manage Ads</a>
+            <a href="../index.html" target="_blank" class="btn btn-ghost btn-full">🌐 &nbsp;View Live Site</a>
+          </div>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="card">
+          <div class="card-header" style="margin-bottom:12px;padding-bottom:10px;">
+            <div class="card-title">Recent Activity</div>
+            <a href="activity.html" class="text-sm text-muted">View all</a>
+          </div>
+          <div id="activity-list">
+            <div class="text-sm text-muted" style="padding:8px 0;">No activity yet</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+<script>
+// Live Nigeria time
+setInterval(() => {
+  const el = document.getElementById('topbar-time');
+  if (el) el.textContent = new Date().toLocaleTimeString('en-NG', { timeZone:'Africa/Lagos', hour:'2-digit', minute:'2-digit' }) + ' WAT';
+}, 1000);
+
+// Load stats
+function loadStats() {
+  const posts = getPosts();
+  document.getElementById('stat-posts').textContent     = posts.length;
+  document.getElementById('stat-published').textContent = posts.filter(p => p.status === 'published').length;
+  document.getElementById('stat-drafts').textContent    = posts.filter(p => p.status === 'draft').length;
+  document.getElementById('stat-featured').textContent  = posts.filter(p => p.featured).length;
+
+  // Recent posts list
+  const list = document.getElementById('recent-posts-list');
+  if (posts.length === 0) return;
+  list.innerHTML = posts.slice(0,6).map(p => `
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:14px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.title || 'Untitled'}</div>
+        <div style="font-size:11px;color:var(--ink-muted);margin-top:2px;">${p.category || 'Uncategorised'} · ${p.date || ''}</div>
+      </div>
+      <span class="badge badge-${p.status||'draft'}">${p.status||'draft'}</span>
+      <a href="new-post.html?id=${p.id}" class="btn btn-outline btn-sm">Edit</a>
+    </div>
+  `).join('');
+}
+
+// Activity
+function loadActivity() {
+  const logs = getActivityLog().slice(0,5);
+  const el = document.getElementById('activity-list');
+  if (!logs.length) return;
+  el.innerHTML = logs.map(l => `
+    <div class="activity-item">
+      <div class="activity-dot"></div>
+      <div class="activity-text">${l.description}</div>
+      <div class="activity-time">${l.display ? l.display.split(',')[1]?.trim() || '' : ''}</div>
+    </div>
+  `).join('');
+}
+
+// Breaking news
+function toggleBreaking(checked) {
+  document.getElementById('breaking-form').style.display = checked ? 'block' : 'none';
+  if (!checked) {
+    clearBreaking();
+  }
+}
+function saveBreaking() {
+  const text = document.getElementById('breaking-text').value.trim();
+  if (!text) return;
+  setBreakingNews(text);
+  document.getElementById('breaking-status').innerHTML = `Banner is <strong>ON</strong>: "${text}"`;
+  document.getElementById('breaking-control').classList.add('active');
+  showToast('Breaking news banner activated', 'success');
+  logActivity('breaking', 'Breaking news activated: ' + text);
+}
+function clearBreaking() {
+  setBreakingNews('');
+  document.getElementById('breaking-toggle').checked = false;
+  document.getElementById('breaking-form').style.display = 'none';
+  document.getElementById('breaking-status').innerHTML = `Banner is <strong>OFF</strong>`;
+  document.getElementById('breaking-control').classList.remove('active');
+  document.getElementById('breaking-text').value = '';
+  showToast('Breaking news banner cleared', 'info');
+}
+
+// Welcome banner
+if (getPosts().length === 0) {
+  document.getElementById('welcome-banner').style.display = 'block';
+}
+
+// Init breaking state
+const bn = getBreakingNews();
+if (bn) {
+  document.getElementById('breaking-toggle').checked = true;
+  document.getElementById('breaking-form').style.display = 'block';
+  document.getElementById('breaking-text').value = bn;
+  document.getElementById('breaking-status').innerHTML = `Banner is <strong>ON</strong>: "${bn}"`;
+  document.getElementById('breaking-control').classList.add('active');
+}
+
+loadStats();
+loadActivity();
+</script>
+</body>
+</html>

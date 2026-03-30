@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Editorial Control — Titoyin Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/titoyin-logo.png" alt="Titoyin" onerror="this.style.display='none'">
+      <div><div class="sidebar-logo-text">Titoyin's Blog</div><div class="sidebar-logo-sub">Admin Panel</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="new-post.html"  class="nav-item"><span class="nav-icon">✏️</span> New Post</a>
+      <a href="posts.html"     class="nav-item"><span class="nav-icon">📰</span> All Posts</a>
+      <div class="nav-section-label">Content</div>
+      <a href="editorial.html" class="nav-item active"><span class="nav-icon">⭐</span> Editorial Control</a>
+      <a href="ads.html"       class="nav-item"><span class="nav-icon">📢</span> Advertisements</a>
+      <a href="media.html"     class="nav-item"><span class="nav-icon">🖼️</span> Media Library</a>
+      <div class="nav-section-label">Site</div>
+      <a href="metrics.html"   class="nav-item"><span class="nav-icon">📈</span> Metrics</a>
+      <a href="settings.html"  class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
+      <a href="activity.html"  class="nav-item"><span class="nav-icon">📋</span> Activity Log</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../index.html" target="_blank" class="nav-item"><span class="nav-icon">🌐</span> View Site</a>
+      <a href="#" class="nav-item" onclick="adminLogout()"><span class="nav-icon">🚪</span> Log Out</a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <div class="admin-topbar">
+    <button class="topbar-menu-btn" id="topbar-menu-btn">☰</button>
+    <span class="topbar-title">Editorial Control</span>
+  </div>
+
+  <main class="admin-main">
+
+    <div class="alert alert-info mb-6">
+      <strong>ℹ️ How this works:</strong> Use this page to control what appears on the homepage. Mark posts as Featured, Pinned, Editor's Pick, or Trending. Changes take effect when you push your updates to GitHub.
+    </div>
+
+    <!-- Featured Story -->
+    <div class="card mb-6" style="margin-bottom:20px;">
+      <div class="card-header">
+        <div>
+          <div class="card-title">⭐ Featured / Lead Story</div>
+          <div class="card-subtitle">This post appears as the large hero story at the top of the homepage</div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label for="hero-select">Select Lead Story</label>
+        <select id="hero-select" onchange="setHero(this.value)">
+          <option value="">— Choose a published post —</option>
+        </select>
+      </div>
+      <div id="hero-preview" style="display:none;" class="alert alert-success">
+        <strong>Current lead story:</strong> <span id="hero-title"></span>
+      </div>
+    </div>
+
+    <!-- Pinned Posts -->
+    <div class="card mb-6" style="margin-bottom:20px;">
+      <div class="card-header">
+        <div>
+          <div class="card-title">📌 Pinned Posts</div>
+          <div class="card-subtitle">Pinned posts stay at the top of their category pages regardless of date</div>
+        </div>
+      </div>
+      <div id="pinned-list">
+        <div class="text-sm text-muted">No pinned posts. Edit a post and toggle "Pinned Post" to pin it.</div>
+      </div>
+    </div>
+
+    <!-- Editor's Picks -->
+    <div class="card mb-6" style="margin-bottom:20px;">
+      <div class="card-header">
+        <div>
+          <div class="card-title">✍️ Editor's Picks</div>
+          <div class="card-subtitle">Highlighted as specially recommended stories</div>
+        </div>
+      </div>
+      <div id="picks-list">
+        <div class="text-sm text-muted">No editor's picks set. Edit a post and toggle "Editor's Pick".</div>
+      </div>
+    </div>
+
+    <!-- Trending -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">🔥 Trending Stories</div>
+          <div class="card-subtitle">Stories marked as trending appear in the trending section</div>
+        </div>
+      </div>
+      <div id="trending-list">
+        <div class="text-sm text-muted">No trending posts set. Edit a post and toggle "Mark as Trending".</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+<script>
+function renderEditorial() {
+  const posts = getPosts().filter(p => p.status === 'published');
+  const settings = getSettings();
+
+  // Hero selector
+  const heroSel = document.getElementById('hero-select');
+  heroSel.innerHTML = '<option value="">— Choose a published post —</option>' +
+    posts.map(p => `<option value="${p.id}" ${settings.heroId === p.id ? 'selected' : ''}>${p.title||'Untitled'}</option>`).join('');
+
+  if (settings.heroId) {
+    const hero = posts.find(p => p.id === settings.heroId);
+    if (hero) {
+      document.getElementById('hero-preview').style.display = 'block';
+      document.getElementById('hero-title').textContent = hero.title;
+    }
+  }
+
+  // Pinned
+  const pinned = posts.filter(p => p.pinned);
+  const pinnedEl = document.getElementById('pinned-list');
+  pinnedEl.innerHTML = pinned.length ? postMiniList(pinned) : '<div class="text-sm text-muted">No pinned posts.</div>';
+
+  // Picks
+  const picks = posts.filter(p => p.editorsPick);
+  const picksEl = document.getElementById('picks-list');
+  picksEl.innerHTML = picks.length ? postMiniList(picks) : '<div class="text-sm text-muted">No editor\'s picks set.</div>';
+
+  // Trending
+  const trending = posts.filter(p => p.trending);
+  const trendEl = document.getElementById('trending-list');
+  trendEl.innerHTML = trending.length ? postMiniList(trending) : '<div class="text-sm text-muted">No trending posts.</div>';
+}
+
+function postMiniList(posts) {
+  return posts.map(p => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
+      <span style="font-size:14px;font-weight:500;">${p.title||'Untitled'}</span>
+      <a href="new-post.html?id=${p.id}" class="btn btn-outline btn-sm">Edit</a>
+    </div>
+  `).join('');
+}
+
+function setHero(id) {
+  const settings = getSettings();
+  settings.heroId = id;
+  saveSettings(settings);
+  logActivity('editorial', 'Hero story changed');
+  showToast('Lead story updated', 'success');
+  renderEditorial();
+}
+
+renderEditorial();
+</script>
+</body>
+</html>

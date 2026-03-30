@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>All Posts — Titoyin Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/titoyin-logo.png" alt="Titoyin" onerror="this.style.display='none'">
+      <div><div class="sidebar-logo-text">Titoyin's Blog</div><div class="sidebar-logo-sub">Admin Panel</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="new-post.html"  class="nav-item"><span class="nav-icon">✏️</span> New Post</a>
+      <a href="posts.html"     class="nav-item active"><span class="nav-icon">📰</span> All Posts</a>
+      <div class="nav-section-label">Content</div>
+      <a href="editorial.html" class="nav-item"><span class="nav-icon">⭐</span> Editorial Control</a>
+      <a href="ads.html"       class="nav-item"><span class="nav-icon">📢</span> Advertisements</a>
+      <a href="media.html"     class="nav-item"><span class="nav-icon">🖼️</span> Media Library</a>
+      <div class="nav-section-label">Site</div>
+      <a href="metrics.html"   class="nav-item"><span class="nav-icon">📈</span> Metrics</a>
+      <a href="settings.html"  class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
+      <a href="activity.html"  class="nav-item"><span class="nav-icon">📋</span> Activity Log</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../index.html" target="_blank" class="nav-item"><span class="nav-icon">🌐</span> View Site</a>
+      <a href="#" class="nav-item" onclick="adminLogout()"><span class="nav-icon">🚪</span> Log Out</a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <div class="admin-topbar">
+    <button class="topbar-menu-btn" id="topbar-menu-btn">☰</button>
+    <span class="topbar-title">All Posts</span>
+    <div class="topbar-actions">
+      <a href="new-post.html" class="btn btn-primary btn-sm">+ New Post</a>
+    </div>
+  </div>
+
+  <main class="admin-main">
+    <div class="card">
+      <div class="filter-bar">
+        <input type="search" id="search-posts" placeholder="Search posts by title…" oninput="renderPosts()" aria-label="Search posts">
+        <select id="filter-status" onchange="renderPosts()" aria-label="Filter by status">
+          <option value="">All statuses</option>
+          <option value="published">Published</option>
+          <option value="draft">Draft</option>
+          <option value="scheduled">Scheduled</option>
+        </select>
+        <select id="filter-category" onchange="renderPosts()" aria-label="Filter by category">
+          <option value="">All categories</option>
+          <option value="national">National</option>
+          <option value="politics">Politics</option>
+          <option value="entertainment">Entertainment</option>
+          <option value="fashion">Fashion</option>
+          <option value="trending">Trending</option>
+          <option value="gossip">Gossip</option>
+          <option value="world">World</option>
+        </select>
+        <select id="filter-type" onchange="renderPosts()" aria-label="Filter by type">
+          <option value="">All types</option>
+          <option value="article">Article</option>
+          <option value="breaking">Breaking</option>
+          <option value="sponsored">Sponsored</option>
+          <option value="photo">Photo Story</option>
+          <option value="video">Video</option>
+        </select>
+      </div>
+
+      <div id="posts-count" class="text-sm text-muted mb-4" style="margin-bottom:12px;"></div>
+
+      <div style="overflow-x:auto;">
+        <table class="post-table" id="posts-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Flags</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="posts-tbody"></tbody>
+        </table>
+      </div>
+
+      <div id="posts-empty" style="text-align:center;padding:48px;display:none;">
+        <div style="font-size:40px;margin-bottom:12px;">📝</div>
+        <div style="font-size:16px;font-weight:500;margin-bottom:8px;">No posts found</div>
+        <div style="font-size:13px;color:var(--ink-muted);margin-bottom:20px;">Try a different search or filter, or create a new post.</div>
+        <a href="new-post.html" class="btn btn-primary">+ Create New Post</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+<script>
+function renderPosts() {
+  let posts = getPosts();
+  const q   = document.getElementById('search-posts').value.toLowerCase();
+  const st  = document.getElementById('filter-status').value;
+  const cat = document.getElementById('filter-category').value;
+  const typ = document.getElementById('filter-type').value;
+
+  if (q)   posts = posts.filter(p => (p.title||'').toLowerCase().includes(q));
+  if (st)  posts = posts.filter(p => p.status === st);
+  if (cat) posts = posts.filter(p => p.category === cat);
+  if (typ) posts = posts.filter(p => p.type === typ);
+
+  const tbody = document.getElementById('posts-tbody');
+  const empty = document.getElementById('posts-empty');
+  document.getElementById('posts-count').textContent = `${posts.length} post${posts.length !== 1 ? 's' : ''}`;
+
+  if (!posts.length) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  tbody.innerHTML = posts.map(p => `
+    <tr>
+      <td class="post-title-cell">
+        ${p.title || '<em style="color:var(--ink-muted)">Untitled</em>'}
+        <small>${p.subtitle || ''}</small>
+      </td>
+      <td><span style="font-size:12px;text-transform:capitalize;">${p.category||'—'}</span></td>
+      <td><span class="badge badge-${p.status||'draft'}">${p.status||'draft'}</span></td>
+      <td style="font-size:18px;letter-spacing:2px;">
+        ${p.featured    ? '⭐' : ''}
+        ${p.pinned      ? '📌' : ''}
+        ${p.trending    ? '🔥' : ''}
+        ${p.editorsPick ? '✍️' : ''}
+      </td>
+      <td style="font-size:12px;color:var(--ink-muted);white-space:nowrap;">${p.date||''}</td>
+      <td>
+        <div class="post-actions">
+          <a href="new-post.html?id=${p.id}" class="btn btn-outline btn-sm">Edit</a>
+          <button class="btn btn-ghost btn-sm" onclick="toggleStatus('${p.id}')" title="Toggle published/draft">
+            ${p.status === 'published' ? 'Unpublish' : 'Publish'}
+          </button>
+          <button class="btn btn-danger btn-sm btn-icon" onclick="removePost('${p.id}')" title="Delete post">🗑</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function toggleStatus(id) {
+  const posts = getPosts();
+  const post  = posts.find(p => p.id === id);
+  if (!post) return;
+  post.status = post.status === 'published' ? 'draft' : 'published';
+  savePost(post);
+  logActivity('status', `Post ${post.status}: ${post.title}`);
+  showToast(`Post ${post.status}`, 'success');
+  renderPosts();
+}
+
+function removePost(id) {
+  const posts = getPosts();
+  const post  = posts.find(p => p.id === id);
+  if (!post) return;
+  confirmAction(`Delete "${post.title}"? This cannot be undone.`, () => {
+    deletePost(id);
+    logActivity('delete', 'Deleted post: ' + post.title);
+    showToast('Post deleted', 'info');
+    renderPosts();
+  });
+}
+
+renderPosts();
+</script>
+</body>
+</html>
