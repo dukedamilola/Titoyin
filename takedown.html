@@ -25,7 +25,9 @@
         </div>
         <div style="max-width:640px;">
           <h2 style="font-family:var(--font-serif);font-size:22px;font-weight:700;margin-bottom:20px;">Submit Your Request</h2>
-          <form id="contact-form" novalidate>
+          <form id="contact-form" action="https://formspree.io/f/mykbwekd" method="POST" novalidate>
+            <input type="hidden" name="_replyto" value="titoyin.blog@gmail.com">
+            <input type="hidden" name="_subject" value="Takedown/Report request via titoyin.com">
             <div class="form-group">
               <label for="request-type">Request Type <span class="form-required">*</span></label>
               <select id="request-type" name="request-type" required>
