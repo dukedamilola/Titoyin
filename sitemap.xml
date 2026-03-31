@@ -4,80 +4,18 @@
     <loc>https://titoyin.com/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://titoyin.com/index.html</loc>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    
   </url>
   <url>
     <loc>https://titoyin.com/about.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.5</priority>
+    
   </url>
   <url>
     <loc>https://titoyin.com/contact.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://titoyin.com/archive.html</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://titoyin.com/search.html</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://titoyin.com/category.html?cat=national</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://titoyin.com/category.html?cat=politics</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://titoyin.com/category.html?cat=entertainment</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://titoyin.com/category.html?cat=fashion</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://titoyin.com/category.html?cat=trending</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://titoyin.com/category.html?cat=gossip</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://titoyin.com/category.html?cat=world</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://titoyin.com/privacy.html</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://titoyin.com/terms.html</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://titoyin.com/disclaimer.html</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    
   </url>
 </urlset>
