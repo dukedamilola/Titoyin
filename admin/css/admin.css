@@ -75,11 +75,20 @@ img { max-width: 100%; height: auto; display: block; }
   position: fixed;
   top: 0; left: 0; bottom: 0;
   z-index: 100;
-  transform: translateX(0);
   transition: transform 0.25s ease;
   overflow-y: auto;
 }
-.admin-sidebar.collapsed { transform: translateX(-100%); }
+
+/* Desktop: always visible */
+@media (min-width: 769px) {
+  .admin-sidebar { transform: translateX(0) !important; }
+}
+
+/* Mobile: hidden by default, shown with .open */
+@media (max-width: 768px) {
+  .admin-sidebar { transform: translateX(-100%); }
+  .admin-sidebar.open { transform: translateX(0); }
+}
 
 .sidebar-logo {
   padding: 18px 16px;
@@ -349,9 +358,6 @@ img { max-width: 100%; height: auto; display: block; }
 /* ── MOBILE RESPONSIVE ─────────────────────── */
 @media (max-width: 768px) {
   :root { --sidebar-w: 260px; }
-
-  .admin-sidebar { transform: translateX(-100%); }
-  .admin-sidebar.open { transform: translateX(0); }
 
   .admin-topbar { left: 0; }
   .topbar-menu-btn { display: block; }

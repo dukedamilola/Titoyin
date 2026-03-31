@@ -14,22 +14,37 @@ function initSidebar() {
     sidebar.classList.add('open');
     if (overlay) overlay.classList.add('show');
     document.body.style.overflow = 'hidden';
+    if (menuBtn) menuBtn.setAttribute('aria-expanded', 'true');
   }
   function closeSidebar() {
     sidebar.classList.remove('open');
     if (overlay) overlay.classList.remove('show');
     document.body.style.overflow = '';
+    if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
   }
 
-  if (menuBtn) menuBtn.addEventListener('click', openSidebar);
+  if (menuBtn) {
+    menuBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (sidebar.classList.contains('open')) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
+    });
+  }
+
   if (overlay) overlay.addEventListener('click', closeSidebar);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeSidebar();
+  });
 
   // Highlight active nav item
   const current = window.location.pathname.split('/').pop();
   document.querySelectorAll('.nav-item').forEach(item => {
-    if (item.getAttribute('href') === current) {
-      item.classList.add('active');
-    }
+    const href = item.getAttribute('href');
+    if (href && href === current) item.classList.add('active');
   });
 }
 
