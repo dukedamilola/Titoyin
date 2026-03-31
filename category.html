@@ -6,6 +6,14 @@
   <meta name="description" content="Browse all stories in this category — Titoyin Nigeria's news, politics, entertainment and lifestyle platform.">
   <title>Category — Titoyin</title>
   <link rel="stylesheet" href="css/style.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W6VWMN1J2V"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-W6VWMN1J2V');
+  </script>
 </head>
 <body>
 
@@ -65,6 +73,7 @@
           <!-- Top Ad -->
           <div class="ad-slot leaderboard" style="margin-bottom:24px;" role="complementary" aria-label="Advertisement">Advertisement — 728×90</div>
 
+          <div id="category-count" class="text-sm text-muted" style="margin-bottom:16px;"></div>
           <div class="grid-3" id="category-posts-grid">
             <!-- Post 1 -->
             <article class="post-card post-feed-item" data-animate>
@@ -240,6 +249,7 @@
 
 <div id="site-footer-placeholder"></div>
 
+<script src="js/posts.js"></script>
 <script src="js/components.js"></script>
 <script src="js/main.js"></script>
 <script>

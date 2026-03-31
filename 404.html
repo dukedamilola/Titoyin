@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Page Not Found — Titoyin</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W6VWMN1J2V"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-W6VWMN1J2V');
+  </script>
+</head>
+<body>
+<div id="site-header-placeholder"></div>
+
+<main id="main" role="main">
+  <section style="min-height:70vh;display:flex;align-items:center;justify-content:center;padding:60px 20px;">
+    <div style="text-align:center;max-width:560px;margin:0 auto;">
+
+      <!-- 404 illustration -->
+      <div style="font-size:80px;line-height:1;margin-bottom:16px;">📰</div>
+      <div style="font-family:var(--font-serif);font-size:clamp(60px,10vw,100px);font-weight:900;color:var(--navy);line-height:1;margin-bottom:8px;">404</div>
+      <h1 style="font-family:var(--font-serif);font-size:clamp(20px,3vw,28px);font-weight:700;margin-bottom:12px;">This story has gone missing</h1>
+      <p style="font-size:16px;color:var(--ink-muted);line-height:1.7;margin-bottom:32px;">
+        The page you're looking for doesn't exist or may have been moved. Try searching for what you need or browse our latest stories below.
+      </p>
+
+      <!-- Search bar -->
+      <form action="/search.html" method="get" style="display:flex;align-items:center;background:var(--white);border:2px solid var(--navy);border-radius:100px;padding:5px 5px 5px 18px;box-shadow:var(--shadow-md);margin-bottom:32px;">
+        <input
+          type="search"
+          name="q"
+          placeholder="Search for a story…"
+          style="flex:1;border:none;outline:none;font-size:15px;font-family:var(--font-sans);color:var(--ink);"
+          autofocus
+        >
+        <button type="submit" style="background:var(--navy);color:white;border:none;border-radius:100px;padding:10px 22px;font-size:13px;font-weight:600;cursor:pointer;">Search</button>
+      </form>
+
+      <!-- Quick links -->
+      <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:36px;">
+        <a href="/index.html" class="btn btn-primary btn-sm">🏠 Home</a>
+        <a href="/category.html?cat=national" class="btn btn-outline btn-sm">🇳🇬 National</a>
+        <a href="/category.html?cat=politics" class="btn btn-outline btn-sm">🏛️ Politics</a>
+        <a href="/category.html?cat=entertainment" class="btn btn-outline btn-sm">🎬 Entertainment</a>
+        <a href="/category.html?cat=trending" class="btn btn-outline btn-sm">🔥 Trending</a>
+        <a href="/archive.html" class="btn btn-outline btn-sm">📚 Archive</a>
+      </div>
+
+      <!-- Latest posts -->
+      <div id="latest-404" style="text-align:left;"></div>
+
+    </div>
+  </section>
+</main>
+
+<div id="site-footer-placeholder"></div>
+
+<script src="/js/posts.js"></script>
+<script src="/js/components.js"></script>
+<script src="/js/main.js"></script>
+<script>
+// Load latest 3 posts
+(async function() {
+  const posts = await fetchPosts();
+  const latest = posts.filter(p => p.status === 'published').slice(0, 3);
+  const el = document.getElementById('latest-404');
+  if (!latest.length || !el) return;
+  el.innerHTML = `
+    <p style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-muted);margin-bottom:14px;">Latest Stories</p>
+    ${latest.map(p => renderListCard(p)).join('')}
+  `;
+})();
+</script>
+</body>
+</html>

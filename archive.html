@@ -6,6 +6,14 @@
   <meta name="description" content="Browse all Titoyin articles by date, category, and topic.">
   <title>Archive — Titoyin</title>
   <link rel="stylesheet" href="css/style.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W6VWMN1J2V"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-W6VWMN1J2V');
+  </script>
 </head>
 <body>
 <div id="site-header-placeholder"></div>
@@ -48,7 +56,7 @@
         </div>
 
         <!-- Month groupings -->
-        <div>
+        <div id="archive-list">
           <h2 style="font-family:var(--font-serif);font-size:20px;font-weight:700;color:var(--ink-muted);margin-bottom:16px;display:flex;align-items:center;gap:12px;">
             June 2025
             <span style="font-size:12px;background:var(--green-light);color:var(--green-deep);padding:3px 10px;border-radius:100px;font-weight:500;">24 stories</span>
@@ -165,6 +173,7 @@
 </section>
 </main>
 <div id="site-footer-placeholder"></div>
+<script src="js/posts.js"></script>
 <script src="js/components.js"></script>
 <script src="js/main.js"></script>
 </body>

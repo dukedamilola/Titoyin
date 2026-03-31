@@ -245,41 +245,63 @@ function generatePostCard(post) {
             </article>`;
 }
 
-// ── UPDATE HOMEPAGE WITH NEW POSTS ────────────
-async function updateHomepage(posts) {
-  // Fetch current homepage
-  const res = await fetch(`${GITHUB_API}/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/index.html`, {
-    headers: {
-      'Authorization': `token ${getToken()}`,
-      'Accept': 'application/vnd.github.v3+json'
-    }
-  });
-  const fileData = await res.json();
-  let html = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g, ''))));
+// ── UPDATE POSTS.JSON ─────────────────────────
+async function updatePostsJSON(posts) {
+  const published = posts
+    .filter(p => p.status === 'published' && p.slug)
+    .map(p => ({
+      id:          p.id,
+      slug:        p.slug,
+      title:       p.title,
+      subtitle:    p.subtitle,
+      category:    p.category,
+      type:        p.type || 'article',
+      tags:        p.tags,
+      date:        p.date,
+      imgSrc:      p.imgSrc || '',
+      featured:    p.featured || false,
+      pinned:      p.pinned || false,
+      trending:    p.trending || false,
+      editorsPick: p.editorsPick || false,
+      status:      'published'
+    }));
 
-  // Build new cards for published posts (latest 6)
-  const published = posts.filter(p => p.status === 'published' && p.slug).slice(0, 6);
-  if (!published.length) return;
+  const json = JSON.stringify({
+    updated: new Date().toISOString(),
+    posts: published
+  }, null, 2);
 
-  const newCards = published.map(p => generatePostCard(p)).join('');
+  await pushFile('posts.json', json, 'Update posts.json');
+}
 
-  // Replace the latest stories grid content between markers
-  const startMarker = '<!-- POSTS:START -->';
-  const endMarker   = '<!-- POSTS:END -->';
+// ── UPDATE SITEMAP ────────────────────────────
+async function updateSitemap(posts) {
+  const published = posts.filter(p => p.status === 'published' && p.slug);
+  const today = new Date().toISOString().split('T')[0];
 
-  if (html.includes(startMarker) && html.includes(endMarker)) {
-    const start = html.indexOf(startMarker) + startMarker.length;
-    const end   = html.indexOf(endMarker);
-    html = html.substring(0, start) + '\n' + newCards + '\n            ' + html.substring(end);
-  } else {
-    // Insert markers and cards before the pagination div
-    html = html.replace(
-      /(<div class="grid-2"[^>]*>)([\s\S]*?)(<\/div>\s*<!-- Load More)/,
-      `<div class="grid-2" style="gap:20px;margin-bottom:32px;">\n${startMarker}\n${newCards}\n            ${endMarker}\n          </div>\n\n          <!-- Load More`
-    );
-  }
+  const urls = [
+    { loc: 'https://titoyin.com/', priority: '1.0', freq: 'daily' },
+    { loc: 'https://titoyin.com/about.html', priority: '0.5', freq: 'monthly' },
+    { loc: 'https://titoyin.com/contact.html', priority: '0.5', freq: 'monthly' },
+    ...published.map(p => ({
+      loc: `https://titoyin.com/${p.slug}.html`,
+      priority: p.featured ? '0.9' : '0.8',
+      freq: 'weekly',
+      lastmod: today
+    }))
+  ];
 
-  await pushFile('index.html', html, `Update homepage with latest posts`);
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map(u => `  <url>
+    <loc>${u.loc}</loc>
+    <changefreq>${u.freq}</changefreq>
+    <priority>${u.priority}</priority>
+    ${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}
+  </url>`).join('\n')}
+</urlset>`;
+
+  await pushFile('sitemap.xml', sitemap, 'Update sitemap.xml');
 }
 
 // ── UPDATE RSS FEED ───────────────────────────
@@ -325,15 +347,22 @@ async function publishToGitHub(post) {
   const articleHTML = generateArticleHTML(post);
   await pushFile(post.filename, articleHTML, `Publish: ${post.title}`);
 
-  // 2. Update homepage
+  // 2. Update posts.json
   const allPosts = getPosts().map(p => p.id === post.id ? post : p);
   try {
-    await updateHomepage(allPosts);
+    await updatePostsJSON(allPosts);
   } catch(e) {
-    console.warn('Homepage update failed:', e.message);
+    console.warn('posts.json update failed:', e.message);
   }
 
-  // 3. Update RSS feed
+  // 3. Update sitemap
+  try {
+    await updateSitemap(allPosts);
+  } catch(e) {
+    console.warn('Sitemap update failed:', e.message);
+  }
+
+  // 4. Update RSS feed
   try {
     await updateRSSFeed(allPosts);
   } catch(e) {

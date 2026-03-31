@@ -6,6 +6,14 @@
   <meta name="robots" content="noindex">
   <title>Search — Titoyin</title>
   <link rel="stylesheet" href="css/style.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W6VWMN1J2V"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-W6VWMN1J2V');
+  </script>
 </head>
 <body>
 
@@ -65,7 +73,8 @@
           </div>
 
           <!-- Results list -->
-          <div style="display:flex;flex-direction:column;">
+          <div id="search-count" class="text-sm text-muted" style="margin-bottom:12px;"></div>
+          <div id="search-results" style="display:flex;flex-direction:column;">
 
             <div class="post-list-card">
               <img class="post-list-img" src="https://images.unsplash.com/photo-1573152143286-0c422b4d2175?w=200&q=80" alt="Result" loading="lazy">
@@ -118,6 +127,7 @@
             </div>
 
           </div>
+</div>
 
           <div class="pagination" role="navigation" aria-label="Search results pages">
             <a href="#" class="page-btn prev">← Prev</a>
@@ -160,6 +170,7 @@
 
 <div id="site-footer-placeholder"></div>
 
+<script src="js/posts.js"></script>
 <script src="js/components.js"></script>
 <script src="js/main.js"></script>
 </body>
