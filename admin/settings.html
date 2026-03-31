@@ -59,6 +59,12 @@
         </div>
         <div class="field-hint">Get your token: github.com → Settings → Developer settings → Personal access tokens (classic) → tick <strong>repo</strong></div>
       </div>
+      <div style="margin:10px 0;">
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+          <input type="checkbox" id="remember-token" style="width:16px;height:16px;accent-color:var(--navy);">
+          <span>Remember token on this device <span style="color:var(--ink-muted);">(stays saved after closing browser)</span></span>
+        </label>
+      </div>
       <div id="token-status" style="margin-bottom:12px;"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;">
         <button class="btn btn-primary btn-sm" onclick="saveToken()">Save Token</button>
@@ -163,7 +169,7 @@
       </div>
       <div class="field-group" style="margin-bottom:8px;">
         <label for="ga-id">Measurement ID</label>
-        <input type="text" id="ga-id" placeholder="G-XXXXXXXXXX">
+        <input type="text" id="ga-id" value="G-W6VWMN1J2V">
       </div>
       <div class="alert alert-info">
         Get your free Measurement ID at <a href="https://analytics.google.com" target="_blank" style="color:var(--navy);font-weight:600;">analytics.google.com</a> → Create a new property for titoyin.com
@@ -249,9 +255,11 @@ function loadToken() {
 function saveToken() {
   const t = document.getElementById('gh-token').value.trim();
   if (!t || !t.startsWith('ghp_')) { showToast('Enter a valid token starting with ghp_', 'error'); return; }
-  sessionStorage.setItem('gh_token', t);
-  document.getElementById('token-status').innerHTML = '<span style="color:var(--success);font-size:13px;">✓ Token saved</span>';
-  showToast('Token saved! You can now publish posts.', 'success');
+  const remember = document.getElementById('remember-token').checked;
+  setToken(t, remember);
+  const msg = remember ? '✓ Token saved permanently on this device' : '✓ Token saved for this session';
+  document.getElementById('token-status').innerHTML = `<span style="color:var(--success);font-size:13px;">${msg}</span>`;
+  showToast(remember ? 'Token saved permanently!' : 'Token saved for this session!', 'success');
 }
 async function testToken() {
   const t = document.getElementById('gh-token').value.trim();
