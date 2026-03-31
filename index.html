@@ -32,7 +32,11 @@
 <div id="site-header-placeholder"></div>
 
 <main id="main" role="main">
-  <div class="social-mode-bar" role="status" aria-live="polite">📱 Social Scroll Mode — swipe through stories</div>
+  <!-- Social mode indicator bar -->
+  <div id="social-mode-bar" role="status" aria-live="polite">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+    Social Scroll Mode active
+  </div>
 
   <!-- ══ HERO SECTION ══════════════════════════ -->
   <section class="hero" aria-label="Top stories">
@@ -119,19 +123,19 @@
           <h2 class="section-title">Latest <span>Stories</span></h2>
 
           <!-- View controls -->
-          <div class="per-page-row" style="justify-content:space-between;align-items:center;">
+          <div class="per-page-row" style="justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
             <button
-              id="scroll-mode-btn"
-              class="scroll-mode-toggle"
-              onclick="toggleScrollMode()"
-              aria-label="Toggle social scroll view"
-              title="Switch to Social Scroll View"
+              id="view-toggle-btn"
+              class="view-toggle-btn"
+              onclick="toggleViewMode()"
+              aria-label="Toggle view mode"
             >
-              <span class="toggle-icon">📱</span> Social View
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              Social View
             </button>
             <div style="display:flex;align-items:center;gap:8px;">
-              <label for="per-page-select" style="color:var(--ink-muted);font-size:13px);">Show:</label>
-              <select id="per-page-select" aria-label="Posts per page">
+              <label for="per-page-select" style="color:var(--ink-muted);font-size:13px;">Show:</label>
+              <select id="per-page-select" aria-label="Posts per page" style="padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;">
                 <option value="6">6 per page</option>
                 <option value="12" selected>12 per page</option>
                 <option value="24">24 per page</option>
@@ -400,6 +404,7 @@
 <!-- Footer (injected by components.js) -->
 <div id="site-footer-placeholder"></div>
 
+<script src="js/scroll-mode.js"></script>
 <script src="js/posts.js"></script>
 <script src="js/feed.js"></script>
 <script src="js/notifications.js"></script>

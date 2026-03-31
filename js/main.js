@@ -473,68 +473,10 @@ document.addEventListener('DOMContentLoaded', initAudioRead);
   });
 })();
 
-// ── NEWSLETTER MODAL ──────────────────────────
-function openNewsletterModal() {
-  const modal = document.getElementById('newsletter-modal');
-  if (modal) {
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  }
-}
-function closeNewsletterModal() {
-  const modal = document.getElementById('newsletter-modal');
-  if (modal) {
-    modal.style.display = 'none';
-    document.body.style.overflow = '';
-  }
-}
-// Close on backdrop click
-document.addEventListener('click', function(e) {
-  const modal = document.getElementById('newsletter-modal');
-  if (modal && e.target === modal) closeNewsletterModal();
-});
+
 // Close on Escape
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeNewsletterModal();
 });
 
-// ── SOCIAL SCROLL MODE ────────────────────────
-(function() {
-  // Restore saved preference
-  const saved = localStorage.getItem('titoyin_scroll_mode');
-  if (saved === 'social') {
-    document.body.classList.add('social-scroll-mode');
-    updateToggleBtn(true);
-  }
 
-  function updateToggleBtn(active) {
-    const btn = document.getElementById('scroll-mode-btn');
-    if (!btn) return;
-    if (active) {
-      btn.classList.add('active');
-      btn.innerHTML = '<span class="toggle-icon">📱</span> Social View';
-      btn.title = 'Switch to Grid View';
-    } else {
-      btn.classList.remove('active');
-      btn.innerHTML = '<span class="toggle-icon">📱</span> Social View';
-      btn.title = 'Switch to Social Scroll View';
-    }
-  }
-
-  window.toggleScrollMode = function() {
-    const isSocial = document.body.classList.toggle('social-scroll-mode');
-    localStorage.setItem('titoyin_scroll_mode', isSocial ? 'social' : 'grid');
-    updateToggleBtn(isSocial);
-    showToast(isSocial ? '📱 Social scroll view on' : '⊞ Grid view on', 'info', 2000);
-  };
-
-  // Init button after DOM ready
-  document.addEventListener('DOMContentLoaded', function() {
-    const saved = localStorage.getItem('titoyin_scroll_mode');
-    updateToggleBtn(saved === 'social');
-  });
-  setTimeout(function() {
-    const saved = localStorage.getItem('titoyin_scroll_mode');
-    updateToggleBtn(saved === 'social');
-  }, 600);
-})();
