@@ -45,6 +45,28 @@
 
   <main class="admin-main">
 
+    <!-- GitHub Token -->
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-header">
+        <div><div class="card-title">🔑 GitHub Personal Access Token</div>
+        <div class="card-subtitle">Required for automatic publishing. Stored only in your browser — never sent anywhere else.</div></div>
+      </div>
+      <div class="field-group">
+        <label for="gh-token">Personal Access Token</label>
+        <div class="input-wrap">
+          <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+          <button type="button" class="toggle-pass" onclick="toggleGhToken()">👁</button>
+        </div>
+        <div class="field-hint">Get your token: github.com → Settings → Developer settings → Personal access tokens (classic) → tick <strong>repo</strong></div>
+      </div>
+      <div id="token-status" style="margin-bottom:12px;"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-primary btn-sm" onclick="saveToken()">Save Token</button>
+        <button class="btn btn-outline btn-sm" onclick="testToken()">Test Connection</button>
+        <button class="btn btn-ghost btn-sm" onclick="removeToken()">Remove Token</button>
+      </div>
+    </div>
+
     <!-- Password Change -->
     <div class="card" style="margin-bottom:20px;">
       <div class="card-header">
@@ -167,6 +189,7 @@
 </div>
 
 <script src="js/auth.js"></script>
+<script src="js/publisher.js"></script>
 <script src="js/admin.js"></script>
 <script>
 function loadSettings() {
@@ -215,6 +238,45 @@ function showNewPassword() {
 }
 
 loadSettings();
+
+function loadToken() {
+  const t = sessionStorage.getItem('gh_token') || '';
+  if (t) {
+    document.getElementById('gh-token').value = t;
+    document.getElementById('token-status').innerHTML = '<span style="color:var(--success);font-size:13px;">✓ Token saved for this session</span>';
+  }
+}
+function saveToken() {
+  const t = document.getElementById('gh-token').value.trim();
+  if (!t || !t.startsWith('ghp_')) { showToast('Enter a valid token starting with ghp_', 'error'); return; }
+  sessionStorage.setItem('gh_token', t);
+  document.getElementById('token-status').innerHTML = '<span style="color:var(--success);font-size:13px;">✓ Token saved</span>';
+  showToast('Token saved! You can now publish posts.', 'success');
+}
+async function testToken() {
+  const t = document.getElementById('gh-token').value.trim();
+  if (!t) { showToast('Enter a token first', 'error'); return; }
+  showToast('Testing connection…', 'info');
+  const ok = await verifyGitHubToken(t);
+  if (ok) {
+    showToast('✓ Connected to dukedamilola/titoyin!', 'success', 4000);
+    document.getElementById('token-status').innerHTML = '<span style="color:var(--success);font-size:13px;">✓ Connection verified</span>';
+  } else {
+    showToast('Connection failed. Check token has repo access.', 'error', 5000);
+  }
+}
+function removeToken() {
+  sessionStorage.removeItem('gh_token');
+  document.getElementById('gh-token').value = '';
+  document.getElementById('token-status').innerHTML = '<span style="color:var(--danger);font-size:13px;">Token removed</span>';
+  showToast('Token removed', 'info');
+}
+function toggleGhToken() {
+  const inp = document.getElementById('gh-token');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+loadToken();
+
 </script>
 </body>
 </html>

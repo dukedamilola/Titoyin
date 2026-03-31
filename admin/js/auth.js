@@ -4,7 +4,7 @@
    ============================================= */
 
 // ── CHANGE THIS PASSWORD ──────────────────────
-const ADMIN_PASSWORD = 'Titoyin2026$';
+const ADMIN_PASSWORD = 'Titoyin2025!';
 // ─────────────────────────────────────────────
 
 const SESSION_KEY   = 'titoyin_admin_session';
