@@ -5,18 +5,22 @@
 'use strict';
 
 // ── MOBILE NAVIGATION ─────────────────────────
-(function () {
+function initMobileNav() {
   const hamburger = document.getElementById('hamburger');
   const mobileNav = document.getElementById('mobile-nav');
   const mobileClose = document.getElementById('mobile-nav-close');
 
-  if (!hamburger || !mobileNav) return;
+  if (!hamburger || !mobileNav) {
+    // Elements not ready yet — retry after short delay
+    setTimeout(initMobileNav, 200);
+    return;
+  }
 
-  hamburger.addEventListener('click', () => {
+  function openNav() {
     mobileNav.classList.add('open');
     document.body.style.overflow = 'hidden';
     hamburger.setAttribute('aria-expanded', 'true');
-  });
+  }
 
   function closeNav() {
     mobileNav.classList.remove('open');
@@ -24,7 +28,25 @@
     hamburger.setAttribute('aria-expanded', 'false');
   }
 
-  if (mobileClose) mobileClose.addEventListener('click', closeNav);
+  // Remove any existing listeners by cloning
+  const newHamburger = hamburger.cloneNode(true);
+  hamburger.parentNode.replaceChild(newHamburger, hamburger);
+  newHamburger.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const nav = document.getElementById('mobile-nav');
+    if (nav.classList.contains('open')) {
+      closeNav();
+    } else {
+      openNav();
+    }
+  });
+
+  if (mobileClose) {
+    const newClose = mobileClose.cloneNode(true);
+    mobileClose.parentNode.replaceChild(newClose, mobileClose);
+    newClose.addEventListener('click', closeNav);
+  }
 
   mobileNav.addEventListener('click', (e) => {
     if (e.target === mobileNav) closeNav();
@@ -33,7 +55,12 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeNav();
   });
-})();
+}
+
+// Init immediately and also after DOM ready and after components load
+initMobileNav();
+document.addEventListener('DOMContentLoaded', initMobileNav);
+setTimeout(initMobileNav, 500);
 
 // ── BREAKING NEWS STRIP ───────────────────────
 (function () {
@@ -470,3 +497,44 @@ document.addEventListener('click', function(e) {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeNewsletterModal();
 });
+
+// ── SOCIAL SCROLL MODE ────────────────────────
+(function() {
+  // Restore saved preference
+  const saved = localStorage.getItem('titoyin_scroll_mode');
+  if (saved === 'social') {
+    document.body.classList.add('social-scroll-mode');
+    updateToggleBtn(true);
+  }
+
+  function updateToggleBtn(active) {
+    const btn = document.getElementById('scroll-mode-btn');
+    if (!btn) return;
+    if (active) {
+      btn.classList.add('active');
+      btn.innerHTML = '<span class="toggle-icon">📱</span> Social View';
+      btn.title = 'Switch to Grid View';
+    } else {
+      btn.classList.remove('active');
+      btn.innerHTML = '<span class="toggle-icon">📱</span> Social View';
+      btn.title = 'Switch to Social Scroll View';
+    }
+  }
+
+  window.toggleScrollMode = function() {
+    const isSocial = document.body.classList.toggle('social-scroll-mode');
+    localStorage.setItem('titoyin_scroll_mode', isSocial ? 'social' : 'grid');
+    updateToggleBtn(isSocial);
+    showToast(isSocial ? '📱 Social scroll view on' : '⊞ Grid view on', 'info', 2000);
+  };
+
+  // Init button after DOM ready
+  document.addEventListener('DOMContentLoaded', function() {
+    const saved = localStorage.getItem('titoyin_scroll_mode');
+    updateToggleBtn(saved === 'social');
+  });
+  setTimeout(function() {
+    const saved = localStorage.getItem('titoyin_scroll_mode');
+    updateToggleBtn(saved === 'social');
+  }, 600);
+})();

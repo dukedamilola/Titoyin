@@ -32,6 +32,7 @@
 <div id="site-header-placeholder"></div>
 
 <main id="main" role="main">
+  <div class="social-mode-bar" role="status" aria-live="polite">📱 Social Scroll Mode — swipe through stories</div>
 
   <!-- ══ HERO SECTION ══════════════════════════ -->
   <section class="hero" aria-label="Top stories">
@@ -99,7 +100,17 @@
   </section>
 
   <!-- ══ LATEST STORIES + SIDEBAR ═════════════ -->
-  <section class="section" aria-label="Latest stories">
+
+  <!-- MOBILE: Infinite scroll feed (social style) -->
+  <section aria-label="Latest stories feed" id="mobile-feed-section" style="display:none;">
+    <div id="infinite-feed">
+      <!-- Posts loaded dynamically via feed.js -->
+    </div>
+    <div id="feed-sentinel" style="height:1px;"></div>
+  </section>
+
+  <!-- DESKTOP: Grid layout -->
+  <section class="section" id="desktop-grid-section" aria-label="Latest stories">
     <div class="container">
       <div class="content-sidebar">
 
@@ -107,14 +118,25 @@
         <div>
           <h2 class="section-title">Latest <span>Stories</span></h2>
 
-          <!-- Per-page selector (desktop) -->
-          <div class="per-page-row" style="justify-content:flex-end;">
-            <label for="per-page-select" style="color:var(--ink-muted);font-size:13px;">Show:</label>
-            <select id="per-page-select" aria-label="Posts per page">
-              <option value="6">6 per page</option>
-              <option value="12" selected>12 per page</option>
-              <option value="24">24 per page</option>
-            </select>
+          <!-- View controls -->
+          <div class="per-page-row" style="justify-content:space-between;align-items:center;">
+            <button
+              id="scroll-mode-btn"
+              class="scroll-mode-toggle"
+              onclick="toggleScrollMode()"
+              aria-label="Toggle social scroll view"
+              title="Switch to Social Scroll View"
+            >
+              <span class="toggle-icon">📱</span> Social View
+            </button>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <label for="per-page-select" style="color:var(--ink-muted);font-size:13px);">Show:</label>
+              <select id="per-page-select" aria-label="Posts per page">
+                <option value="6">6 per page</option>
+                <option value="12" selected>12 per page</option>
+                <option value="24">24 per page</option>
+              </select>
+            </div>
           </div>
 
           <div class="grid-2" style="gap:20px;margin-bottom:32px;" id="latest-posts-grid">
@@ -198,6 +220,8 @@
       </div>
     </div>
   </section>
+
+  </section><!-- end desktop-grid-section -->
 
   <!-- ══ TRENDING STRIP ════════════════════════ -->
   <section class="trending-strip" aria-label="Trending stories">
@@ -377,8 +401,24 @@
 <div id="site-footer-placeholder"></div>
 
 <script src="js/posts.js"></script>
+<script src="js/feed.js"></script>
 <script src="js/notifications.js"></script>
 <script src="js/components.js"></script>
 <script src="js/main.js"></script>
+
+<script>
+// Show mobile feed or desktop grid based on screen size
+(function() {
+  function updateFeedView() {
+    const mobileFeed   = document.getElementById('mobile-feed-section');
+    const desktopGrid  = document.getElementById('desktop-grid-section');
+    const isMob = window.innerWidth <= 768;
+    if (mobileFeed)  mobileFeed.style.display  = isMob ? 'block' : 'none';
+    if (desktopGrid) desktopGrid.style.display  = isMob ? 'none'  : 'block';
+  }
+  updateFeedView();
+  window.addEventListener('resize', updateFeedView);
+})();
+</script>
 </body>
 </html>
