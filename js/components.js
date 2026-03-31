@@ -77,6 +77,7 @@ function renderHeader() {
       <nav class="header-nav" role="navigation" aria-label="Main navigation">
         <div class="nav-links">${navLinks}</div>
         <div class="nav-actions">
+          <button id="dark-mode-btn" onclick="toggleDarkMode()" aria-label="Toggle dark mode" style="width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;transition:var(--ease);" title="Toggle dark mode">🌙</button>
           <a href="contact.html" class="btn btn-primary" style="font-size:12px;padding:8px 16px;">Subscribe</a>
           <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
             <span></span><span></span><span></span>
@@ -175,6 +176,16 @@ function renderFooter() {
       </div>
     </div>
   </footer>
+
+
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-banner" role="dialog" aria-label="Cookie consent" aria-live="polite">
+    <p>We use cookies to improve your experience and analyse site traffic. By continuing to use titoyin.com you agree to our use of cookies. <a href="privacy.html">Learn more</a></p>
+    <div class="cookie-btns">
+      <button class="cookie-accept" id="cookie-accept">Accept</button>
+      <button class="cookie-decline" id="cookie-decline">Decline</button>
+    </div>
+  </div>
 
   <div id="read-progress" role="progressbar" aria-hidden="true"></div>
   <button id="back-top" aria-label="Back to top">↑</button>

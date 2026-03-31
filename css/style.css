@@ -449,3 +449,105 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .hero-card-img { width: 100%; height: 150px; }
   .header-ad-strip { display: none; }
 }
+
+/* =============================================
+   DARK MODE
+   ============================================= */
+[data-theme="dark"] {
+  --navy:       #4A6CF7;
+  --navy-mid:   #6B8BFF;
+  --navy-light: #1E2A4A;
+  --white:      #1A1A2E;
+  --ink:        #E8E8F0;
+  --ink-soft:   #C8C8D8;
+  --ink-muted:  #8888AA;
+  --border:     #2A2A4A;
+  --surface:    #16213E;
+  --surface2:   #1A2550;
+  --accent:     #FF4D6D;
+}
+
+[data-theme="dark"] body { background: #12121E; color: #E8E8F0; }
+[data-theme="dark"] .site-header { background: #16213E; border-color: #2A2A4A; }
+[data-theme="dark"] .post-card { background: #1A2550; border-color: #2A2A4A; }
+[data-theme="dark"] .hero-card { background: #1A2550; border-color: #2A2A4A; }
+[data-theme="dark"] .sidebar-widget { background: #1A2550; border-color: #2A2A4A; }
+[data-theme="dark"] .site-footer { background: #0D0D1A; }
+[data-theme="dark"] .nav-links a:hover, [data-theme="dark"] .nav-links a.active { background: #1E2A4A; }
+[data-theme="dark"] .ad-slot { background: #1A2550; border-color: #2A2A4A; }
+[data-theme="dark"] .header-search { background: #1E2A4A; border-color: #2A2A4A; }
+[data-theme="dark"] .header-search input { color: #E8E8F0; }
+[data-theme="dark"] .btn-outline { border-color: #4A6CF7; color: #4A6CF7; }
+[data-theme="dark"] .filter-chip { background: #1A2550; border-color: #2A2A4A; color: #C8C8D8; }
+[data-theme="dark"] .article-body { color: #C8C8D8; }
+[data-theme="dark"] .article-body blockquote { background: #1E2A4A; }
+
+/* ── BREADCRUMBS ──────────────────────────── */
+.breadcrumb { font-size: 12px; color: var(--ink-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.breadcrumb a { color: var(--navy); transition: var(--ease); }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span { color: var(--ink-muted); }
+
+/* ── READING TIME BADGE ───────────────────── */
+.reading-time-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--ink-muted);
+  background: var(--surface); padding: 3px 8px;
+  border-radius: 100px; border: 1px solid var(--border);
+}
+
+/* ── AUDIO READ BUTTON ────────────────────── */
+.audio-read-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 100px;
+  font-size: 12px; font-weight: 600;
+  background: var(--surface); border: 1.5px solid var(--border);
+  color: var(--ink-soft); cursor: pointer; transition: var(--ease);
+}
+.audio-read-btn:hover { border-color: var(--navy); color: var(--navy); }
+
+/* ── COOKIE BANNER ────────────────────────── */
+#cookie-banner {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+  background: var(--ink); color: white; padding: 16px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+  transform: translateY(100%); transition: transform 0.4s ease;
+}
+#cookie-banner.show { transform: translateY(0); }
+#cookie-banner p { font-size: 13px; color: rgba(255,255,255,0.8); flex: 1; margin: 0; line-height: 1.5; }
+#cookie-banner p a { color: #7EB8F7; text-decoration: underline; }
+.cookie-btns { display: flex; gap: 8px; flex-shrink: 0; }
+.cookie-accept { background: var(--navy); color: white; border: none; padding: 8px 18px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.cookie-decline { background: transparent; color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 6px; font-size: 13px; cursor: pointer; }
+
+/* ── TRENDING FIXES ───────────────────────── */
+.trending-title { color: #FFFFFF !important; }
+.trending-title:hover { text-decoration: underline; color: #FFFFFF !important; }
+.trending-cat { color: rgba(255,255,255,0.6) !important; }
+
+/* ── STORY UPDATE BANNER ──────────────────── */
+.story-update-banner {
+  background: var(--gold-light); border: 1px solid var(--gold);
+  border-radius: var(--radius); padding: 10px 16px;
+  font-size: 13px; color: #5D4E00;
+  margin-bottom: 20px; display: flex; gap: 8px; align-items: center;
+}
+
+/* ── SLIDE UP ANIMATION ───────────────────── */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── PRINT STYLES ─────────────────────────── */
+@media print {
+  .site-header, .site-footer, .sidebar, .share-row,
+  #float-share, #cookie-banner, .ad-slot,
+  .newsletter-box, #back-top { display: none !important; }
+  .article-body { font-size: 12pt; line-height: 1.6; color: black; }
+  .article-title { font-size: 20pt; }
+  a { color: black; text-decoration: none; }
+  a[href]::after { content: " (" attr(href) ")"; font-size: 9pt; color: #666; }
+}

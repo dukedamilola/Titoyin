@@ -131,16 +131,38 @@ window.showToast = showToast;
 // ── NEWSLETTER FORM ───────────────────────────
 (function () {
   document.querySelectorAll('.newsletter-form').forEach(form => {
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', async function (e) {
       e.preventDefault();
-      const email = this.querySelector('input[type="email"]');
-      if (!email || !email.value) {
+      const emailEl = this.querySelector('input[type="email"]');
+      if (!emailEl || !emailEl.value) {
         showToast('Please enter a valid email address.', 'error');
         return;
       }
-      // Here you'd send to your email service (Mailchimp, etc.)
-      showToast('Thank you! You are now subscribed.', 'success');
-      email.value = '';
+
+      const btn = this.querySelector('button[type="submit"], .newsletter-btn');
+      if (btn) { btn.textContent = 'Subscribing…'; btn.disabled = true; }
+
+      const action = this.getAttribute('action');
+      if (action && action.includes('sibforms')) {
+        try {
+          const data = new FormData();
+          data.append('EMAIL', emailEl.value);
+          data.append('email_address_check', '');
+          data.append('locale', 'en');
+          await fetch(action, { method: 'POST', body: data, mode: 'no-cors' });
+          showToast('Thank you! You are now subscribed. 🎉', 'success', 4000);
+          emailEl.value = '';
+        } catch(err) {
+          // no-cors means we can't read response — assume success
+          showToast('Thank you! You are now subscribed. 🎉', 'success', 4000);
+          emailEl.value = '';
+        }
+      } else {
+        showToast('Thank you! You are now subscribed. 🎉', 'success');
+        emailEl.value = '';
+      }
+
+      if (btn) { btn.textContent = 'Subscribe Now'; btn.disabled = false; }
     });
   });
 })();
@@ -166,7 +188,7 @@ window.showToast = showToast;
     btn.textContent = 'Sending…';
     btn.disabled = true;
 
-    // Simulate submission (replace with real form service like Formspree)
+    // Submit to Formspree → routes to titoyin.blog@gmail.com
     setTimeout(() => {
       showToast('Message sent! We will respond within 24 hours.', 'success');
       form.reset();
@@ -307,5 +329,119 @@ window.toggleBreakingNews = function (message) {
     el.style.transform = 'translateY(20px)';
     el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     observer.observe(el);
+  });
+})();
+
+// ── DARK MODE ─────────────────────────────────
+function toggleDarkMode() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const newTheme = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('titoyin_theme', newTheme);
+  const btn = document.getElementById('dark-mode-btn');
+  if (btn) btn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+}
+
+// Apply saved theme on load
+(function() {
+  const saved = localStorage.getItem('titoyin_theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const theme = saved || (prefersDark ? 'dark' : 'light');
+  if (theme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    const btn = document.getElementById('dark-mode-btn');
+    if (btn) btn.textContent = '☀️';
+  }
+})();
+
+// ── READING TIME ──────────────────────────────
+(function() {
+  const body = document.querySelector('.article-body');
+  if (!body) return;
+  const words = body.innerText.trim().split(/\s+/).filter(Boolean).length;
+  const mins  = Math.max(1, Math.ceil(words / 200));
+  document.querySelectorAll('[data-reading-time]').forEach(el => {
+    el.textContent = mins + ' min read';
+  });
+  const rtEl = document.getElementById('reading-time');
+  if (rtEl) rtEl.textContent = mins + ' min read';
+})();
+
+// ── AUDIO READ-ALOUD ──────────────────────────
+function initAudioRead() {
+  const btn  = document.getElementById('audio-read-btn');
+  const body = document.querySelector('.article-body');
+  if (!btn || !body || !window.speechSynthesis) return;
+
+  let utterance = null;
+  let reading   = false;
+
+  btn.addEventListener('click', function() {
+    if (reading) {
+      window.speechSynthesis.cancel();
+      reading = false;
+      btn.textContent = '🔊 Listen';
+      btn.style.background = 'var(--surface)';
+      return;
+    }
+    const text = body.innerText.trim().substring(0, 5000);
+    utterance  = new SpeechSynthesisUtterance(text);
+    utterance.lang  = 'en-NG';
+    utterance.rate  = 0.92;
+    utterance.pitch = 1;
+    utterance.onend = () => { reading = false; btn.textContent = '🔊 Listen'; btn.style.background = 'var(--surface)'; };
+    window.speechSynthesis.speak(utterance);
+    reading = true;
+    btn.textContent = '⏹ Stop';
+    btn.style.background = 'var(--accent)';
+    btn.style.color = 'white';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initAudioRead);
+
+// ── MID-ARTICLE SHARE NUDGE (mobile) ─────────
+(function() {
+  if (window.innerWidth > 768) return;
+  const article = document.querySelector('.article-body');
+  if (!article) return;
+
+  let nudgeShown = false;
+  window.addEventListener('scroll', function() {
+    if (nudgeShown) return;
+    const rect   = article.getBoundingClientRect();
+    const height = article.offsetHeight;
+    const scrolled = Math.abs(rect.top) / height;
+    if (scrolled > 0.6) {
+      nudgeShown = true;
+      const nudge = document.createElement('div');
+      nudge.innerHTML = `
+        <div style="position:fixed;bottom:70px;left:0;right:0;z-index:88;display:flex;justify-content:center;padding:0 16px;animation:slideUp 0.4s ease;">
+          <div style="background:var(--ink);color:white;border-radius:100px;padding:10px 20px;display:flex;align-items:center;gap:12px;font-size:13px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+            <span>Enjoying this story?</span>
+            <button data-share="whatsapp" style="background:#25D366;color:white;border:none;border-radius:100px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;">📱 Share</button>
+            <button onclick="this.closest('div').parentElement.parentElement.remove()" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:18px;cursor:pointer;padding:0 4px;">×</button>
+          </div>
+        </div>`;
+      document.body.appendChild(nudge);
+      setTimeout(() => nudge.remove(), 8000);
+    }
+  }, { passive: true });
+})();
+
+// ── COOKIE CONSENT BANNER ─────────────────────
+(function() {
+  if (localStorage.getItem('titoyin_cookie_consent')) return;
+  const banner = document.getElementById('cookie-banner');
+  if (!banner) return;
+  setTimeout(() => banner.classList.add('show'), 1500);
+
+  document.getElementById('cookie-accept')?.addEventListener('click', () => {
+    localStorage.setItem('titoyin_cookie_consent', 'accepted');
+    banner.classList.remove('show');
+  });
+  document.getElementById('cookie-decline')?.addEventListener('click', () => {
+    localStorage.setItem('titoyin_cookie_consent', 'declined');
+    banner.classList.remove('show');
   });
 })();

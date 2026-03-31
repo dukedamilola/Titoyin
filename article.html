@@ -25,6 +25,15 @@
 
 <div id="site-header-placeholder"></div>
 
+
+  <!-- Floating Share Sidebar (desktop) -->
+  <div id="float-share" style="position:fixed;left:20px;top:50%;transform:translateY(-50%);z-index:80;display:flex;flex-direction:column;gap:8px;opacity:0;transition:opacity 0.3s ease;pointer-events:none;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-muted);text-align:center;margin-bottom:4px;">Share</div>
+    <button data-share="whatsapp" style="width:44px;height:44px;border-radius:50%;background:#25D366;color:white;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;" title="Share on WhatsApp" aria-label="Share on WhatsApp">📱</button>
+    <button data-share="facebook" style="width:44px;height:44px;border-radius:50%;background:#1877F2;color:white;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;" title="Share on Facebook" aria-label="Share on Facebook">f</button>
+    <button data-share="twitter" style="width:44px;height:44px;border-radius:50%;background:#000;color:white;border:none;cursor:pointer;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;" title="Share on X" aria-label="Share on X">𝕏</button>
+    <button data-share="copy" style="width:44px;height:44px;border-radius:50%;background:var(--surface2);color:var(--ink);border:1px solid var(--border);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;" title="Copy link" aria-label="Copy link">🔗</button>
+  </div>
 <main id="main" role="main">
 
   <article class="article-hero" itemscope itemtype="https://schema.org/NewsArticle">
@@ -33,6 +42,15 @@
       <div class="article-header">
 
         <!-- Kicker / Category -->
+        <!-- Breadcrumb -->
+        <nav aria-label="Breadcrumb" style="font-size:12px;color:var(--ink-muted);margin-bottom:12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          <a href="index.html" style="color:var(--navy);">Home</a>
+          <span aria-hidden="true">›</span>
+          <a href="category.html?cat=national" id="breadcrumb-cat" style="color:var(--navy);">National</a>
+          <span aria-hidden="true">›</span>
+          <span id="breadcrumb-title" style="color:var(--ink-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;">Article</span>
+        </nav>
+
         <div class="article-kicker">
           <span class="tag">National</span>
           <span class="label-sm">Analysis</span>
@@ -60,11 +78,13 @@
           </div>
           <!-- Share Buttons -->
           <div class="share-row" role="group" aria-label="Share this article">
+            <button class="share-btn wa" data-share="whatsapp" aria-label="Share on WhatsApp" style="font-size:13px;padding:8px 16px;font-weight:700;">📱 WhatsApp</button>
             <button class="share-btn fb" data-share="facebook" aria-label="Share on Facebook">f Share</button>
             <button class="share-btn tw" data-share="twitter" aria-label="Share on X">𝕏 Tweet</button>
-            <button class="share-btn wa" data-share="whatsapp" aria-label="Share on WhatsApp">WhatsApp</button>
-            <button class="share-btn copy" data-share="copy" aria-label="Copy link">📋 Copy Link</button>
+            <button class="share-btn copy" data-share="copy" aria-label="Copy link">📋 Copy</button>
           </div>
+          <!-- Audio Read Button -->
+          <button id="audio-read-btn" class="audio-read-btn" aria-label="Listen to article">🔊 Listen</button>
         </div>
 
       </div>
@@ -92,6 +112,13 @@
       <!-- Article Body -->
       <div class="article-body" itemprop="articleBody">
 
+        
+        <!-- Mid-article related story -->
+        <div id="mid-article-related" style="background:var(--navy-light);border-left:4px solid var(--navy);border-radius:0 var(--radius-lg) var(--radius-lg) 0;padding:16px 20px;margin:32px 0;display:none;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--navy);margin-bottom:8px;">Related Story</div>
+          <a id="mid-related-link" href="#" style="font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--ink);line-height:1.4;display:block;">Loading related story…</a>
+          <div id="mid-related-meta" style="font-size:12px;color:var(--ink-muted);margin-top:6px;"></div>
+        </div>
         <p>The Federal Government's newly proposed budget has become one of the most debated economic documents in recent memory, with headline figures that promise transformation but fine print that experts say demands careful scrutiny. At ₦47.9 trillion, the plan is the largest in Nigeria's history — and the implications for households, businesses, and public services stretch well beyond what any single summary can capture.</p>
 
         <p>For ordinary Nigerians, the central question is not the total size of the budget but what it will actually deliver. Over the past year, inflation has eroded purchasing power to levels not seen in over two decades, while electricity, education, and healthcare costs have continued to climb.</p>
@@ -154,6 +181,26 @@
 
     </div>
 
+
+    <!-- Comments Section -->
+    <section style="padding:48px 0;" aria-label="Comments">
+      <div class="container">
+        <div style="max-width:760px;margin:0 auto;">
+          <h2 class="section-title">Comments</h2>
+          <div id="disqus_thread"></div>
+<script>
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = 'https://titoyin.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        </div>
+      </div>
+    </section>
+
     <!-- ══ RELATED STORIES ═══════════════════════ -->
     <section class="section section-alt" aria-label="Related stories">
       <div class="container">
@@ -199,7 +246,87 @@
 
 <div id="site-footer-placeholder"></div>
 
+
+<script>
+// Floating share sidebar
+(function() {
+  const sidebar = document.getElementById('float-share');
+  if (!sidebar) return;
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 300) {
+      sidebar.style.opacity = '1';
+      sidebar.style.pointerEvents = 'all';
+    } else {
+      sidebar.style.opacity = '0';
+      sidebar.style.pointerEvents = 'none';
+    }
+  }, { passive: true });
+
+  // Hide on mobile
+  if (window.innerWidth < 1100) sidebar.style.display = 'none';
+  window.addEventListener('resize', function() {
+    sidebar.style.display = window.innerWidth < 1100 ? 'none' : 'flex';
+  });
+})();
+
+// Breadcrumb from URL/meta
+(function() {
+  const catEl   = document.getElementById('breadcrumb-cat');
+  const titleEl = document.getElementById('breadcrumb-title');
+  const tag     = document.querySelector('.article-kicker .tag');
+  const h1      = document.querySelector('.article-title');
+
+  if (tag && catEl) {
+    const cat = tag.className.split(' ')[1] || '';
+    const labels = { national:'National', politics:'Politics', entertainment:'Entertainment',
+      fashion:'Fashion & Style', trending:'Trending', gossip:'Gossip', world:'World' };
+    catEl.textContent = labels[cat] || cat;
+    catEl.href = 'category.html?cat=' + cat;
+  }
+  if (h1 && titleEl) {
+    titleEl.textContent = h1.textContent.trim().substring(0, 50) + (h1.textContent.length > 50 ? '…' : '');
+  }
+})();
+
+// Mid-article related story
+(async function() {
+  try {
+    const r = await fetch('/posts.json?t=' + Date.now(), { cache:'no-store' });
+    if (!r.ok) return;
+    const data  = await r.json();
+    const posts = (data.posts||[]).filter(p => p.status === 'published');
+    const slug  = window.location.pathname.split('/').pop().replace('.html','');
+    const cat   = document.querySelector('.article-kicker .tag')?.classList[1] || '';
+    const related = posts.filter(p => p.slug !== slug && p.category === cat)[0]
+                 || posts.filter(p => p.slug !== slug)[0];
+    if (!related) return;
+    const box = document.getElementById('mid-article-related');
+    const link = document.getElementById('mid-related-link');
+    const meta = document.getElementById('mid-related-meta');
+    if (box && link) {
+      link.href = related.slug + '.html';
+      link.textContent = related.title;
+      if (meta) meta.textContent = related.date || '';
+      box.style.display = 'block';
+    }
+  } catch(e) {}
+})();
+</script>
+<script src="js/notifications.js"></script>
 <script src="js/components.js"></script>
 <script src="js/main.js"></script>
+
+<script>
+// Calculate reading time
+document.addEventListener('DOMContentLoaded', function() {
+  const body = document.querySelector('.article-body');
+  if (body) {
+    const words = body.innerText.trim().split(/\s+/).length;
+    const mins  = Math.max(1, Math.ceil(words / 200));
+    const el    = document.getElementById('reading-time');
+    if (el) el.textContent = mins + ' min read';
+  }
+});
+</script>
 </body>
 </html>

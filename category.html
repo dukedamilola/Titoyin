@@ -24,6 +24,11 @@
   <!-- Category Hero Banner -->
   <section class="section" style="background:var(--green-deep);padding:36px 0 32px;" aria-label="Category header">
     <div class="container">
+      <nav aria-label="Breadcrumb" style="font-size:12px;margin-bottom:8px;display:flex;gap:6px;align-items:center;">
+        <a href="index.html" style="color:rgba(255,255,255,0.7);">Home</a>
+        <span style="color:rgba(255,255,255,0.4);">›</span>
+        <span style="color:rgba(255,255,255,0.9);" id="cat-breadcrumb">Category</span>
+      </nav>
       <p class="label-sm" style="color:rgba(255,255,255,0.55);margin-bottom:6px;">Browsing category</p>
       <h1 id="cat-title" style="font-family:var(--font-serif);font-size:clamp(28px,4vw,44px);font-weight:900;color:white;margin-bottom:8px;">Politics</h1>
       <p id="cat-desc" style="font-size:15px;color:rgba(255,255,255,0.65);max-width:520px;">
@@ -206,7 +211,7 @@
           <div class="newsletter-box">
             <h3 class="newsletter-title">Daily Briefing</h3>
             <p class="newsletter-sub">Get top Nigerian stories in your inbox every morning — free.</p>
-            <form class="newsletter-form" novalidate>
+            <form class="newsletter-form" action="https://e18bac4f.sibforms.com/serve/MUIFAPGI6xVheGBljaJRqJgUuITSLy3IPoMLS09hIm3Npkhzr70ajEYrg_LmN-HMxh94HbjYIhOPSp7BKggwLLgv3PvbutEqREQhFXWntlUqWIIDZhOCxPDh8d8kIxE5gPk8_1jQuwlh3eY8qBRbcABtB-j2M3j0AlbWo-86qPZdTPTMNjaUDlL5WYvykdIrYAkUGQ6446zh_r8PoA==" method="POST" novalidate>
               <input type="email" class="newsletter-input" placeholder="Your email address" aria-label="Email">
               <button type="submit" class="newsletter-btn">Subscribe Free</button>
             </form>
@@ -250,6 +255,7 @@
 <div id="site-footer-placeholder"></div>
 
 <script src="js/posts.js"></script>
+<script src="js/notifications.js"></script>
 <script src="js/components.js"></script>
 <script src="js/main.js"></script>
 <script>

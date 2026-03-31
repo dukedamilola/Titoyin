@@ -154,6 +154,14 @@ function generateArticleHTML(post) {
   <article class="article-hero" itemscope itemtype="https://schema.org/NewsArticle">
     <div class="container">
       <div class="article-header">
+        <nav aria-label="Breadcrumb" style="font-size:12px;color:var(--ink-muted);margin-bottom:12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          <a href="index.html" style="color:var(--navy);">Home</a>
+          <span>›</span>
+          <a href="category.html?cat=${post.category||'national'}" style="color:var(--navy);">${catLabel(post.category||'national')}</a>
+          <span>›</span>
+          <span style="color:var(--ink-muted);">${(post.title||'').substring(0,40)}${post.title&&post.title.length>40?'…':''}</span>
+        </nav>
+
         <div class="article-kicker">
           <span class="tag ${tagClass}">${catLabel}</span>
           ${post.type !== 'article' ? `<span class="label-sm">${post.type}</span>` : ''}
@@ -167,9 +175,11 @@ function generateArticleHTML(post) {
             <div class="byline-name" itemprop="author">Titoyin Editorial</div>
             <div class="byline-meta">
               <time itemprop="datePublished">${post.date || ''}</time>
+              &nbsp;·&nbsp; <span id="reading-time">Loading…</span>
             </div>
           </div>
           <div class="share-row" role="group" aria-label="Share this article">
+            <button class="share-btn wa" data-share="whatsapp" style="font-size:13px;padding:8px 16px;font-weight:700;">📱 WhatsApp</button>
             <button class="share-btn fb" data-share="facebook">f Share</button>
             <button class="share-btn tw" data-share="twitter">𝕏 Tweet</button>
             <button class="share-btn wa" data-share="whatsapp">WhatsApp</button>
@@ -203,6 +213,8 @@ function generateArticleHTML(post) {
   </article>
 </main>
 <div id="site-footer-placeholder"></div>
+<script src="js/posts.js"></script>
+<script src="js/notifications.js"></script>
 <script src="js/components.js"></script>
 <script src="js/main.js"></script>
 <script>
@@ -333,6 +345,37 @@ async function updateRSSFeed(posts) {
   await pushFile('feed.xml', rss, 'Update RSS feed');
 }
 
+
+// ── GOOGLE NEWS SITEMAP ───────────────────────
+async function updateGoogleNewsSitemap(posts) {
+  const published = posts
+    .filter(p => p.status === 'published' && p.slug)
+    .slice(0, 50); // Google News only needs recent articles
+
+  const today = new Date().toISOString().split('T')[0];
+
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+${published.map(p => `  <url>
+    <loc>https://titoyin.com/${p.slug}.html</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Titoyin</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>${today}</news:publication_date>
+      <news:title><![CDATA[${p.title||''}]]></news:title>
+    </news:news>
+    <lastmod>${today}</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.8</priority>
+  </url>`).join('\n')}
+</urlset>`;
+
+  await pushFile('sitemap-news.xml', sitemap, 'Update Google News sitemap');
+}
+
 // ── MAIN PUBLISH FUNCTION ─────────────────────
 async function publishToGitHub(post) {
   if (!hasToken()) {
@@ -362,7 +405,14 @@ async function publishToGitHub(post) {
     console.warn('Sitemap update failed:', e.message);
   }
 
-  // 4. Update RSS feed
+  // 4. Update Google News sitemap
+  try {
+    await updateGoogleNewsSitemap(allPosts);
+  } catch(e) {
+    console.warn('Google News sitemap update failed:', e.message);
+  }
+
+  // 5. Update RSS feed
   try {
     await updateRSSFeed(allPosts);
   } catch(e) {
