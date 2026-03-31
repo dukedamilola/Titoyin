@@ -17,7 +17,115 @@
 </head>
 <body>
 
-<div id="site-header-placeholder"></div>
+  <!-- Breaking News Strip -->
+  <div id="breaking-strip">
+    <div class="container">
+      <div class="breaking-inner">
+        <span class="breaking-label">Breaking</span>
+        <div class="breaking-ticker">
+          <div class="breaking-ticker-inner" id="ticker-content">
+            <span>Stay tuned for the latest updates from across Nigeria and the world &nbsp;&nbsp;·&nbsp;&nbsp; Stay tuned for the latest updates from across Nigeria and the world</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Ad Strip -->
+  <div class="header-ad-strip" role="complementary">
+    <div class="container">
+      <div class="ad-slot leaderboard" style="max-width:728px;margin:0 auto;">Advertisement — 728×90</div>
+    </div>
+  </div>
+
+  <!-- Site Header -->
+  <header class="site-header" id="site-header" role="banner">
+    <div class="container">
+      <div class="header-top">
+        <a href="index.html" class="site-logo" aria-label="Titoyin Home">
+          <img class="site-logo-img" src="assets/titoyin-logo.png" alt="Titoyin's Blog"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
+          <span class="site-logo-fallback" style="display:none;">Titoyin<span>'s Blog</span></span>
+        </a>
+        <div class="header-meta">
+          <form class="header-search" action="search.html" method="get" role="search">
+            <span class="search-icon">&#128269;</span>
+            <input type="search" name="q" placeholder="Search stories…" aria-label="Search">
+            <button type="submit" class="sr-only">Search</button>
+          </form>
+          <span id="header-date" style="font-size:12px;color:var(--ink-muted);white-space:nowrap;"></span>
+        </div>
+      </div>
+
+      <nav class="header-nav" role="navigation" aria-label="Main navigation">
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="category.html?cat=national">National</a>
+          <a href="category.html?cat=politics">Politics</a>
+          <a href="category.html?cat=entertainment">Entertainment</a>
+          <a href="category.html?cat=fashion">Fashion &amp; Style</a>
+          <a href="category.html?cat=trending">Trending</a>
+          <a href="category.html?cat=gossip">Gossip</a>
+          <a href="category.html?cat=world">World</a>
+        </div>
+        <div class="nav-actions">
+          <button id="view-toggle-btn" class="view-toggle-btn" onclick="toggleViewMode()" aria-label="Toggle view">
+            <span>&#9776;</span> Social
+          </button>
+          <button id="dark-mode-btn" onclick="toggleDarkMode()" aria-label="Dark mode"
+            style="width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;font-size:15px;">🌙</button>
+          <button class="btn btn-primary" onclick="openNewsletterModal()" style="font-size:12px;padding:8px 16px;">Subscribe</button>
+          <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Mobile Nav — hardcoded, always in DOM -->
+  <nav class="mobile-nav" id="mobile-nav" role="navigation" aria-label="Mobile menu">
+    <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">&#10005;</button>
+    <div class="mobile-nav-links">
+      <a href="index.html">Home <span>›</span></a>
+      <a href="category.html?cat=national">National <span>›</span></a>
+      <a href="category.html?cat=politics">Politics <span>›</span></a>
+      <a href="category.html?cat=entertainment">Entertainment <span>›</span></a>
+      <a href="category.html?cat=fashion">Fashion &amp; Style <span>›</span></a>
+      <a href="category.html?cat=trending">Trending <span>›</span></a>
+      <a href="category.html?cat=gossip">Gossip <span>›</span></a>
+      <a href="category.html?cat=world">World <span>›</span></a>
+      <a href="about.html">About Us <span>›</span></a>
+      <a href="contact.html">Contact <span>›</span></a>
+      <a href="search.html">Search <span>›</span></a>
+    </div>
+    <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:10px;">
+      <button onclick="toggleViewMode()" style="padding:12px;background:var(--navy-light);color:var(--navy);border:1.5px solid var(--navy);border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;text-align:left;">
+        📱 Toggle Social / Grid View
+      </button>
+      <button onclick="openNewsletterModal()" style="padding:12px;background:var(--navy);color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">
+        📧 Subscribe to Newsletter
+      </button>
+    </div>
+  </nav>
+
+  <!-- Newsletter Modal -->
+  <div id="newsletter-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:500;align-items:center;justify-content:center;padding:16px;">
+    <div style="background:white;border-radius:16px;padding:36px 28px;max-width:420px;width:100%;position:relative;max-height:90vh;overflow-y:auto;">
+      <button onclick="closeNewsletterModal()" style="position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:#f0f0f0;border:none;font-size:16px;cursor:pointer;">✕</button>
+      <div style="font-size:32px;margin-bottom:10px;">📧</div>
+      <h2 style="font-family:Georgia,serif;font-size:22px;font-weight:700;margin-bottom:8px;color:#0F0F0F;">Stay in the Know</h2>
+      <p style="font-size:14px;color:#666;margin-bottom:18px;line-height:1.6;">Get the biggest Nigerian stories in your inbox daily. Free, always.</p>
+      <form action="https://e18bac4f.sibforms.com/serve/MUIFAPGI6xVheGBljaJRqJgUuITSLy3IPoMLS09hIm3Npkhzr70ajEYrg_LmN-HMxh94HbjYIhOPSp7BKggwLLgv3PvbutEqREQhFXWntlUqWIIDZhOCxPDh8d8kIxE5gPk8_1jQuwlh3eY8qBRbcABtB-j2M3j0AlbWo-86qPZdTPTMNjaUDlL5WYvykdIrYAkUGQ6446zh_r8PoA==" method="POST" style="display:flex;flex-direction:column;gap:10px;">
+        <input type="email" name="EMAIL" placeholder="Enter your email address" required
+          style="padding:12px;border:1.5px solid #ddd;border-radius:8px;font-size:15px;font-family:inherit;">
+        <button type="submit" style="padding:13px;background:#1B2A6B;color:white;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;">
+          Subscribe Free
+        </button>
+      </form>
+      <p style="font-size:11px;color:#999;margin-top:10px;text-align:center;">No spam. Unsubscribe anytime.</p>
+    </div>
+  </div>
 
 <main id="main" role="main">
 
@@ -125,10 +233,157 @@
 
 </main>
 
-<div id="site-footer-placeholder"></div>
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-ad">Advertisement — 728×90</div>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="site-logo">
+            <img class="site-logo-img" src="assets/titoyin-logo.png" alt="Titoyin"
+              style="filter:brightness(0) invert(1);background:transparent;border:none;padding:0;height:44px;"
+              onerror="this.style.display='none';">
+          </a>
+          <p class="footer-desc">Nigeria's platform for news, politics, entertainment, fashion and trending stories.</p>
+          <div class="footer-social">
+            <a href="#" target="_blank" rel="noopener" aria-label="Facebook">f</a>
+            <a href="#" target="_blank" rel="noopener" aria-label="X">𝕏</a>
+            <a href="#" target="_blank" rel="noopener" aria-label="Instagram">◻</a>
+            <a href="#" target="_blank" rel="noopener" aria-label="WhatsApp">W</a>
+            <a href="#" target="_blank" rel="noopener" aria-label="Telegram">T</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="category.html?cat=national">National</a></li>
+            <li><a href="category.html?cat=politics">Politics</a></li>
+            <li><a href="category.html?cat=entertainment">Entertainment</a></li>
+            <li><a href="category.html?cat=fashion">Fashion &amp; Style</a></li>
+            <li><a href="category.html?cat=trending">Trending</a></li>
+            <li><a href="category.html?cat=gossip">Gossip</a></li>
+            <li><a href="category.html?cat=world">World</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="contact.html#advertising">Advertise</a></li>
+            <li><a href="archive.html">Archive</a></li>
+            <li><a href="feed.xml">RSS Feed</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms &amp; Conditions</a></li>
+            <li><a href="disclaimer.html">Disclaimer</a></li>
+            <li><a href="copyright.html">Copyright</a></li>
+            <li><a href="takedown.html">Report Content</a></li>
+            <li><a href="ad-disclosure.html">Ad Disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Titoyin's Blog. All rights reserved. Nigeria.</span>
+        <div class="footer-bottom-links">
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cookie Banner -->
+  <div id="cookie-banner" role="dialog">
+    <p>We use cookies to improve your experience. <a href="privacy.html">Learn more</a></p>
+    <div class="cookie-btns">
+      <button class="cookie-accept" id="cookie-accept">Accept</button>
+      <button class="cookie-decline" id="cookie-decline">Decline</button>
+    </div>
+  </div>
+
+  <div id="read-progress"></div>
+  <button id="back-top" aria-label="Back to top">↑</button>
+  <div id="site-toast" class="toast" role="alert" aria-live="polite"></div>
+
+  <!-- Inline burger script — runs immediately, no timing issues -->
+  <script>
+  (function() {
+    var burger = document.getElementById('hamburger');
+    var nav    = document.getElementById('mobile-nav');
+    var close  = document.getElementById('mobile-nav-close');
+    if (!burger || !nav) return;
+
+    function open() {
+      nav.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      burger.setAttribute('aria-expanded','true');
+    }
+    function shut() {
+      nav.classList.remove('open');
+      document.body.style.overflow = '';
+      burger.setAttribute('aria-expanded','false');
+    }
+
+    burger.addEventListener('click', function(e){ e.stopPropagation(); open(); });
+    if (close) close.addEventListener('click', shut);
+    nav.addEventListener('click', function(e){ if(e.target===nav) shut(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') shut(); });
+
+    // View mode toggle
+    var VIEW_KEY = 'titoyin_view_mode';
+    window.toggleViewMode = function() {
+      var mode = localStorage.getItem(VIEW_KEY) === 'social' ? 'grid' : 'social';
+      localStorage.setItem(VIEW_KEY, mode);
+      var root = document.documentElement;
+      var btn  = document.getElementById('view-toggle-btn');
+      var bar  = document.getElementById('social-mode-bar');
+      if (mode === 'social') {
+        root.classList.add('social-mode');
+        if (bar) bar.style.display = 'flex';
+        if (btn) { btn.classList.add('active'); btn.innerHTML = '<span>&#9635;</span> Grid'; }
+        if (typeof showToast === 'function') showToast('📱 Social view on','info',1800);
+      } else {
+        root.classList.remove('social-mode');
+        if (bar) bar.style.display = 'none';
+        if (btn) { btn.classList.remove('active'); btn.innerHTML = '<span>&#9776;</span> Social'; }
+        if (typeof showToast === 'function') showToast('⊞ Grid view on','info',1800);
+      }
+    };
+
+    // Apply saved mode immediately
+    if (localStorage.getItem(VIEW_KEY) === 'social') {
+      document.documentElement.classList.add('social-mode');
+      var btn = document.getElementById('view-toggle-btn');
+      var bar = document.getElementById('social-mode-bar');
+      if (btn) { btn.classList.add('active'); btn.innerHTML = '<span>&#9635;</span> Grid'; }
+      if (bar) bar.style.display = 'flex';
+    }
+
+    // Date
+    var dt = document.getElementById('header-date');
+    if (dt) dt.textContent = new Date().toLocaleDateString('en-NG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+    // Newsletter modal
+    window.openNewsletterModal = function() {
+      var m = document.getElementById('newsletter-modal');
+      if (m) { m.style.display='flex'; document.body.style.overflow='hidden'; }
+    };
+    window.closeNewsletterModal = function() {
+      var m = document.getElementById('newsletter-modal');
+      if (m) { m.style.display='none'; document.body.style.overflow=''; }
+    };
+    document.getElementById('newsletter-modal')?.addEventListener('click', function(e){
+      if(e.target===this) window.closeNewsletterModal();
+    });
+  })();
+  </script>
 
 <script src="js/notifications.js"></script>
-<script src="js/components.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
