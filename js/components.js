@@ -79,7 +79,7 @@ function renderHeader() {
         <div class="nav-actions">
           <button id="dark-mode-btn" onclick="toggleDarkMode()" aria-label="Toggle dark mode" style="width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;transition:var(--ease);" title="Toggle dark mode">🌙</button>
           <button onclick="openNewsletterModal()" class="btn btn-primary" style="font-size:12px;padding:8px 16px;">Subscribe</button>
-          <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav" onclick="(function(){var n=document.getElementById('mobile-nav');if(n){if(n.classList.contains('open')){n.classList.remove('open');document.body.style.overflow='';document.getElementById('hamburger').setAttribute('aria-expanded','false');}else{n.classList.add('open');document.body.style.overflow='hidden';document.getElementById('hamburger').setAttribute('aria-expanded','true');}}})()">
+          <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
             <span></span><span></span><span></span>
           </button>
         </div>

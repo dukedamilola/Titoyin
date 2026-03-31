@@ -970,14 +970,14 @@ body.social-scroll-mode .social-mode-bar {
    SOCIAL SCROLL MODE — Clean Implementation
    ============================================= */
 
-/* View toggle button */
+/* View toggle button — in header */
 .view-toggle-btn {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 8px 16px;
+  gap: 6px;
+  padding: 6px 12px;
   border-radius: 100px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   border: 1.5px solid var(--border);
   background: var(--white);
@@ -986,6 +986,7 @@ body.social-scroll-mode .social-mode-bar {
   transition: all 0.2s ease;
   white-space: nowrap;
   letter-spacing: 0.02em;
+  flex-shrink: 0;
 }
 .view-toggle-btn:hover {
   border-color: var(--navy);
@@ -996,6 +997,11 @@ body.social-scroll-mode .social-mode-bar {
   background: var(--navy);
   color: white;
   border-color: var(--navy);
+}
+/* Hide label on small screens, show icon only */
+@media (max-width: 380px) {
+  .view-toggle-label { display: none; }
+  .view-toggle-btn { padding: 6px 8px; }
 }
 
 /* Social mode bar */
@@ -1011,7 +1017,7 @@ body.social-scroll-mode .social-mode-bar {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 7px 16px;
-  margin-bottom: 0;
+  width: 100%;
 }
 
 /* ── SOCIAL MODE GRID OVERRIDE ─────────────── */
