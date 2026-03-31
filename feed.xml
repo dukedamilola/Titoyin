@@ -6,7 +6,23 @@
     <description>The latest Nigerian news, politics, entertainment, fashion, and trending stories.</description>
     <language>en-NG</language>
     <atom:link href="https://titoyin.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Tue, 31 Mar 2026 11:32:20 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 31 Mar 2026 13:07:34 GMT</lastBuildDate>
     
+    <item>
+      <title><![CDATA[aa]]></title>
+      <link>https://titoyin.com/aa.html</link>
+      <description><![CDATA[]]></description>
+      <pubDate>Tue, 31 Mar 2026 13:07:34 GMT</pubDate>
+      <guid isPermaLink="true">https://titoyin.com/aa.html</guid>
+      <category>health</category>
+    </item>
+    <item>
+      <title><![CDATA[Test]]></title>
+      <link>https://titoyin.com/test.html</link>
+      <description><![CDATA[test]]></description>
+      <pubDate>Tue, 31 Mar 2026 13:07:34 GMT</pubDate>
+      <guid isPermaLink="true">https://titoyin.com/test.html</guid>
+      <category>business</category>
+    </item>
   </channel>
 </rss>
