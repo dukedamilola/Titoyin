@@ -227,15 +227,15 @@ function generatePostCard(post) {
   };
   const catLabel = categoryLabels[post.category] || post.category || '';
   const imgHTML  = post.imgSrc
-    ? `<a href="${post.slug}.html" class="post-card-img-wrap"><img class="post-card-img" src="${post.imgSrc}" alt="${post.title}" loading="lazy"></a>`
-    : `<a href="${post.slug}.html" class="post-card-img-wrap" style="background:var(--navy-light);display:flex;align-items:center;justify-content:center;aspect-ratio:16/9;"><span style="font-size:32px;">📰</span></a>`;
+    ? `<a href="/${post.slug}.html" class="post-card-img-wrap"><img class="post-card-img" src="${post.imgSrc}" alt="${post.title}" loading="lazy"></a>`
+    : `<a href="/${post.slug}.html" class="post-card-img-wrap" style="background:var(--navy-light);display:flex;align-items:center;justify-content:center;aspect-ratio:16/9;"><span style="font-size:32px;">📰</span></a>`;
 
   return `
             <article class="post-card" data-animate>
               ${imgHTML}
               <div class="post-card-body">
                 <span class="tag ${post.category||''}">${catLabel}</span>
-                <a href="${post.slug}.html" class="post-card-title">${post.title||''}</a>
+                <a href="/${post.slug}.html" class="post-card-title">${post.title||''}</a>
                 ${post.subtitle ? `<p class="post-card-excerpt">${post.subtitle}</p>` : ''}
                 <div class="post-card-meta">
                   <span>Titoyin Editorial</span>

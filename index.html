@@ -45,7 +45,6 @@
       <div class="hero-grid">
         <!-- LEAD STORY -->
         <div id="hero-lead">
-          <!-- Loaded from posts.json -->
           <article class="hero-lead">
             <img class="hero-lead-img" src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=900&q=80" alt="Lead story" loading="eager">
             <div class="hero-lead-content">
@@ -58,7 +57,7 @@
 
         <!-- SECONDARY STORIES -->
         <div class="hero-secondary" id="hero-secondary">
-          <!-- Loaded from posts.json -->
+          <!-- Loaded dynamically from posts.json -->
         </div>
       </div>
     </div>
@@ -120,99 +119,8 @@
           </div>
 
           <div class="grid-2" style="gap:20px;margin-bottom:32px;" id="latest-posts-grid">
-            <!-- POSTS:START -->
-            <article class="post-card post-feed-item" data-animate>
-              <a href="article.html" class="post-card-img-wrap" aria-label="Read article">
-                <img class="post-card-img" src="https://images.unsplash.com/photo-1606412885434-f4d5a654e50a?w=600&q=80" alt="National story image" loading="lazy">
-              </a>
-              <div class="post-card-body">
-                <span class="tag">National</span>
-                <a href="article.html" class="post-card-title">NNPC Reports Record Oil Production as Petrol Queues Return to Abuja Filling Stations</a>
-                <p class="post-card-excerpt">Despite reports of increasing crude production, motorists in the Federal Capital Territory face renewed fuel scarcity as distribution challenges persist across depots.</p>
-                <div class="post-card-meta">
-                  <span>By Staff Reporter</span>
-                  <span>1 hour ago</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="post-card post-feed-item" data-animate>
-              <a href="article.html" class="post-card-img-wrap">
-                <img class="post-card-img" src="https://images.unsplash.com/photo-1493612276216-ee3925520721?w=600&q=80" alt="Gossip story" loading="lazy">
-              </a>
-              <div class="post-card-body">
-                <span class="tag gossip">Gossip</span>
-                <a href="article.html" class="post-card-title">Inside the Relationship Rumours Rocking Nollywood This Week</a>
-                <p class="post-card-excerpt">Sources close to a popular actress confirm what fans have been speculating for months, as industry insiders speak out on the growing tension.</p>
-                <div class="post-card-meta">
-                  <span>Entertainment Desk</span>
-                  <span>2 hours ago</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="post-card post-feed-item" data-animate>
-              <a href="article.html" class="post-card-img-wrap">
-                <img class="post-card-img" src="https://images.unsplash.com/photo-1569063640-7777aa7f7f47?w=600&q=80" alt="Politics story" loading="lazy">
-              </a>
-              <div class="post-card-body">
-                <span class="tag politics">Politics</span>
-                <a href="article.html" class="post-card-title">Governors Forum Endorses New Revenue Sharing Formula Ahead of Federal Council Meeting</a>
-                <p class="post-card-excerpt">The Nigerian Governors Forum issued a joint communiqué backing changes to the fiscal distribution model, citing the need for state-level infrastructure funding.</p>
-                <div class="post-card-meta">
-                  <span>Politics Desk</span>
-                  <span>3 hours ago</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="post-card post-feed-item" data-animate>
-              <a href="article.html" class="post-card-img-wrap">
-                <img class="post-card-img" src="https://images.unsplash.com/photo-1501386761578-eaa54b9a1a47?w=600&q=80" alt="Entertainment story" loading="lazy">
-              </a>
-              <div class="post-card-body">
-                <span class="tag entertainment">Entertainment</span>
-                <a href="article.html" class="post-card-title">New Nollywood Film Earns ₦200m at Box Office in Opening Weekend</a>
-                <p class="post-card-excerpt">A highly anticipated drama has broken local cinema records, drawing massive crowds across Lagos, Abuja, Port Harcourt, and over 30 other cities nationwide.</p>
-                <div class="post-card-meta">
-                  <span>Entertainment Desk</span>
-                  <span>4 hours ago</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="post-card post-feed-item" data-animate>
-              <a href="article.html" class="post-card-img-wrap">
-                <img class="post-card-img" src="https://images.unsplash.com/photo-1523381294911-8d3cead13475?w=600&q=80" alt="Fashion story" loading="lazy">
-              </a>
-              <div class="post-card-body">
-                <span class="tag fashion">Fashion</span>
-                <a href="article.html" class="post-card-title">Aso-Oke Renaissance: How Traditional Nigerian Fabric is Winning Paris Runways</a>
-                <p class="post-card-excerpt">A new generation of Nigerian designers is putting aso-oke at the centre of global fashion conversations, with major couture houses taking notice.</p>
-                <div class="post-card-meta">
-                  <span>Style Desk</span>
-                  <span>5 hours ago</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="post-card post-feed-item" data-animate>
-              <a href="article.html" class="post-card-img-wrap">
-                <img class="post-card-img" src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&q=80" alt="World story" loading="lazy">
-              </a>
-              <div class="post-card-body">
-                <span class="tag world">World</span>
-                <a href="article.html" class="post-card-title">African Union Summit Calls for Unified Debt Relief Framework Among Member States</a>
-                <p class="post-card-excerpt">Leaders from 44 member nations gathered in Addis Ababa to address rising sovereign debt levels, proposing a pan-African response to external creditor pressure.</p>
-                <div class="post-card-meta">
-                  <span>International Desk</span>
-                  <span>6 hours ago</span>
-                </div>
-              </div>
-            </article>
+            <!-- Posts loaded dynamically from posts.json -->
           </div>
-
-            <!-- POSTS:END -->
 
           <!-- Load More / Pagination -->
           <div class="pagination" role="navigation" aria-label="Page navigation">
@@ -342,7 +250,7 @@
   <section class="section section-alt" aria-label="Editor's picks">
     <div class="container">
       <h2 class="section-title">Editor's <span>Picks</span></h2>
-      <div class="grid-3">
+      <div class="grid-3" id="editors-picks-grid">
 
         <article class="post-card" data-animate>
           <a href="article.html" class="post-card-img-wrap">

@@ -39,8 +39,8 @@ function catLabel(cat) { return CAT_LABELS[cat] || cat || 'General'; }
 // ── RENDER A POST CARD ────────────────────────
 function renderPostCard(post, size = 'normal') {
   const img = post.imgSrc
-    ? `<a href="${post.slug}.html" class="post-card-img-wrap" aria-label="${post.title}"><img class="post-card-img" src="${post.imgSrc}" alt="${post.title}" loading="lazy"></a>`
-    : `<a href="${post.slug}.html" class="post-card-img-wrap" style="background:var(--navy-light);display:flex;align-items:center;justify-content:center;aspect-ratio:16/9;" aria-label="${post.title}"><span style="font-size:36px;">📰</span></a>`;
+    ? `<a href="/${post.slug}.html" class="post-card-img-wrap" aria-label="${post.title}"><img class="post-card-img" src="${post.imgSrc}" alt="${post.title}" loading="lazy"></a>`
+    : `<a href="/${post.slug}.html" class="post-card-img-wrap" style="background:var(--navy-light);display:flex;align-items:center;justify-content:center;aspect-ratio:16/9;" aria-label="${post.title}"><span style="font-size:36px;">📰</span></a>`;
 
   const badges = [
     post.featured    ? '<span class="editors-pick">Featured</span>' : '',
@@ -56,7 +56,7 @@ function renderPostCard(post, size = 'normal') {
           <span class="tag ${post.category||''}">${catLabel(post.category)}</span>
           ${badges}
         </div>
-        <a href="${post.slug}.html" class="post-card-title">${post.title||''}</a>
+        <a href="/${post.slug}.html" class="post-card-title">${post.title||''}</a>
         ${post.subtitle ? `<p class="post-card-excerpt">${post.subtitle}</p>` : ''}
         <div class="post-card-meta">
           <span>Titoyin Editorial</span>
@@ -77,7 +77,7 @@ function renderListCard(post) {
       ${img}
       <div class="post-list-body">
         <span class="tag ${post.category||''}" style="margin-bottom:4px;display:inline-block;">${catLabel(post.category)}</span>
-        <a href="${post.slug}.html" class="post-list-title">${post.title||''}</a>
+        <a href="/${post.slug}.html" class="post-list-title">${post.title||''}</a>
         <div class="post-list-meta">${post.date||''}</div>
       </div>
     </div>`;
@@ -91,7 +91,7 @@ function renderHeroLead(post) {
       <img class="hero-lead-img" src="${img}" alt="${post.title}" loading="eager">
       <div class="hero-lead-content">
         <span class="tag ${post.category||''}">${catLabel(post.category)}</span>
-        <a href="${post.slug}.html">
+        <a href="/${post.slug}.html">
           <h1 class="hero-lead-title">${post.title||''}</h1>
         </a>
         <p class="hero-lead-meta">Titoyin Editorial &nbsp;·&nbsp; ${post.date||''}</p>
@@ -107,7 +107,7 @@ function renderHeroCard(post) {
       ${img ? `<img class="hero-card-img" src="${img}" alt="${post.title}" loading="lazy">` : '<div class="hero-card-img" style="background:var(--navy-light);display:flex;align-items:center;justify-content:center;"><span style="font-size:24px;">📰</span></div>'}
       <div class="hero-card-body">
         <span class="tag ${post.category||''}">${catLabel(post.category)}</span>
-        <a href="${post.slug}.html" class="hero-card-title">${post.title||''}</a>
+        <a href="/${post.slug}.html" class="hero-card-title">${post.title||''}</a>
         <p class="hero-card-meta">${post.date||''}</p>
       </div>
     </article>`;
@@ -120,7 +120,7 @@ function renderTrendingItem(post, num) {
       <span class="trending-num">${num}</span>
       <div>
         <div class="trending-cat">${catLabel(post.category)}</div>
-        <a href="${post.slug}.html" class="trending-title">${post.title||''}</a>
+        <a href="/${post.slug}.html" class="trending-title">${post.title||''}</a>
       </div>
     </div>`;
 }
@@ -131,7 +131,7 @@ function renderNumberedPost(post, num) {
     <div class="post-numbered">
       <span class="post-num">${String(num).padStart(2,'0')}</span>
       <div>
-        <a href="${post.slug}.html" class="post-num-title">${post.title||''}</a>
+        <a href="/${post.slug}.html" class="post-num-title">${post.title||''}</a>
         <div class="post-list-meta" style="margin-top:3px;">${post.date||''}</div>
       </div>
     </div>`;
@@ -140,9 +140,18 @@ function renderNumberedPost(post, num) {
 // ── LOAD HOMEPAGE ─────────────────────────────
 async function loadHomepage() {
   const posts = await fetchPosts();
-  if (!posts.length) return; // Keep placeholder content if no posts yet
-
   const published = posts.filter(p => p.status === 'published');
+
+  // Latest posts grid - always render (empty state if no posts)
+  const latestEl = document.getElementById('latest-posts-grid');
+  if (latestEl) {
+    if (!published.length) {
+      latestEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:48px 20px;color:var(--ink-muted);"><div style="font-size:40px;margin-bottom:12px;">📰</div><div style="font-size:16px;font-weight:500;margin-bottom:8px;">No stories published yet</div><div style="font-size:13px;">Check back soon for the latest Nigerian news and stories</div></div>';
+    } else {
+      latestEl.innerHTML = published.slice(0, 12).map(p => renderPostCard(p)).join('');
+    }
+  }
+
   if (!published.length) return;
 
   // Hero lead — featured post or latest
@@ -155,13 +164,6 @@ async function loadHomepage() {
   if (secondaryEl) {
     const secondary = published.filter(p => p.id !== heroPost.id).slice(0, 3);
     secondaryEl.innerHTML = secondary.map(p => renderHeroCard(p)).join('');
-  }
-
-  // Latest posts grid
-  const latestEl = document.getElementById('latest-posts-grid');
-  if (latestEl) {
-    const latest = published.slice(0, 12);
-    latestEl.innerHTML = latest.map(p => renderPostCard(p)).join('');
   }
 
   // Trending strip
