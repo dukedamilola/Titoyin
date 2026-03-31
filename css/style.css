@@ -266,9 +266,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .trending-item:last-child { border-bottom: none; }
 .trending-item:hover { padding-left: 6px; }
 .trending-num { font-family: var(--font-serif); font-size: 22px; font-weight: 900; color: rgba(255,255,255,0.2); width: 30px; flex-shrink: 0; }
-.trending-title { font-family: var(--font-serif); font-size: 15px; font-weight: 700; color: var(--white); line-height: 1.4; }
-.trending-title:hover { text-decoration: underline; }
-.trending-cat { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.06em; }
+.trending-title { font-family: var(--font-serif); font-size: 15px; font-weight: 700; color: #FFFFFF; line-height: 1.4; }
+.trending-title:hover { text-decoration: underline; color: #FFFFFF; }
+.trending-cat { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.06em; }
+.trending-num { font-family: var(--font-serif); font-size: 22px; font-weight: 900; color: rgba(255,255,255,0.25); width: 30px; flex-shrink: 0; }
 
 /* ── CATEGORY STRIP ────────────────────────── */
 .category-strip { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
