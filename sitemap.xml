@@ -19,6 +19,12 @@
     
   </url>
   <url>
+    <loc>https://titoyin.com/aaaa.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2026-03-31</lastmod>
+  </url>
+  <url>
     <loc>https://titoyin.com/aa.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
