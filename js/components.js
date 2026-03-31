@@ -332,51 +332,74 @@ function renderFooter() {
 
 /* ── INJECT + INIT (runs after DOM ready) ──── */
 document.addEventListener('DOMContentLoaded', function() {
-  // Inject header
+  // Inject header using insertAdjacentHTML for reliable DOM insertion
   const hp = document.getElementById('site-header-placeholder');
-  if (hp) hp.outerHTML = renderHeader();
+  if (hp) {
+    hp.insertAdjacentHTML('afterend', renderHeader());
+    hp.remove();
+  }
 
   // Inject footer
   const fp = document.getElementById('site-footer-placeholder');
-  if (fp) fp.outerHTML = renderFooter();
+  if (fp) {
+    fp.insertAdjacentHTML('afterend', renderFooter());
+    fp.remove();
+  }
 
-  // Set year and date
-  const yr = document.getElementById('footer-year');
-  if (yr) yr.textContent = new Date().getFullYear();
-  const dt = document.getElementById('header-date');
-  if (dt) {
-    dt.textContent = new Date().toLocaleDateString('en-NG', {
-      weekday:'long', year:'numeric', month:'long', day:'numeric'
+  // Use requestAnimationFrame to guarantee DOM is painted before init
+  requestAnimationFrame(function() {
+    // Set year and date
+    const yr = document.getElementById('footer-year');
+    if (yr) yr.textContent = new Date().getFullYear();
+    const dt = document.getElementById('header-date');
+    if (dt) {
+      dt.textContent = new Date().toLocaleDateString('en-NG', {
+        weekday:'long', year:'numeric', month:'long', day:'numeric'
+      });
+      dt.style.display = 'block';
+    }
+
+    // Init burger AFTER header is in DOM
+    initBurger();
+
+    // Apply saved view mode
+    applyViewMode(getViewMode(), false);
+
+    // Active nav link
+    const current = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      if (link.getAttribute('href') === current) link.classList.add('active');
     });
-    dt.style.display = 'block';
-  }
 
-  // ── Init burger — runs RIGHT AFTER header is injected ──
-  initBurger();
+    // Sticky header shadow
+    const header = document.querySelector('.site-header');
+    if (header) {
+      window.addEventListener('scroll', () => {
+        header.style.boxShadow = window.scrollY > 10 ? 'var(--shadow-md)' : 'var(--shadow-sm)';
+      }, { passive: true });
+    }
 
-  // ── Apply saved view mode RIGHT AFTER header is injected ──
-  applyViewMode(getViewMode(), false);
+    // Dark mode
+    const savedTheme = localStorage.getItem('titoyin_theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if ((savedTheme || (prefersDark ? 'dark' : 'light')) === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      const btn = document.getElementById('dark-mode-btn');
+      if (btn) btn.textContent = '☀️';
+    }
 
-  // ── Active nav link ──
-  const current = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    if (link.getAttribute('href') === current) link.classList.add('active');
+    // Cookie consent
+    if (!localStorage.getItem('titoyin_cookie_consent')) {
+      const banner = document.getElementById('cookie-banner');
+      if (banner) setTimeout(() => banner.classList.add('show'), 1500);
+    }
+    document.getElementById('cookie-accept')?.addEventListener('click', () => {
+      localStorage.setItem('titoyin_cookie_consent', 'accepted');
+      document.getElementById('cookie-banner')?.classList.remove('show');
+    });
+    document.getElementById('cookie-decline')?.addEventListener('click', () => {
+      localStorage.setItem('titoyin_cookie_consent', 'declined');
+      document.getElementById('cookie-banner')?.classList.remove('show');
+    });
   });
-
-  // ── Sticky header shadow ──
-  const header = document.querySelector('.site-header');
-  if (header) {
-    window.addEventListener('scroll', () => {
-      header.style.boxShadow = window.scrollY > 10 ? 'var(--shadow-md)' : 'var(--shadow-sm)';
-    }, { passive: true });
-  }
-
-  // ── Dark mode apply ──
-  const saved = localStorage.getItem('titoyin_theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  if ((saved || (prefersDark ? 'dark' : 'light')) === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    const btn = document.getElementById('dark-mode-btn');
-    if (btn) btn.textContent = '☀️';
-  }
 });
