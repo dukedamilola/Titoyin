@@ -454,33 +454,165 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    DARK MODE
    ============================================= */
 [data-theme="dark"] {
-  --navy:       #4A6CF7;
-  --navy-mid:   #6B8BFF;
+  --navy:       #7B9CF5;
+  --navy-mid:   #9AB2FF;
   --navy-light: #1E2A4A;
-  --white:      #1A1A2E;
-  --ink:        #E8E8F0;
-  --ink-soft:   #C8C8D8;
-  --ink-muted:  #8888AA;
-  --border:     #2A2A4A;
-  --surface:    #16213E;
-  --surface2:   #1A2550;
-  --accent:     #FF4D6D;
+  --white:      #1C1C2E;
+  --ink:        #F0F0F8;
+  --ink-soft:   #D8D8E8;
+  --ink-muted:  #9898B8;
+  --border:     #2E2E4E;
+  --surface:    #181828;
+  --surface2:   #1E1E32;
+  --accent:     #FF6B6B;
 }
 
-[data-theme="dark"] body { background: #12121E; color: #E8E8F0; }
-[data-theme="dark"] .site-header { background: #16213E; border-color: #2A2A4A; }
-[data-theme="dark"] .post-card { background: #1A2550; border-color: #2A2A4A; }
-[data-theme="dark"] .hero-card { background: #1A2550; border-color: #2A2A4A; }
-[data-theme="dark"] .sidebar-widget { background: #1A2550; border-color: #2A2A4A; }
-[data-theme="dark"] .site-footer { background: #0D0D1A; }
-[data-theme="dark"] .nav-links a:hover, [data-theme="dark"] .nav-links a.active { background: #1E2A4A; }
-[data-theme="dark"] .ad-slot { background: #1A2550; border-color: #2A2A4A; }
-[data-theme="dark"] .header-search { background: #1E2A4A; border-color: #2A2A4A; }
-[data-theme="dark"] .header-search input { color: #E8E8F0; }
-[data-theme="dark"] .btn-outline { border-color: #4A6CF7; color: #4A6CF7; }
-[data-theme="dark"] .filter-chip { background: #1A2550; border-color: #2A2A4A; color: #C8C8D8; }
-[data-theme="dark"] .article-body { color: #C8C8D8; }
-[data-theme="dark"] .article-body blockquote { background: #1E2A4A; }
+[data-theme="dark"] body {
+  background: #12121E;
+  color: #F0F0F8;
+}
+[data-theme="dark"] .site-header {
+  background: #1C1C2E;
+  border-color: #2E2E4E;
+}
+[data-theme="dark"] .header-top {
+  background: #1C1C2E;
+  border-color: #2E2E4E;
+}
+[data-theme="dark"] .site-logo-img {
+  filter: none;
+  background: #ffffff;
+}
+[data-theme="dark"] .nav-links a {
+  color: #D8D8E8;
+}
+[data-theme="dark"] .nav-links a:hover,
+[data-theme="dark"] .nav-links a.active {
+  background: #1E2A4A;
+  color: #F0F0F8;
+}
+[data-theme="dark"] .post-card {
+  background: #1E1E32;
+  border-color: #2E2E4E;
+}
+[data-theme="dark"] .post-card-title { color: #F0F0F8; }
+[data-theme="dark"] .post-card-excerpt { color: #9898B8; }
+[data-theme="dark"] .post-card-meta { color: #9898B8; border-color: #2E2E4E; }
+[data-theme="dark"] .hero-card {
+  background: #1E1E32;
+  border-color: #2E2E4E;
+}
+[data-theme="dark"] .hero-card-title { color: #F0F0F8; }
+[data-theme="dark"] .hero-lead-title { color: #FFFFFF; }
+[data-theme="dark"] .sidebar-widget {
+  background: #1E1E32;
+  border-color: #2E2E4E;
+}
+[data-theme="dark"] .widget-head {
+  background: #181828;
+  border-color: #2E2E4E;
+  color: #9898B8;
+}
+[data-theme="dark"] .post-num-title { color: #F0F0F8; }
+[data-theme="dark"] .post-list-title { color: #F0F0F8; }
+[data-theme="dark"] .section-title { color: #F0F0F8; border-color: #7B9CF5; }
+[data-theme="dark"] .section-title span { color: #7B9CF5; }
+[data-theme="dark"] .ad-slot {
+  background: #1E1E32;
+  border-color: #2E2E4E;
+  color: #9898B8;
+}
+[data-theme="dark"] .header-search {
+  background: #1E2A4A;
+  border-color: #2E2E4E;
+}
+[data-theme="dark"] .header-search input {
+  color: #F0F0F8;
+  background: transparent;
+}
+[data-theme="dark"] .header-search input::placeholder { color: #9898B8; }
+[data-theme="dark"] .btn-outline {
+  border-color: #7B9CF5;
+  color: #7B9CF5;
+}
+[data-theme="dark"] .btn-primary {
+  background: #7B9CF5;
+  color: #12121E;
+}
+[data-theme="dark"] .filter-chip {
+  background: #1E1E32;
+  border-color: #2E2E4E;
+  color: #D8D8E8;
+}
+[data-theme="dark"] .article-title { color: #F0F0F8; }
+[data-theme="dark"] .article-subtitle { color: #9898B8; }
+[data-theme="dark"] .article-body { color: #D8D8E8; }
+[data-theme="dark"] .article-body h2,
+[data-theme="dark"] .article-body h3 { color: #F0F0F8; }
+[data-theme="dark"] .article-body blockquote {
+  background: #1E2A4A;
+  border-color: #7B9CF5;
+  color: #D8D8E8;
+}
+[data-theme="dark"] .article-body .source-box {
+  background: #1E1E32;
+  border-color: #2E2E4E;
+  color: #9898B8;
+}
+[data-theme="dark"] .card {
+  background: #1E1E32;
+  border-color: #2E2E4E;
+}
+[data-theme="dark"] .label-sm { color: #9898B8; }
+[data-theme="dark"] .byline-meta { color: #9898B8; }
+[data-theme="dark"] .byline-name { color: #F0F0F8; }
+[data-theme="dark"] .article-byline { border-color: #2E2E4E; }
+[data-theme="dark"] .share-btn.copy {
+  background: #1E1E32;
+  color: #D8D8E8;
+  border-color: #2E2E4E;
+}
+[data-theme="dark"] .article-tag-pill {
+  background: #1E1E32;
+  border-color: #2E2E4E;
+  color: #D8D8E8;
+}
+[data-theme="dark"] .section-alt { background: #181828; }
+[data-theme="dark"] .header-ad-strip { background: #181828; border-color: #2E2E4E; }
+[data-theme="dark"] .category-strip .cat-pill {
+  background: #1E1E32;
+  border-color: #2E2E4E;
+}
+[data-theme="dark"] .cat-pill-name { color: #D8D8E8; }
+[data-theme="dark"] .cat-pill:hover,
+[data-theme="dark"] .cat-pill.active {
+  background: #1E2A4A;
+  border-color: #7B9CF5;
+}
+[data-theme="dark"] .page-btn {
+  background: #1E1E32;
+  border-color: #2E2E4E;
+  color: #D8D8E8;
+}
+[data-theme="dark"] .page-btn:hover,
+[data-theme="dark"] .page-btn.active {
+  background: #7B9CF5;
+  color: #12121E;
+  border-color: #7B9CF5;
+}
+[data-theme="dark"] .search-bar-lg {
+  background: #1C1C2E;
+  border-color: #7B9CF5;
+}
+[data-theme="dark"] .search-bar-lg input {
+  color: #F0F0F8;
+  background: transparent;
+}
+[data-theme="dark"] #dark-mode-btn {
+  background: #1E2A4A;
+  border-color: #2E2E4E;
+  color: #F0F0F8;
+}
 
 /* ── BREADCRUMBS ──────────────────────────── */
 .breadcrumb { font-size: 12px; color: var(--ink-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }

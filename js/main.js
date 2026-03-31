@@ -445,3 +445,28 @@ document.addEventListener('DOMContentLoaded', initAudioRead);
     banner.classList.remove('show');
   });
 })();
+
+// ── NEWSLETTER MODAL ──────────────────────────
+function openNewsletterModal() {
+  const modal = document.getElementById('newsletter-modal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+}
+function closeNewsletterModal() {
+  const modal = document.getElementById('newsletter-modal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+// Close on backdrop click
+document.addEventListener('click', function(e) {
+  const modal = document.getElementById('newsletter-modal');
+  if (modal && e.target === modal) closeNewsletterModal();
+});
+// Close on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeNewsletterModal();
+});

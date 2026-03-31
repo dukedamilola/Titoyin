@@ -78,7 +78,7 @@ function renderHeader() {
         <div class="nav-links">${navLinks}</div>
         <div class="nav-actions">
           <button id="dark-mode-btn" onclick="toggleDarkMode()" aria-label="Toggle dark mode" style="width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;transition:var(--ease);" title="Toggle dark mode">🌙</button>
-          <a href="contact.html" class="btn btn-primary" style="font-size:12px;padding:8px 16px;">Subscribe</a>
+          <button onclick="openNewsletterModal()" class="btn btn-primary" style="font-size:12px;padding:8px 16px;">Subscribe</button>
           <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
             <span></span><span></span><span></span>
           </button>
@@ -184,6 +184,22 @@ function renderFooter() {
     <div class="cookie-btns">
       <button class="cookie-accept" id="cookie-accept">Accept</button>
       <button class="cookie-decline" id="cookie-decline">Decline</button>
+    </div>
+  </div>
+
+
+  <!-- Newsletter Modal -->
+  <div id="newsletter-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:300;align-items:center;justify-content:center;padding:16px;">
+    <div style="background:white;border-radius:16px;padding:36px 28px;max-width:440px;width:100%;position:relative;">
+      <button onclick="closeNewsletterModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:#666;">✕</button>
+      <div style="font-size:32px;margin-bottom:12px;">📧</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;margin-bottom:8px;color:#0F0F0F;">Stay in the Know</h2>
+      <p style="font-size:14px;color:#5A5A5A;margin-bottom:20px;line-height:1.6;">Get the biggest Nigerian stories delivered to your inbox daily — politics, entertainment, trending, and more. Free, always.</p>
+      <form class="newsletter-form" action="https://e18bac4f.sibforms.com/serve/MUIFAPGI6xVheGBljaJRqJgUuITSLy3IPoMLS09hIm3Npkhzr70ajEYrg_LmN-HMxh94HbjYIhOPSp7BKggwLLgv3PvbutEqREQhFXWntlUqWIIDZhOCxPDh8d8kIxE5gPk8_1jQuwlh3eY8qBRbcABtB-j2M3j0AlbWo-86qPZdTPTMNjaUDlL5WYvykdIrYAkUGQ6446zh_r8PoA==" method="POST" novalidate style="display:flex;flex-direction:column;gap:10px;">
+        <input type="email" name="EMAIL" placeholder="Enter your email address" required style="padding:12px 16px;border:1.5px solid #E2E2E2;border-radius:8px;font-size:15px;font-family:inherit;color:#0F0F0F;" aria-label="Email address">
+        <button type="submit" class="newsletter-btn" style="padding:13px;background:#1B2A6B;color:white;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;">Subscribe Free</button>
+      </form>
+      <p style="font-size:11px;color:#9898B8;margin-top:12px;text-align:center;">No spam. Unsubscribe at any time.</p>
     </div>
   </div>
 
