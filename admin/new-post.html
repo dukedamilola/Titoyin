@@ -2,35 +2,108 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>New Post — Titoyin Admin</title>
   <link rel="stylesheet" href="css/admin.css">
+  <style>
+    /* Mobile-first single column layout */
+    .post-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .post-settings-panel {
+      order: -1; /* Settings first on mobile for easy access */
+    }
+    @media (min-width: 900px) {
+      .post-layout {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        align-items: start;
+      }
+      .post-settings-panel {
+        order: 0;
+      }
+    }
+    .publish-btn-main {
+      width: 100%;
+      padding: 16px;
+      background: #16A34A;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .publish-btn-main:active { opacity: 0.85; }
+    .draft-btn {
+      width: 100%;
+      padding: 13px;
+      background: white;
+      color: var(--ink-soft);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .editor-area { min-height: 200px; font-size: 16px; }
+    .field-group label { font-size: 14px; font-weight: 600; }
+    .field-group input,
+    .field-group textarea,
+    .field-group select {
+      font-size: 16px; /* Prevents iOS zoom on focus */
+      padding: 12px 14px;
+    }
+    #publish-error-display {
+      display: none;
+      background: #FEE2E2;
+      border: 2px solid #DC2626;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #991B1B;
+      line-height: 1.6;
+    }
+    #token-warning {
+      display: none;
+      background: #FFF3CD;
+      border: 2px solid #FFC107;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .topbar-status {
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.3;
+    }
+  </style>
 </head>
 <body>
 
-<!-- GUIDED FIRST-POST WALKTHROUGH -->
-<div class="guide-overlay" id="guide-overlay">
-  <div class="guide-card">
-    <div class="guide-step" id="guide-step-label">Step 1 of 6</div>
-    <div class="guide-title" id="guide-title">Welcome to the Post Editor! 👋</div>
-    <div class="guide-body" id="guide-body">This is where you write and publish all your stories. Click Next and I'll walk you through each section in under 2 minutes.</div>
-    <div class="guide-dots" id="guide-dots"></div>
-    <div class="guide-actions">
-      <button class="btn btn-ghost" onclick="skipGuide()">Skip guide</button>
-      <button class="btn btn-primary" id="guide-next-btn" onclick="nextGuideStep()">Next →</button>
-    </div>
-  </div>
-</div>
-
 <!-- PUBLISH PROGRESS OVERLAY -->
-<div id="publish-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:400;align-items:center;justify-content:center;">
-  <div style="background:white;border-radius:16px;padding:36px 32px;max-width:380px;width:90%;text-align:center;">
-    <div style="font-size:40px;margin-bottom:12px;">🚀</div>
-    <div style="font-size:18px;font-weight:700;margin-bottom:8px;">Publishing your story…</div>
-    <div id="publish-step" style="font-size:14px;color:var(--ink-muted);margin-bottom:20px;">Connecting to GitHub…</div>
-    <div style="height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;">
-      <div id="publish-bar" style="height:100%;background:var(--navy);border-radius:3px;width:0%;transition:width 0.4s ease;"></div>
+<div id="publish-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;align-items:center;justify-content:center;">
+  <div style="background:white;border-radius:16px;padding:32px 24px;max-width:320px;width:90%;text-align:center;">
+    <div style="font-size:40px;margin-bottom:10px;">🚀</div>
+    <div style="font-size:17px;font-weight:700;margin-bottom:8px;">Publishing…</div>
+    <div id="publish-step" style="font-size:13px;color:#666;margin-bottom:16px;">Connecting to GitHub…</div>
+    <div style="height:6px;background:#eee;border-radius:3px;overflow:hidden;">
+      <div id="publish-bar" style="height:100%;background:#1B2A6B;border-radius:3px;width:0%;transition:width 0.4s ease;"></div>
     </div>
   </div>
 </div>
@@ -39,21 +112,18 @@
   <aside class="admin-sidebar" id="admin-sidebar">
     <div class="sidebar-logo">
       <img src="../assets/titoyin-logo.png" alt="Titoyin" onerror="this.style.display='none'">
-      <div><div class="sidebar-logo-text">Titoyin's Blog</div><div class="sidebar-logo-sub">Admin Panel</div></div>
+      <div><div class="sidebar-logo-text">Titoyin Admin</div></div>
     </div>
     <nav class="sidebar-nav">
-      <div class="nav-section-label">Main</div>
       <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
       <a href="new-post.html"  class="nav-item active"><span class="nav-icon">✏️</span> New Post</a>
       <a href="posts.html"     class="nav-item"><span class="nav-icon">📰</span> All Posts</a>
-      <div class="nav-section-label">Content</div>
-      <a href="editorial.html" class="nav-item"><span class="nav-icon">⭐</span> Editorial Control</a>
-      <a href="ads.html"       class="nav-item"><span class="nav-icon">📢</span> Advertisements</a>
-      <a href="media.html"     class="nav-item"><span class="nav-icon">🖼️</span> Media Library</a>
-      <div class="nav-section-label">Site</div>
+      <a href="editorial.html" class="nav-item"><span class="nav-icon">⭐</span> Editorial</a>
+      <a href="ads.html"       class="nav-item"><span class="nav-icon">📢</span> Ads</a>
+      <a href="media.html"     class="nav-item"><span class="nav-icon">🖼️</span> Media</a>
       <a href="metrics.html"   class="nav-item"><span class="nav-icon">📈</span> Metrics</a>
       <a href="settings.html"  class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
-      <a href="activity.html"  class="nav-item"><span class="nav-icon">📋</span> Activity Log</a>
+      <a href="activity.html"  class="nav-item"><span class="nav-icon">📋</span> Activity</a>
     </nav>
     <div class="sidebar-bottom">
       <a href="../index.html" target="_blank" class="nav-item"><span class="nav-icon">🌐</span> View Site</a>
@@ -63,11 +133,13 @@
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
   <div class="admin-topbar">
-    <button class="topbar-menu-btn" id="topbar-menu-btn" aria-label="Menu">☰</button>
+    <button class="topbar-menu-btn" id="topbar-menu-btn">☰</button>
     <span class="topbar-title" id="page-title">New Post</span>
     <div class="topbar-actions">
-      <span id="autosave-indicator" class="text-xs text-muted" style="display:none;font-size:11px;"></span>
-      <span id="token-indicator" class="text-xs" style="font-size:11px;"></span>
+      <span class="topbar-status">
+        <span id="autosave-indicator" style="font-size:11px;color:#666;"></span>
+        <span id="token-indicator" style="font-size:11px;"></span>
+      </span>
       <button class="btn btn-outline btn-sm" onclick="saveDraft()">Save Draft</button>
       <button class="btn btn-primary btn-sm" onclick="publishPost()">🚀 Publish</button>
     </div>
@@ -75,160 +147,127 @@
 
   <main class="admin-main">
 
-    <!-- Publish error display -->
-    <div id="publish-error-display" style="display:none;background:#FEE2E2;border:2px solid #DC2626;border-radius:10px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:#991B1B;line-height:1.6;"></div>
-
-    <!-- Token warning — shown if no token -->
-    <div id="token-warning" style="display:none;background:#FFF3CD;border:2px solid #FFC107;border-radius:10px;padding:14px 18px;margin-bottom:20px;font-size:14px;line-height:1.6;">
-      ⚠️ <strong>No GitHub token set.</strong> Posts will save as drafts only and will NOT appear on the site until you add your token.<br>
-      <a href="settings.html" style="color:#1B2A6B;font-weight:700;text-decoration:underline;">→ Go to Settings to add your token now</a>
+    <!-- Error display -->
+    <div id="publish-error-display"></div>
+    <div id="token-warning">
+      ⚠️ <strong>No GitHub token.</strong> Posts will save as drafts only.
+      <a href="settings.html" style="color:#1B2A6B;font-weight:700;">→ Add token in Settings</a>
     </div>
 
     <form id="post-form" onsubmit="return false;">
       <input type="hidden" id="post-id" value="">
 
-      <div style="display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start;">
+      <div class="post-layout">
 
-        <!-- LEFT -->
-        <div style="display:flex;flex-direction:column;gap:16px;">
+        <!-- MAIN CONTENT -->
+        <div style="display:flex;flex-direction:column;gap:14px;">
 
           <div class="card">
             <div class="field-group">
-              <label for="post-title">Post Title <span class="field-required">*</span>
-                <span class="helper-btn">?</span>
-                <div class="helper-popup">Your story headline. Make it clear and specific. Keep it under 90 characters.</div>
-              </label>
-              <input type="text" id="post-title" name="post-title" placeholder="Enter your story headline…" style="font-size:18px;font-weight:600;padding:12px 14px;">
+              <label for="post-title">Title <span class="field-required">*</span></label>
+              <input type="text" id="post-title" name="post-title" placeholder="Story headline…" style="font-size:18px;font-weight:600;">
             </div>
             <div class="field-group" style="margin-bottom:0;">
-              <label for="post-subtitle">Subtitle / Teaser
-                <span class="helper-btn">?</span>
-                <div class="helper-popup">A brief summary that appears under the headline. Optional but recommended.</div>
-              </label>
-              <input type="text" id="post-subtitle" name="post-subtitle" placeholder="Brief summary of the story (optional)…">
+              <label for="post-subtitle">Subtitle</label>
+              <input type="text" id="post-subtitle" name="post-subtitle" placeholder="Brief summary (optional)…">
             </div>
           </div>
 
           <div class="card">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-              <label style="font-size:13px;font-weight:500;color:var(--ink-soft);">Body Content <span class="field-required">*</span>
-                <span class="helper-btn">?</span>
-                <div class="helper-popup">Write the full story here. Use the toolbar to format text — bold, headings, quotes, bullet points.</div>
-              </label>
-              <span id="word-count" class="text-xs text-muted">0 words</span>
+              <label style="font-size:14px;font-weight:600;">Body <span class="field-required">*</span></label>
+              <span id="word-count" style="font-size:11px;color:#666;">0 words</span>
             </div>
             <div class="editor-toolbar">
               <button type="button" onclick="execFormat('bold')"><strong>B</strong></button>
               <button type="button" onclick="execFormat('italic')"><em>I</em></button>
               <button type="button" onclick="execFormat('underline')"><u>U</u></button>
-              <div class="sep"></div>
               <button type="button" onclick="execFormat('formatBlock','h2')">H2</button>
               <button type="button" onclick="execFormat('formatBlock','h3')">H3</button>
               <button type="button" onclick="execFormat('formatBlock','p')">¶</button>
-              <div class="sep"></div>
               <button type="button" onclick="execFormat('insertUnorderedList')">• List</button>
               <button type="button" onclick="execFormat('formatBlock','blockquote')">" Quote</button>
-              <div class="sep"></div>
-              <button type="button" onclick="insertLink()">🔗 Link</button>
-              <button type="button" onclick="execFormat('removeFormat')" style="font-size:11px;color:var(--ink-muted);">Clear</button>
+              <button type="button" onclick="insertLink()">🔗</button>
+              <button type="button" onclick="execFormat('removeFormat')" style="font-size:11px;">Clear</button>
             </div>
-            <div class="editor-area" id="post-body-editor" contenteditable="true" aria-label="Post body content"></div>
+            <div class="editor-area" id="post-body-editor" contenteditable="true"></div>
             <textarea id="post-body-hidden" name="post-body" style="display:none;"></textarea>
           </div>
 
           <div class="card">
-            <div class="card-header">
-              <div><div class="card-title">Featured Image</div>
-              <div class="card-subtitle">Main image for homepage cards and social previews</div></div>
-            </div>
+            <label style="font-size:14px;font-weight:600;display:block;margin-bottom:10px;">Featured Image</label>
             <div class="image-upload-zone" id="featured-img-zone">
               <div class="upload-icon">🖼️</div>
-              <p><strong>Click to upload</strong> or drag and drop<br><span style="font-size:12px;">JPG, PNG — compress first at squoosh.app</span></p>
+              <p><strong>Tap to upload image</strong><br><span style="font-size:12px;">JPG or PNG</span></p>
               <input type="file" id="featured-img-input" accept="image/*" style="display:none;">
-              <img id="featured-img-preview" class="image-preview" style="display:none;" alt="Preview">
+              <img id="featured-img-preview" style="display:none;max-height:160px;width:auto;margin:10px auto 0;border-radius:8px;" alt="Preview">
             </div>
-            <div class="field-group mt-3" style="margin-top:12px;margin-bottom:0;">
-              <label for="img-caption">Image Caption / Credit</label>
-              <input type="text" id="img-caption" name="img-caption" placeholder="Photo credit or description…">
+            <div class="field-group" style="margin-top:10px;margin-bottom:0;">
+              <label for="img-caption">Image Caption</label>
+              <input type="text" id="img-caption" placeholder="Photo credit or description…">
             </div>
           </div>
 
           <div class="card">
-            <div class="card-header">
-              <div><div class="card-title">Social Media Link</div>
-              <div class="card-subtitle">Paste a TikTok, Instagram, YouTube, X or Facebook link</div></div>
-              <span class="helper-btn">?</span>
-              <div class="helper-popup">Paste the full URL. It will appear as a reference card in the article.</div>
-            </div>
-            <div class="field-group" style="margin-bottom:8px;">
-              <input type="url" id="social-link" name="social-link" placeholder="https://www.tiktok.com/@username/video/…">
+            <label style="font-size:14px;font-weight:600;display:block;margin-bottom:10px;">Source Reference</label>
+            <div class="field-group">
+              <label for="source-name">Source Name</label>
+              <input type="text" id="source-name" placeholder="e.g. The Punch, NAN, Reuters">
             </div>
             <div class="field-group" style="margin-bottom:0;">
-              <label for="social-credit">Credit / Attribution</label>
-              <input type="text" id="social-credit" name="social-credit" placeholder="e.g. Video: @username on TikTok">
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">Source Reference
-                <span class="helper-btn">?</span>
-                <div class="helper-popup">Add the original source of the story. Important for editorial credibility.</div>
-              </div>
-            </div>
-            <div class="field-row">
-              <div class="field-group" style="margin-bottom:0;">
-                <label for="source-url">Source URL</label>
-                <input type="url" id="source-url" name="source-url" placeholder="https://example.com/story">
-              </div>
-              <div class="field-group" style="margin-bottom:0;">
-                <label for="source-name">Source Name</label>
-                <input type="text" id="source-name" name="source-name" placeholder="e.g. The Punch, NAN, BBC Africa">
-              </div>
+              <label for="source-url">Source URL</label>
+              <input type="url" id="source-url" placeholder="https://…">
             </div>
           </div>
 
         </div>
 
-        <!-- RIGHT -->
-        <div style="display:flex;flex-direction:column;gap:16px;">
+        <!-- SETTINGS PANEL -->
+        <div class="post-settings-panel" style="display:flex;flex-direction:column;gap:14px;">
 
           <div class="card">
-            <div class="card-title" style="margin-bottom:14px;">Publish Settings</div>
+            <!-- PUBLISH BUTTONS — Top of settings, always visible -->
+            <button type="button" class="publish-btn-main" onclick="publishPost()">
+              🚀 Publish to Site
+            </button>
+            <button type="button" class="draft-btn" onclick="saveDraft()">
+              💾 Save as Draft
+            </button>
+
+            <hr style="border:none;border-top:1px solid #eee;margin:12px 0;">
 
             <div class="field-group">
               <label for="post-status">Status</label>
               <select id="post-status" name="post-status" onchange="toggleSchedule(this.value)">
-                <option value="draft">Draft</option>
-                <option value="published">Published</option>
-                <option value="scheduled">Scheduled</option>
+                <option value="published">Publish Now</option>
+                <option value="draft">Save as Draft</option>
+                <option value="scheduled">Schedule</option>
               </select>
             </div>
 
             <div class="field-group" id="schedule-wrap" style="display:none;">
               <label for="schedule-time">Publish Date & Time (WAT)</label>
-              <input type="datetime-local" id="schedule-time" name="schedule-time">
+              <input type="datetime-local" id="schedule-time">
             </div>
 
             <div class="field-group">
               <label for="post-type">Post Type</label>
-              <select id="post-type" name="post-type">
+              <select id="post-type">
                 <option value="article">Standard Article</option>
                 <option value="breaking">Breaking News</option>
                 <option value="photo">Photo Story</option>
                 <option value="video">Video Post</option>
-                <option value="social">Embedded Social Post</option>
                 <option value="sponsored">Sponsored Post</option>
                 <option value="editorial">Editorial Feature</option>
               </select>
             </div>
 
-            <hr class="divider">
+            <hr style="border:none;border-top:1px solid #eee;margin:12px 0;">
 
             <div style="display:flex;flex-direction:column;gap:12px;">
               <label class="toggle-wrap">
                 <span class="toggle"><input type="checkbox" id="is-featured"><span class="toggle-slider"></span></span>
-                <span class="toggle-label">Featured Story <span class="helper-btn">?</span><div class="helper-popup">Featured stories appear in the large hero section of the homepage.</div></span>
+                <span class="toggle-label">Featured Story</span>
               </label>
               <label class="toggle-wrap">
                 <span class="toggle"><input type="checkbox" id="is-pinned"><span class="toggle-slider"></span></span>
@@ -243,25 +282,14 @@
                 <span class="toggle-label">Editor's Pick</span>
               </label>
             </div>
-
-            <hr class="divider">
-
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <button type="button" class="btn btn-success btn-full btn-lg" onclick="publishPost()">🚀 Publish to Site</button>
-              <button type="button" class="btn btn-outline btn-full" onclick="saveDraft()">💾 Save as Draft</button>
-              <button type="button" class="btn btn-ghost btn-full btn-sm" onclick="previewPost()">👁 Preview</button>
-            </div>
           </div>
 
           <div class="card">
-            <div class="card-title" style="margin-bottom:14px;">Category & Tags
-              <span class="helper-btn">?</span>
-              <div class="helper-popup">Choose the main category. Add tags by typing and pressing Enter.</div>
-            </div>
+            <label style="font-size:14px;font-weight:600;display:block;margin-bottom:12px;">Category & Tags</label>
             <div class="field-group">
               <label for="post-category">Category <span class="field-required">*</span></label>
-              <select id="post-category" name="post-category">
-                <option value="">Select category…</option>
+              <select id="post-category">
+                <option value="">Select…</option>
                 <option value="national">National Events</option>
                 <option value="politics">Politics</option>
                 <option value="entertainment">Entertainment</option>
@@ -275,20 +303,17 @@
               </select>
             </div>
             <div class="field-group" style="margin-bottom:0;">
-              <label>Tags</label>
-              <div class="tags-wrap" id="tags-wrap">
-                <input type="text" class="tags-input" placeholder="Type tag, press Enter…">
-              </div>
-              <input type="hidden" id="post-tags" name="post-tags">
-              <div class="field-hint">Press Enter or comma after each tag</div>
+              <label for="post-tags-input">Tags</label>
+              <input type="text" id="post-tags-input" placeholder="Type tag, press Enter…">
+              <input type="hidden" id="post-tags">
+              <div style="font-size:11px;color:#888;margin-top:4px;">Press Enter after each tag</div>
+              <div id="tags-display" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;"></div>
             </div>
           </div>
 
           <div class="card">
-            <div class="card-title" style="margin-bottom:12px;">Social Caption</div>
-            <div class="field-group" style="margin-bottom:0;">
-              <textarea id="social-caption" name="social-caption" style="min-height:70px;" placeholder="Custom caption for social media (optional — uses title if blank)…"></textarea>
-            </div>
+            <label style="font-size:14px;font-weight:600;display:block;margin-bottom:10px;">Social Caption</label>
+            <textarea id="social-caption" style="min-height:70px;font-size:14px;" placeholder="Custom social caption (optional — uses title if blank)…"></textarea>
           </div>
 
         </div>
@@ -301,83 +326,88 @@
 <script src="js/publisher.js"></script>
 <script src="js/admin.js"></script>
 <script>
+'use strict';
 
-// ── GUIDE ────────────────────────────────────
-const guideSteps = [
-  { title: 'Welcome to the Post Editor! 👋', body: "This is where you write and publish all your stories. It only takes a few minutes. Let me walk you through each section." },
-  { title: '1. Write your headline', body: "The Title field is your story headline. Make it clear and specific. The Subtitle is a short summary — optional but recommended." },
-  { title: '2. Write your story', body: "The Body Content area is where you write the full article. Use the toolbar buttons to bold text, add headings, quotes, and bullet points." },
-  { title: '3. Add an image', body: "Upload a featured image for your story. Click the upload box or drag a photo onto it. Always add an image — it makes your story look much better." },
-  { title: '4. Choose a category', body: "On the right side, select the Category that fits your story — National, Politics, Entertainment, Fashion, etc. You can also add Tags." },
-  { title: '5. Publish! 🚀', body: "Click the green Publish to Site button. Your story goes live on titoyin.com in about 2 minutes — automatically, no extra steps needed." }
-];
-let guideStep = 0;
-
-function renderGuide() {
-  const s = guideSteps[guideStep];
-  document.getElementById('guide-step-label').textContent = `Step ${guideStep+1} of ${guideSteps.length}`;
-  document.getElementById('guide-title').textContent = s.title;
-  document.getElementById('guide-body').textContent  = s.body;
-  document.getElementById('guide-next-btn').textContent = guideStep === guideSteps.length-1 ? 'Start Writing ✓' : 'Next →';
-  document.getElementById('guide-dots').innerHTML = guideSteps.map((_,i) =>
-    `<div class="guide-dot ${i===guideStep?'active':''}"></div>`).join('');
-}
-function nextGuideStep() {
-  guideStep++;
-  if (guideStep >= guideSteps.length) skipGuide();
-  else renderGuide();
-}
-function skipGuide() {
-  document.getElementById('guide-overlay').classList.remove('show');
-  localStorage.setItem('titoyin_guide_done','1');
-}
-
-if (!localStorage.getItem('titoyin_guide_done') && !new URLSearchParams(location.search).get('id')) {
-  renderGuide();
-  document.getElementById('guide-overlay').classList.add('show');
-}
-
-// ── TOKEN WARNING ────────────────────────────
-// Show token warning immediately
+// ── TOKEN STATUS ──────────────────────────────
 (function() {
+  const ind = document.getElementById('token-indicator');
+  const warn = document.getElementById('token-warning');
   if (!hasToken()) {
-    const w = document.getElementById('token-warning');
-    if (w) w.style.display = 'block';
-    // Scroll to top so user sees it
-    window.scrollTo(0, 0);
+    if (ind) { ind.textContent = '⚠️ No token'; ind.style.color = '#D97706'; }
+    if (warn) warn.style.display = 'block';
+  } else {
+    if (ind) { ind.textContent = '🔑 Token active'; ind.style.color = '#059669'; }
   }
 })();
 
-// ── WORD COUNT ───────────────────────────────
+// ── WORD COUNT ────────────────────────────────
 document.getElementById('post-body-editor').addEventListener('input', function() {
   const words = (this.innerText||'').trim().split(/\s+/).filter(Boolean).length;
   document.getElementById('word-count').textContent = words + ' word' + (words!==1?'s':'');
   document.getElementById('post-body-hidden').value = this.innerHTML;
 });
 
-function toggleSchedule(val) {
-  document.getElementById('schedule-wrap').style.display = val==='scheduled' ? 'block' : 'none';
+function toggleSchedule(v) {
+  document.getElementById('schedule-wrap').style.display = v==='scheduled' ? 'block' : 'none';
 }
 
 function insertLink() {
   const url = prompt('Enter URL:');
-  if (url) execFormat('createLink', url);
+  if (url) document.execCommand('createLink', false, url);
 }
 
-// ── BUILD POST OBJECT ────────────────────────
+// ── SIMPLE TAG INPUT ──────────────────────────
+let tags = [];
+document.getElementById('post-tags-input').addEventListener('keydown', function(e) {
+  if ((e.key === 'Enter' || e.key === ',') && this.value.trim()) {
+    e.preventDefault();
+    const tag = this.value.trim().replace(/,/g,'');
+    if (tag && !tags.includes(tag)) {
+      tags.push(tag);
+      renderTags();
+    }
+    this.value = '';
+  }
+});
+function renderTags() {
+  document.getElementById('post-tags').value = tags.join(',');
+  document.getElementById('tags-display').innerHTML = tags.map((t,i) =>
+    `<span style="background:#EEF0FA;color:#1B2A6B;padding:3px 10px;border-radius:100px;font-size:12px;display:inline-flex;align-items:center;gap:4px;">${t}<button type="button" onclick="removeTag(${i})" style="background:none;border:none;cursor:pointer;color:#666;font-size:14px;padding:0 2px;">×</button></span>`
+  ).join('');
+}
+function removeTag(i) { tags.splice(i,1); renderTags(); }
+
+// ── IMAGE UPLOAD ──────────────────────────────
+document.getElementById('featured-img-zone').addEventListener('click', function() {
+  document.getElementById('featured-img-input').click();
+});
+document.getElementById('featured-img-input').addEventListener('change', function() {
+  if (!this.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const preview = document.getElementById('featured-img-preview');
+    preview.src = e.target.result;
+    preview.style.display = 'block';
+    document.querySelector('#featured-img-zone p').style.display = 'none';
+  };
+  reader.readAsDataURL(this.files[0]);
+});
+
+// ── BUILD POST ────────────────────────────────
 function buildPost(status) {
   const id      = document.getElementById('post-id').value || generateId();
   const preview = document.getElementById('featured-img-preview');
-  const now     = new Date().toLocaleDateString('en-NG', { timeZone:'Africa/Lagos', day:'numeric', month:'long', year:'numeric' });
+  const now     = new Date().toLocaleDateString('en-NG', {
+    timeZone:'Africa/Lagos', day:'numeric', month:'long', year:'numeric'
+  });
   return {
-    id, status,
+    id,
+    status,
     title:        document.getElementById('post-title').value.trim(),
     subtitle:     document.getElementById('post-subtitle').value.trim(),
     body:         document.getElementById('post-body-hidden').value,
-    imgSrc:       preview && preview.style.display!=='none' ? preview.src : '',
+    imgSrc:       (preview && preview.style.display!=='none') ? preview.src : '',
     imgCaption:   document.getElementById('img-caption').value.trim(),
-    socialLink:   document.getElementById('social-link').value.trim(),
-    socialCredit: document.getElementById('social-credit').value.trim(),
     sourceUrl:    document.getElementById('source-url').value.trim(),
     sourceName:   document.getElementById('source-name').value.trim(),
     type:         document.getElementById('post-type').value,
@@ -393,127 +423,112 @@ function buildPost(status) {
   };
 }
 
-// ── SAVE DRAFT ───────────────────────────────
+// ── SAVE DRAFT ────────────────────────────────
 function saveDraft() {
   const post = buildPost('draft');
-  if (!post.title) { showToast('Please enter a title first', 'error'); return; }
+  if (!post.title) { showToast('Enter a title first', 'error'); return; }
   savePost(post);
   document.getElementById('post-id').value = post.id;
-  clearAutosave('post');
-  logActivity('draft', 'Draft saved: ' + post.title);
-  showToast('Draft saved ✓', 'success');
+  const ind = document.getElementById('autosave-indicator');
+  if (ind) ind.textContent = 'Draft saved ' + new Date().toLocaleTimeString('en-NG',{hour:'2-digit',minute:'2-digit'});
+  showToast('Draft saved', 'success');
 }
 
-// ── PUBLISH ──────────────────────────────────
+// ── PUBLISH ───────────────────────────────────
 async function publishPost() {
-  const post = buildPost('published');
-  if (!post.title)    { showToast('Please enter a title first', 'error'); return; }
-  if (!post.category) { showToast('Please select a category', 'error'); return; }
-  if (!post.body || post.body.replace(/<[^>]+>/g,'').trim().length < 10) {
-    showToast('Please write some content before publishing', 'error'); return;
-  }
-
-  if (!hasToken()) {
-    showToast('GitHub token not set — redirecting to Settings', 'error', 4000);
-    setTimeout(() => window.location.href = 'settings.html', 1800);
-    return;
-  }
-
-  // Clear any previous error
+  // Clear previous errors
   const errDiv = document.getElementById('publish-error-display');
   if (errDiv) errDiv.style.display = 'none';
 
-  console.log('Token present:', getToken().substring(0,8) + '...');
-  console.log('Post data:', { title: post.title, category: post.category, bodyLength: post.body?.length });
+  const post = buildPost('published');
 
-  // Show progress overlay
+  // Validate
+  if (!post.title)    { showToast('Enter a title first', 'error'); return; }
+  if (!post.category) { showToast('Select a category', 'error'); return; }
+  if (!post.body || post.body.replace(/<[^>]+>/g,'').trim().length < 10) {
+    showToast('Write some content first', 'error'); return;
+  }
+
+  // Check token
+  if (!hasToken()) {
+    showToast('Add GitHub token in Settings first', 'error', 5000);
+    if (errDiv) {
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = '⚠️ No GitHub token set. <a href="settings.html" style="color:#1B2A6B;font-weight:700;">Go to Settings →</a>';
+    }
+    return;
+  }
+
+  // Check publishToGitHub is available
+  if (typeof publishToGitHub !== 'function') {
+    const msg = 'publisher.js not loaded. Try refreshing the page.';
+    showToast(msg, 'error', 8000);
+    if (errDiv) { errDiv.style.display='block'; errDiv.textContent = msg; }
+    return;
+  }
+
+  // Show overlay
   const overlay = document.getElementById('publish-overlay');
   const stepEl  = document.getElementById('publish-step');
   const bar     = document.getElementById('publish-bar');
   overlay.style.display = 'flex';
 
   try {
-    stepEl.textContent = 'Generating article page…'; bar.style.width = '20%';
-    await new Promise(r => setTimeout(r, 400));
+    stepEl.textContent = 'Generating article…'; bar.style.width = '20%';
+    await new Promise(r => setTimeout(r, 300));
 
     stepEl.textContent = 'Uploading to GitHub…'; bar.style.width = '45%';
     const published = await publishToGitHub(post);
 
-    stepEl.textContent = 'Updating homepage…'; bar.style.width = '70%';
-    await new Promise(r => setTimeout(r, 400));
-
-    stepEl.textContent = 'Updating RSS feed…'; bar.style.width = '88%';
-    await new Promise(r => setTimeout(r, 300));
-
-    // Save to local storage
+    stepEl.textContent = 'Updating posts list…'; bar.style.width = '75%';
     post.slug     = published.slug;
     post.filename = published.filename;
+
+    const allPosts = getPosts().map(p => p.id === post.id ? post : p);
+    if (!allPosts.find(p => p.id === post.id)) allPosts.unshift(post);
+    await updatePostsJSON(allPosts);
+
+    stepEl.textContent = 'Updating RSS…'; bar.style.width = '90%';
+    try { await updateRSSFeed(allPosts); } catch(e) {}
+    try { await updateSitemap(allPosts); } catch(e) {}
+
     savePost(post);
     document.getElementById('post-id').value = post.id;
-    clearAutosave('post');
     logActivity('publish', 'Published: ' + post.title);
 
     bar.style.width = '100%';
-    stepEl.textContent = 'Published successfully! 🎉';
-
+    stepEl.textContent = '✓ Published successfully!';
     await new Promise(r => setTimeout(r, 800));
     overlay.style.display = 'none';
-    showToast('Published! Live on titoyin.com in ~2 minutes 🎉', 'success', 5000);
 
+    showToast('Published! Live in ~2 minutes 🎉', 'success', 5000);
     setTimeout(() => {
-      if (confirm('Post published! View All Posts or write another?')) {
-        window.location.href = 'posts.html';
-      }
+      if (confirm('Published! Go to All Posts?')) window.location.href = 'posts.html';
     }, 600);
 
   } catch(err) {
     overlay.style.display = 'none';
     const msg = err.message || 'Unknown error';
-
-    // Show full error on screen so user can see it
-    const errDiv = document.getElementById('publish-error-display');
+    showToast('Failed: ' + msg, 'error', 10000);
     if (errDiv) {
       errDiv.style.display = 'block';
-      errDiv.innerHTML = '<strong>Publish error:</strong> ' + msg +
-        '<br><small>Check your GitHub token in Settings if this persists.</small>';
+      errDiv.innerHTML = '<strong>Publish failed:</strong> ' + msg;
     }
-
-    showToast('Error: ' + msg, 'error', 10000);
-    console.error('Publish error:', err);
-
-    // Save as draft so work is not lost
+    // Save as draft so work isn't lost
     post.status = 'draft';
     savePost(post);
     document.getElementById('post-id').value = post.id;
   }
 }
 
-// ── PREVIEW ──────────────────────────────────
-function previewPost() {
-  const title = document.getElementById('post-title').value || 'Preview';
-  const body  = document.getElementById('post-body-editor').innerHTML;
-  const win   = window.open('','_blank');
-  win.document.write(`<!DOCTYPE html><html><head><title>Preview: ${title}</title>
-  <style>body{font-family:Georgia,serif;max-width:720px;margin:40px auto;padding:0 20px;line-height:1.8;font-size:17px;}
-  h2{font-size:24px;margin:32px 0 12px;}blockquote{border-left:4px solid #1B2A6B;padding:12px 20px;background:#EEF0FA;margin:24px 0;font-style:italic;}</style>
-  </head><body>
-  <div style="background:#FEF3C7;padding:8px 12px;border-radius:6px;font-size:12px;font-family:sans-serif;margin-bottom:24px;">PREVIEW — Not published yet</div>
-  <h1>${title}</h1>${body}</body></html>`);
-}
-
-// ── LOAD EXISTING POST ───────────────────────
+// ── LOAD EXISTING POST ────────────────────────
 async function loadExistingPost() {
   const id = new URLSearchParams(location.search).get('id');
   if (!id) return;
-
-  // Sync from GitHub to get latest posts across all devices
   await syncPostsFromGitHub();
-
   const post = getPosts().find(p => p.id === id);
-  if (!post) {
-    showToast('Post not found — it may have been deleted', 'error');
-    return;
-  }
+  if (!post) { showToast('Post not found', 'error'); return; }
+
   document.getElementById('page-title').textContent = 'Edit Post';
   document.getElementById('post-id').value       = post.id;
   document.getElementById('post-title').value    = post.title || '';
@@ -521,11 +536,9 @@ async function loadExistingPost() {
   document.getElementById('post-body-editor').innerHTML = post.body || '';
   document.getElementById('post-body-hidden').value     = post.body || '';
   document.getElementById('img-caption').value   = post.imgCaption || '';
-  document.getElementById('social-link').value   = post.socialLink || '';
-  document.getElementById('social-credit').value = post.socialCredit || '';
   document.getElementById('source-url').value    = post.sourceUrl || '';
   document.getElementById('source-name').value   = post.sourceName || '';
-  document.getElementById('post-status').value   = post.status || 'draft';
+  document.getElementById('post-status').value   = post.status || 'published';
   document.getElementById('post-type').value     = post.type || 'article';
   document.getElementById('post-category').value = post.category || '';
   document.getElementById('post-tags').value     = post.tags || '';
@@ -534,28 +547,17 @@ async function loadExistingPost() {
   document.getElementById('is-trending').checked    = post.trending || false;
   document.getElementById('is-editors-pick').checked= post.editorsPick || false;
   document.getElementById('social-caption').value   = post.socialCaption || '';
+
+  if (post.tags) { tags = post.tags.split(',').filter(Boolean); renderTags(); }
   if (post.imgSrc) {
     const p = document.getElementById('featured-img-preview');
     p.src = post.imgSrc; p.style.display = 'block';
-    document.querySelector('#featured-img-zone p').style.display = 'none';
+    const zone = document.querySelector('#featured-img-zone p');
+    if (zone) zone.style.display = 'none';
   }
 }
 
-initTagInput('tags-wrap','post-tags');
-loadExistingPost(); // async — syncs from GitHub
-
-// Show token status in topbar
-(function() {
-  const ind = document.getElementById('token-indicator');
-  if (!ind) return;
-  if (hasToken()) {
-    ind.textContent = '🔑 Token active';
-    ind.style.color = 'var(--success)';
-  } else {
-    ind.textContent = '⚠️ No token — go to Settings';
-    ind.style.color = 'var(--warning)';
-  }
-})();
+loadExistingPost();
 </script>
 </body>
 </html>
