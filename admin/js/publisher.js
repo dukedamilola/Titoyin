@@ -1,4 +1,19 @@
 /* =============================================
+   TITOYIN — GitHub API Auto-Publisher v2
+   ============================================= */
+
+// Category labels — duplicated here since posts.js is not loaded in admin
+function catLabel(cat) {
+  const labels = {
+    national:'National', politics:'Politics',
+    entertainment:'Entertainment', fashion:'Fashion & Style',
+    trending:'Trending', gossip:'Gossip', world:'World',
+    health:'Health', tech:'Technology', business:'Business'
+  };
+  return labels[cat] || cat || 'General';
+}
+
+/* =============================================
    TITOYIN — GitHub API Auto-Publisher
    Pushes posts directly to your GitHub repo
    ============================================= */

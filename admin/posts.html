@@ -146,10 +146,11 @@ function renderPosts() {
       <td>
         <div class="post-actions">
           <a href="new-post.html?id=${p.id}" class="btn btn-outline btn-sm">Edit</a>
-          <button class="btn btn-ghost btn-sm" onclick="toggleStatus('${p.id}')" title="Toggle published/draft">
-            ${p.status === 'published' ? 'Unpublish' : 'Publish'}
-          </button>
-          <button class="btn btn-danger btn-sm btn-icon" onclick="removePost('${p.id}')" title="Delete post">🗑</button>
+          ${p.status !== 'published'
+            ? `<button class="btn btn-success btn-sm" onclick="publishDraft('${p.id}')" title="Publish to site">🚀 Publish</button>`
+            : `<button class="btn btn-ghost btn-sm" onclick="toggleStatus('${p.id}')">Unpublish</button>`
+          }
+          <button class="btn btn-danger btn-sm btn-icon" onclick="removePost('${p.id}')" title="Delete">🗑</button>
         </div>
       </td>
     </tr>

@@ -75,9 +75,13 @@
 
   <main class="admin-main">
 
-    <!-- Token warning -->
-    <div id="token-warning" class="alert alert-warning" style="display:none;margin-bottom:16px;">
-      ⚠️ <strong>GitHub token not set.</strong> Posts will save as drafts only until you add your token in <a href="settings.html" style="color:var(--navy);font-weight:600;">Settings → GitHub Token</a>.
+    <!-- Publish error display -->
+    <div id="publish-error-display" style="display:none;background:#FEE2E2;border:2px solid #DC2626;border-radius:10px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:#991B1B;line-height:1.6;"></div>
+
+    <!-- Token warning — shown if no token -->
+    <div id="token-warning" style="display:none;background:#FFF3CD;border:2px solid #FFC107;border-radius:10px;padding:14px 18px;margin-bottom:20px;font-size:14px;line-height:1.6;">
+      ⚠️ <strong>No GitHub token set.</strong> Posts will save as drafts only and will NOT appear on the site until you add your token.<br>
+      <a href="settings.html" style="color:#1B2A6B;font-weight:700;text-decoration:underline;">→ Go to Settings to add your token now</a>
     </div>
 
     <form id="post-form" onsubmit="return false;">
@@ -334,7 +338,15 @@ if (!localStorage.getItem('titoyin_guide_done') && !new URLSearchParams(location
 }
 
 // ── TOKEN WARNING ────────────────────────────
-if (!hasToken()) document.getElementById('token-warning').style.display='block';
+// Show token warning immediately
+(function() {
+  if (!hasToken()) {
+    const w = document.getElementById('token-warning');
+    if (w) w.style.display = 'block';
+    // Scroll to top so user sees it
+    window.scrollTo(0, 0);
+  }
+})();
 
 // ── WORD COUNT ───────────────────────────────
 document.getElementById('post-body-editor').addEventListener('input', function() {
@@ -406,7 +418,13 @@ async function publishPost() {
     setTimeout(() => window.location.href = 'settings.html', 1800);
     return;
   }
-  console.log('Token present, starting publish...');
+
+  // Clear any previous error
+  const errDiv = document.getElementById('publish-error-display');
+  if (errDiv) errDiv.style.display = 'none';
+
+  console.log('Token present:', getToken().substring(0,8) + '...');
+  console.log('Post data:', { title: post.title, category: post.category, bodyLength: post.body?.length });
 
   // Show progress overlay
   const overlay = document.getElementById('publish-overlay');
@@ -451,15 +469,22 @@ async function publishPost() {
   } catch(err) {
     overlay.style.display = 'none';
     const msg = err.message || 'Unknown error';
-    showToast('Publish failed: ' + msg, 'error', 8000);
-    console.error('Publish error full details:', err);
-    console.error('Error message:', msg);
+
+    // Show full error on screen so user can see it
+    const errDiv = document.getElementById('publish-error-display');
+    if (errDiv) {
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = '<strong>Publish error:</strong> ' + msg +
+        '<br><small>Check your GitHub token in Settings if this persists.</small>';
+    }
+
+    showToast('Error: ' + msg, 'error', 10000);
+    console.error('Publish error:', err);
 
     // Save as draft so work is not lost
     post.status = 'draft';
     savePost(post);
     document.getElementById('post-id').value = post.id;
-    showToast('Your work has been saved as a draft', 'info', 4000);
   }
 }
 
