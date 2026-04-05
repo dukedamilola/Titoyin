@@ -1,21 +1,19 @@
 /* =============================================
-   TITOYIN ADMIN — Auth + Data Layer v4
-   Source of truth: GitHub posts.json
-   Works across all devices
+   TITOYIN ADMIN — Auth + Data Layer v5
+   Multi-device sync via GitHub posts.json
    ============================================= */
 
-// ── ADMIN PASSWORD ────────────────────────────
 const ADMIN_PASSWORD = 'Titoyin2025!';
 const SESSION_KEY    = 'titoyin_admin_session';
+const GITHUB_USER    = 'dukedamilola';
+const GITHUB_REPO    = 'titoyin';
 
 function adminLogin(password) {
   if (password === ADMIN_PASSWORD) {
-    const session = {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({
       loggedIn: true,
-      expires:  Date.now() + (8 * 60 * 60 * 1000),
-      user:     'Administrator'
-    };
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+      expires:  Date.now() + (8 * 60 * 60 * 1000)
+    }));
     logActivity('login', 'Admin logged in');
     return true;
   }
@@ -46,8 +44,9 @@ function getToken() {
          localStorage.getItem('gh_token_saved') || '';
 }
 function setToken(token, remember) {
-  sessionStorage.setItem('gh_token', token.trim());
-  if (remember) localStorage.setItem('gh_token_saved', token.trim());
+  const t = token.trim();
+  sessionStorage.setItem('gh_token', t);
+  if (remember) localStorage.setItem('gh_token_saved', t);
   else          localStorage.removeItem('gh_token_saved');
 }
 function clearToken() {
@@ -56,7 +55,7 @@ function clearToken() {
 }
 function hasToken() { return !!getToken(); }
 
-// Auto-load saved token
+// Auto-load saved token into session
 (function() {
   const saved = localStorage.getItem('gh_token_saved');
   if (saved && !sessionStorage.getItem('gh_token')) {
@@ -64,40 +63,51 @@ function hasToken() { return !!getToken(); }
   }
 })();
 
-// ── POSTS — SOURCE OF TRUTH IS GITHUB ─────────
-// Local cache only for the current session
-let _localPosts = null;
+// ── POSTS — SYNC FROM GITHUB ──────────────────
+let _posts = null;
 
 async function syncPostsFromGitHub() {
-  try {
-    const r = await fetch('https://raw.githubusercontent.com/dukedamilola/titoyin/main/posts.json?t=' + Date.now(), {
-      cache: 'no-store'
-    });
-    if (!r.ok) return [];
-    const data = await r.json();
-    const posts = data.posts || [];
-    // Store in session so we don't re-fetch on every page
-    sessionStorage.setItem('titoyin_posts_cache', JSON.stringify(posts));
-    sessionStorage.setItem('titoyin_posts_ts', Date.now().toString());
-    _localPosts = posts;
-    return posts;
-  } catch(e) {
-    console.warn('Could not sync from GitHub:', e);
-    return getCachedPosts();
+  // Try multiple URLs in case one is cached or blocked
+  const urls = [
+    `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/posts.json`,
+    `https://${GITHUB_USER}.github.io/${GITHUB_REPO}/posts.json`,
+    `https://titoyin.com/posts.json`
+  ];
+
+  for (const url of urls) {
+    try {
+      const r = await fetch(url + '?nocache=' + Date.now(), {
+        cache: 'no-store',
+        headers: { 'Accept': 'application/json' }
+      });
+      if (!r.ok) continue;
+      const data = await r.json();
+      const posts = Array.isArray(data) ? data : (data.posts || []);
+      console.log('[Admin] Loaded', posts.length, 'posts from', url);
+      _posts = posts;
+      sessionStorage.setItem('titoyin_posts_cache', JSON.stringify(posts));
+      return posts;
+    } catch(e) {
+      console.warn('[Admin] Failed to fetch from', url, e.message);
+    }
   }
+
+  // Fall back to session cache
+  console.warn('[Admin] All fetches failed — using session cache');
+  return getCachedPosts();
 }
 
 function getCachedPosts() {
-  if (_localPosts) return _localPosts;
+  if (_posts !== null) return _posts;
   try {
-    const cached = sessionStorage.getItem('titoyin_posts_cache');
-    if (cached) { _localPosts = JSON.parse(cached); return _localPosts; }
+    const c = sessionStorage.getItem('titoyin_posts_cache');
+    if (c) { _posts = JSON.parse(c); return _posts; }
   } catch {}
-  return [];
+  _posts = [];
+  return _posts;
 }
 
 function getPosts() {
-  // Return cached posts synchronously for immediate use
   return getCachedPosts();
 }
 
@@ -106,15 +116,14 @@ function savePost(post) {
   const idx   = posts.findIndex(p => p.id === post.id);
   if (idx > -1) posts[idx] = post;
   else          posts.unshift(post);
-  _localPosts = posts;
+  _posts = posts;
   sessionStorage.setItem('titoyin_posts_cache', JSON.stringify(posts));
   return post;
 }
 
 function deletePost(id) {
-  const posts = getCachedPosts().filter(p => p.id !== id);
-  _localPosts = posts;
-  sessionStorage.setItem('titoyin_posts_cache', JSON.stringify(posts));
+  _posts = getCachedPosts().filter(p => p.id !== id);
+  sessionStorage.setItem('titoyin_posts_cache', JSON.stringify(_posts));
 }
 
 // ── ADS + SETTINGS ────────────────────────────
@@ -122,13 +131,10 @@ function getAds() {
   try { return JSON.parse(localStorage.getItem('titoyin_ads') || '{}'); } catch { return {}; }
 }
 function saveAds(ads) { localStorage.setItem('titoyin_ads', JSON.stringify(ads)); }
-
 function getSettings() {
   try { return JSON.parse(localStorage.getItem('titoyin_settings') || '{}'); } catch { return {}; }
 }
 function saveSettings(s) { localStorage.setItem('titoyin_settings', JSON.stringify(s)); }
-
-// ── BREAKING NEWS ─────────────────────────────
 function getBreakingNews() { return localStorage.getItem('titoyin_breaking') || ''; }
 function setBreakingNews(t) {
   if (t) localStorage.setItem('titoyin_breaking', t);
@@ -139,7 +145,7 @@ function setBreakingNews(t) {
 function logActivity(type, description) {
   try {
     const logs = JSON.parse(localStorage.getItem('titoyin_activity') || '[]');
-    logs.unshift({ type, description, time: new Date().toISOString(),
+    logs.unshift({ type, description,
       display: new Date().toLocaleString('en-NG', { timeZone: 'Africa/Lagos' }) });
     localStorage.setItem('titoyin_activity', JSON.stringify(logs.slice(0, 100)));
   } catch {}
@@ -155,4 +161,12 @@ function generateId() {
 function nigeriaDateInput() {
   return new Date(new Date().toLocaleString('en-US', { timeZone: 'Africa/Lagos' }))
     .toISOString().slice(0, 16);
+}
+async function verifyGitHubToken(token) {
+  try {
+    const r = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}`, {
+      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    return r.ok;
+  } catch { return false; }
 }

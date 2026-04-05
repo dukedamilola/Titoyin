@@ -244,16 +244,21 @@ if (bn) {
   document.getElementById('breaking-control').classList.add('active');
 }
 
-// Sync posts from GitHub first, then render
+// Sync posts from GitHub then render
 (async function() {
-  const statusEl = document.createElement('div');
-  statusEl.style.cssText = 'text-align:center;padding:12px;font-size:13px;color:var(--ink-muted);';
-  statusEl.textContent = 'Syncing posts from site…';
-  document.getElementById('recent-posts-list').appendChild(statusEl);
+  // Show sync indicator
+  const list = document.getElementById('recent-posts-list');
+  if (list) list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--ink-muted);font-size:13px;">⟳ Loading posts from site…</div>';
 
-  await syncPostsFromGitHub();
+  const posts = await syncPostsFromGitHub();
+  console.log('[Dashboard] Got', posts.length, 'posts');
   loadStats();
   loadActivity();
+
+  // Show posts count in topbar
+  if (posts.length > 0) {
+    showToast(posts.length + ' post' + (posts.length !== 1 ? 's' : '') + ' loaded', 'success', 2000);
+  }
 })();
 </script>
 </body>

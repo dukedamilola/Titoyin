@@ -232,10 +232,32 @@ async function removePost(id) {
 
 // Sync from GitHub then render
 (async function() {
-  const tbody = document.getElementById('posts-tbody');
-  if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--ink-muted);">Loading posts from site…</td></tr>';
-  await syncPostsFromGitHub();
-  renderPosts();
+  const tbody  = document.getElementById('posts-tbody');
+  const countEl = document.getElementById('posts-count');
+  if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--ink-muted);">⟳ Loading posts from GitHub…</td></tr>';
+  if (countEl) countEl.textContent = 'Loading…';
+
+  const posts = await syncPostsFromGitHub();
+  console.log('[Posts] Loaded', posts.length, 'posts');
+
+  if (posts.length === 0) {
+    // Show helpful message
+    if (tbody) tbody.innerHTML = '';
+    const emptyEl = document.getElementById('posts-empty');
+    if (emptyEl) {
+      emptyEl.style.display = 'block';
+      emptyEl.innerHTML = `
+        <div style="font-size:40px;margin-bottom:12px;">📰</div>
+        <div style="font-size:16px;font-weight:500;margin-bottom:8px;">No posts found</div>
+        <div style="font-size:13px;color:var(--ink-muted);margin-bottom:16px;">
+          Posts published from any device will appear here automatically.<br>
+          Make sure your GitHub token is set in Settings.
+        </div>
+        <a href="new-post.html" class="btn btn-primary">+ Create New Post</a>`;
+    }
+  } else {
+    renderPosts();
+  }
 })();
 </script>
 </body>
