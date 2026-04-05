@@ -244,8 +244,17 @@ if (bn) {
   document.getElementById('breaking-control').classList.add('active');
 }
 
-loadStats();
-loadActivity();
+// Sync posts from GitHub first, then render
+(async function() {
+  const statusEl = document.createElement('div');
+  statusEl.style.cssText = 'text-align:center;padding:12px;font-size:13px;color:var(--ink-muted);';
+  statusEl.textContent = 'Syncing posts from site…';
+  document.getElementById('recent-posts-list').appendChild(statusEl);
+
+  await syncPostsFromGitHub();
+  loadStats();
+  loadActivity();
+})();
 </script>
 </body>
 </html>

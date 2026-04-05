@@ -67,6 +67,7 @@
     <span class="topbar-title" id="page-title">New Post</span>
     <div class="topbar-actions">
       <span id="autosave-indicator" class="text-xs text-muted" style="display:none;font-size:11px;"></span>
+      <span id="token-indicator" class="text-xs" style="font-size:11px;"></span>
       <button class="btn btn-outline btn-sm" onclick="saveDraft()">Save Draft</button>
       <button class="btn btn-primary btn-sm" onclick="publishPost()">🚀 Publish</button>
     </div>
@@ -401,10 +402,11 @@ async function publishPost() {
   }
 
   if (!hasToken()) {
-    showToast('Add your GitHub token in Settings first', 'error');
-    setTimeout(() => window.location.href = 'settings.html', 1500);
+    showToast('GitHub token not set — redirecting to Settings', 'error', 4000);
+    setTimeout(() => window.location.href = 'settings.html', 1800);
     return;
   }
+  console.log('Token present, starting publish...');
 
   // Show progress overlay
   const overlay = document.getElementById('publish-overlay');
@@ -448,13 +450,16 @@ async function publishPost() {
 
   } catch(err) {
     overlay.style.display = 'none';
-    showToast('Error: ' + err.message, 'error', 6000);
-    console.error('Publish error:', err);
+    const msg = err.message || 'Unknown error';
+    showToast('Publish failed: ' + msg, 'error', 8000);
+    console.error('Publish error full details:', err);
+    console.error('Error message:', msg);
 
-    // Save as draft so work isn't lost
+    // Save as draft so work is not lost
     post.status = 'draft';
     savePost(post);
     document.getElementById('post-id').value = post.id;
+    showToast('Your work has been saved as a draft', 'info', 4000);
   }
 }
 
@@ -472,11 +477,18 @@ function previewPost() {
 }
 
 // ── LOAD EXISTING POST ───────────────────────
-function loadExistingPost() {
+async function loadExistingPost() {
   const id = new URLSearchParams(location.search).get('id');
   if (!id) return;
+
+  // Sync from GitHub to get latest posts across all devices
+  await syncPostsFromGitHub();
+
   const post = getPosts().find(p => p.id === id);
-  if (!post) return;
+  if (!post) {
+    showToast('Post not found — it may have been deleted', 'error');
+    return;
+  }
   document.getElementById('page-title').textContent = 'Edit Post';
   document.getElementById('post-id').value       = post.id;
   document.getElementById('post-title').value    = post.title || '';
@@ -505,7 +517,20 @@ function loadExistingPost() {
 }
 
 initTagInput('tags-wrap','post-tags');
-loadExistingPost();
+loadExistingPost(); // async — syncs from GitHub
+
+// Show token status in topbar
+(function() {
+  const ind = document.getElementById('token-indicator');
+  if (!ind) return;
+  if (hasToken()) {
+    ind.textContent = '🔑 Token active';
+    ind.style.color = 'var(--success)';
+  } else {
+    ind.textContent = '⚠️ No token — go to Settings';
+    ind.style.color = 'var(--warning)';
+  }
+})();
 </script>
 </body>
 </html>

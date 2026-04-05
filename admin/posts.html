@@ -230,7 +230,13 @@ async function removePost(id) {
   });
 }
 
-renderPosts();
+// Sync from GitHub then render
+(async function() {
+  const tbody = document.getElementById('posts-tbody');
+  if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--ink-muted);">Loading posts from site…</td></tr>';
+  await syncPostsFromGitHub();
+  renderPosts();
+})();
 </script>
 </body>
 </html>
