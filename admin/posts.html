@@ -17,7 +17,7 @@
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
       <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
-      <a href="new-post.html"  class="nav-item"><span class="nav-icon">✏️</span> New Post</a>
+      <a href="write.html"  class="nav-item"><span class="nav-icon">✏️</span> New Post</a>
       <a href="posts.html"     class="nav-item active"><span class="nav-icon">📰</span> All Posts</a>
       <div class="nav-section-label">Content</div>
       <a href="editorial.html" class="nav-item"><span class="nav-icon">⭐</span> Editorial Control</a>
@@ -39,7 +39,7 @@
     <button class="topbar-menu-btn" id="topbar-menu-btn">☰</button>
     <span class="topbar-title">All Posts</span>
     <div class="topbar-actions">
-      <a href="new-post.html" class="btn btn-primary btn-sm">+ New Post</a>
+      <a href="write.html" class="btn btn-primary btn-sm">+ New Post</a>
     </div>
   </div>
 
@@ -95,7 +95,7 @@
         <div style="font-size:40px;margin-bottom:12px;">📝</div>
         <div style="font-size:16px;font-weight:500;margin-bottom:8px;">No posts found</div>
         <div style="font-size:13px;color:var(--ink-muted);margin-bottom:20px;">Try a different search or filter, or create a new post.</div>
-        <a href="new-post.html" class="btn btn-primary">+ Create New Post</a>
+        <a href="write.html" class="btn btn-primary">+ Create New Post</a>
       </div>
     </div>
   </main>
@@ -145,7 +145,7 @@ function renderPosts() {
       <td style="font-size:12px;color:var(--ink-muted);white-space:nowrap;">${p.date||''}</td>
       <td>
         <div class="post-actions">
-          <a href="new-post.html?id=${p.id}" class="btn btn-outline btn-sm">Edit</a>
+          <a href="write.html?id=${p.id}" class="btn btn-outline btn-sm">Edit</a>
           ${p.status !== 'published'
             ? `<button class="btn btn-success btn-sm" onclick="publishDraft('${p.id}')" title="Publish to site">🚀 Publish</button>`
             : `<button class="btn btn-ghost btn-sm" onclick="toggleStatus('${p.id}')">Unpublish</button>`
@@ -254,7 +254,7 @@ async function removePost(id) {
           Posts published from any device will appear here automatically.<br>
           Make sure your GitHub token is set in Settings.
         </div>
-        <a href="new-post.html" class="btn btn-primary">+ Create New Post</a>`;
+        <a href="write.html" class="btn btn-primary">+ Create New Post</a>`;
     }
   } else {
     renderPosts();

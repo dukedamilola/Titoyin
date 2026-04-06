@@ -23,7 +23,7 @@
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
       <a href="dashboard.html" class="nav-item active"><span class="nav-icon">📊</span> Dashboard</a>
-      <a href="new-post.html"   class="nav-item"><span class="nav-icon">✏️</span> New Post</a>
+      <a href="write.html"   class="nav-item"><span class="nav-icon">✏️</span> New Post</a>
       <a href="posts.html"      class="nav-item"><span class="nav-icon">📰</span> All Posts</a>
 
       <div class="nav-section-label">Content</div>
@@ -49,7 +49,7 @@
     <span class="topbar-title">Dashboard</span>
     <div class="topbar-actions">
       <span class="topbar-btn topbar-btn-ghost" id="topbar-time" style="font-size:12px;"></span>
-      <a href="new-post.html" class="btn btn-primary btn-sm">+ New Post</a>
+      <a href="write.html" class="btn btn-primary btn-sm">+ New Post</a>
       <div class="topbar-avatar">A</div>
     </div>
   </div>
@@ -59,7 +59,7 @@
 
     <!-- Welcome banner (first visit) -->
     <div id="welcome-banner" class="alert alert-info mb-6" style="display:none;">
-      <strong>👋 Welcome to your Titoyin Admin Panel!</strong> Start by creating your first post — click <a href="new-post.html" style="color:var(--navy);font-weight:600;">New Post</a> to begin. The guided walkthrough will help you through every step.
+      <strong>👋 Welcome to your Titoyin Admin Panel!</strong> Start by creating your first post — click <a href="write.html" style="color:var(--navy);font-weight:600;">New Post</a> to begin. The guided walkthrough will help you through every step.
     </div>
 
     <!-- Breaking News Control -->
@@ -121,7 +121,7 @@
             <div style="font-size:36px;margin-bottom:10px;">📝</div>
             <div style="font-size:15px;font-weight:500;margin-bottom:6px;">No posts yet</div>
             <div style="font-size:13px;margin-bottom:16px;">Create your first post to get started</div>
-            <a href="new-post.html" class="btn btn-primary btn-sm">+ Create First Post</a>
+            <a href="write.html" class="btn btn-primary btn-sm">+ Create First Post</a>
           </div>
         </div>
       </div>
@@ -133,7 +133,7 @@
         <div class="card">
           <div class="card-title mb-4" style="margin-bottom:14px;">Quick Actions</div>
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <a href="new-post.html" class="btn btn-primary btn-full">✏️ &nbsp;Write New Post</a>
+            <a href="write.html" class="btn btn-primary btn-full">✏️ &nbsp;Write New Post</a>
             <a href="editorial.html" class="btn btn-outline btn-full">⭐ &nbsp;Editorial Control</a>
             <a href="ads.html" class="btn btn-outline btn-full">📢 &nbsp;Manage Ads</a>
             <a href="../index.html" target="_blank" class="btn btn-ghost btn-full">🌐 &nbsp;View Live Site</a>
@@ -184,7 +184,7 @@ function loadStats() {
         <div style="font-size:11px;color:var(--ink-muted);margin-top:2px;">${p.category || 'Uncategorised'} · ${p.date || ''}</div>
       </div>
       <span class="badge badge-${p.status||'draft'}">${p.status||'draft'}</span>
-      <a href="new-post.html?id=${p.id}" class="btn btn-outline btn-sm">Edit</a>
+      <a href="write.html?id=${p.id}" class="btn btn-outline btn-sm">Edit</a>
     </div>
   `).join('');
 }
