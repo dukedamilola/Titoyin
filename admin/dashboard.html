@@ -8,10 +8,8 @@
   <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
- 
 <div class="admin-layout">
 
-  <!-- Sidebar -->
   <aside class="admin-sidebar" id="admin-sidebar">
     <div class="sidebar-logo">
       <img src="../assets/titoyin-logo.png" alt="Titoyin" onerror="this.style.display='none'">
@@ -23,18 +21,16 @@
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
       <a href="dashboard.html" class="nav-item active"><span class="nav-icon">📊</span> Dashboard</a>
-      <a href="write.html"   class="nav-item"><span class="nav-icon">✏️</span> New Post</a>
-      <a href="posts.html"      class="nav-item"><span class="nav-icon">📰</span> All Posts</a>
-
+      <a href="write.html"     class="nav-item"><span class="nav-icon">✏️</span> New Post</a>
+      <a href="posts.html"     class="nav-item"><span class="nav-icon">📰</span> All Posts</a>
       <div class="nav-section-label">Content</div>
-      <a href="editorial.html"  class="nav-item"><span class="nav-icon">⭐</span> Editorial Control</a>
-      <a href="ads.html"        class="nav-item"><span class="nav-icon">📢</span> Advertisements</a>
-      <a href="media.html"      class="nav-item"><span class="nav-icon">🖼️</span> Media Library</a>
-
+      <a href="editorial.html" class="nav-item"><span class="nav-icon">⭐</span> Editorial Control</a>
+      <a href="ads.html"       class="nav-item"><span class="nav-icon">📢</span> Advertisements</a>
+      <a href="media.html"     class="nav-item"><span class="nav-icon">🖼️</span> Media Library</a>
       <div class="nav-section-label">Site</div>
-      <a href="metrics.html"    class="nav-item"><span class="nav-icon">📈</span> Metrics</a>
-      <a href="settings.html"   class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
-      <a href="activity.html"   class="nav-item"><span class="nav-icon">📋</span> Activity Log</a>
+      <a href="metrics.html"   class="nav-item"><span class="nav-icon">📈</span> Metrics</a>
+      <a href="settings.html"  class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
+      <a href="activity.html"  class="nav-item"><span class="nav-icon">📋</span> Activity Log</a>
     </nav>
     <div class="sidebar-bottom">
       <a href="../index.html" target="_blank" class="nav-item"><span class="nav-icon">🌐</span> View Site</a>
@@ -43,7 +39,6 @@
   </aside>
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-  <!-- Top Bar -->
   <div class="admin-topbar">
     <button class="topbar-menu-btn" id="topbar-menu-btn" aria-label="Menu">☰</button>
     <span class="topbar-title">Dashboard</span>
@@ -54,15 +49,13 @@
     </div>
   </div>
 
-  <!-- Main Content -->
   <main class="admin-main">
 
-    <!-- Welcome banner (first visit) -->
     <div id="welcome-banner" class="alert alert-info mb-6" style="display:none;">
-      <strong>👋 Welcome to your Titoyin Admin Panel!</strong> Start by creating your first post — click <a href="write.html" style="color:var(--navy);font-weight:600;">New Post</a> to begin. The guided walkthrough will help you through every step.
+      <strong>👋 Welcome to your Titoyin Admin Panel!</strong> Start by creating your first post —
+      click <a href="write.html" style="color:var(--navy);font-weight:600;">New Post</a> to begin.
     </div>
 
-    <!-- Breaking News Control -->
     <div class="breaking-control mb-6" id="breaking-control">
       <div class="breaking-header">
         <span class="breaking-title">🔴 Breaking News Banner</span>
@@ -72,7 +65,8 @@
         </label>
       </div>
       <div id="breaking-form" style="display:none;">
-        <input type="text" id="breaking-text" placeholder="Type your breaking news headline…" style="width:100%;padding:9px 12px;border:1.5px solid #FECACA;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:10px;">
+        <input type="text" id="breaking-text" placeholder="Type your breaking news headline…"
+          style="width:100%;padding:9px 12px;border:1.5px solid #FECACA;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:10px;">
         <div style="display:flex;gap:8px;">
           <button class="btn btn-danger btn-sm" onclick="saveBreaking()">Activate Banner</button>
           <button class="btn btn-outline btn-sm" onclick="clearBreaking()">Clear Banner</button>
@@ -81,7 +75,6 @@
       <p id="breaking-status" class="text-sm text-muted" style="margin-top:6px;">Banner is currently <strong>OFF</strong></p>
     </div>
 
-    <!-- Stats -->
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-label">Total Posts</div>
@@ -105,9 +98,8 @@
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;">
+    <div style="display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start;">
 
-      <!-- Recent Posts -->
       <div class="card">
         <div class="card-header">
           <div>
@@ -126,21 +118,17 @@
         </div>
       </div>
 
-      <!-- Right column -->
       <div style="display:flex;flex-direction:column;gap:16px;">
-
-        <!-- Quick Actions -->
         <div class="card">
-          <div class="card-title mb-4" style="margin-bottom:14px;">Quick Actions</div>
+          <div class="card-title" style="margin-bottom:14px;">Quick Actions</div>
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <a href="write.html" class="btn btn-primary btn-full">✏️ &nbsp;Write New Post</a>
+            <a href="write.html"     class="btn btn-primary btn-full">✏️ &nbsp;Write New Post</a>
             <a href="editorial.html" class="btn btn-outline btn-full">⭐ &nbsp;Editorial Control</a>
-            <a href="ads.html" class="btn btn-outline btn-full">📢 &nbsp;Manage Ads</a>
+            <a href="ads.html"       class="btn btn-outline btn-full">📢 &nbsp;Manage Ads</a>
             <a href="../index.html" target="_blank" class="btn btn-ghost btn-full">🌐 &nbsp;View Live Site</a>
           </div>
         </div>
 
-        <!-- Activity Log -->
         <div class="card">
           <div class="card-header" style="margin-bottom:12px;padding-bottom:10px;">
             <div class="card-title">Recent Activity</div>
@@ -150,7 +138,6 @@
             <div class="text-sm text-muted" style="padding:8px 0;">No activity yet</div>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -160,13 +147,11 @@
 <script src="js/auth.js"></script>
 <script src="js/admin.js"></script>
 <script>
-// Live Nigeria time
 setInterval(() => {
   const el = document.getElementById('topbar-time');
   if (el) el.textContent = new Date().toLocaleTimeString('en-NG', { timeZone:'Africa/Lagos', hour:'2-digit', minute:'2-digit' }) + ' WAT';
 }, 1000);
 
-// Load stats
 function loadStats() {
   const posts = getPosts();
   document.getElementById('stat-posts').textContent     = posts.length;
@@ -174,14 +159,13 @@ function loadStats() {
   document.getElementById('stat-drafts').textContent    = posts.filter(p => p.status === 'draft').length;
   document.getElementById('stat-featured').textContent  = posts.filter(p => p.featured).length;
 
-  // Recent posts list
   const list = document.getElementById('recent-posts-list');
-  if (posts.length === 0) return;
+  if (!posts.length) return;
   list.innerHTML = posts.slice(0,6).map(p => `
     <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
       <div style="flex:1;min-width:0;">
-        <div style="font-size:14px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.title || 'Untitled'}</div>
-        <div style="font-size:11px;color:var(--ink-muted);margin-top:2px;">${p.category || 'Uncategorised'} · ${p.date || ''}</div>
+        <div style="font-size:14px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.title||'Untitled'}</div>
+        <div style="font-size:11px;color:var(--ink-muted);margin-top:2px;">${p.category||'Uncategorised'} · ${p.date||''}</div>
       </div>
       <span class="badge badge-${p.status||'draft'}">${p.status||'draft'}</span>
       <a href="write.html?id=${p.id}" class="btn btn-outline btn-sm">Edit</a>
@@ -189,7 +173,6 @@ function loadStats() {
   `).join('');
 }
 
-// Activity
 function loadActivity() {
   const logs = getActivityLog().slice(0,5);
   const el = document.getElementById('activity-list');
@@ -198,17 +181,14 @@ function loadActivity() {
     <div class="activity-item">
       <div class="activity-dot"></div>
       <div class="activity-text">${l.description}</div>
-      <div class="activity-time">${l.display ? l.display.split(',')[1]?.trim() || '' : ''}</div>
+      <div class="activity-time">${l.display ? l.display.split(',')[1]?.trim()||'' : ''}</div>
     </div>
   `).join('');
 }
 
-// Breaking news
 function toggleBreaking(checked) {
   document.getElementById('breaking-form').style.display = checked ? 'block' : 'none';
-  if (!checked) {
-    clearBreaking();
-  }
+  if (!checked) clearBreaking();
 }
 function saveBreaking() {
   const text = document.getElementById('breaking-text').value.trim();
@@ -217,7 +197,7 @@ function saveBreaking() {
   document.getElementById('breaking-status').innerHTML = `Banner is <strong>ON</strong>: "${text}"`;
   document.getElementById('breaking-control').classList.add('active');
   showToast('Breaking news banner activated', 'success');
-  logActivity('breaking', 'Breaking news activated: ' + text);
+  logActivity('breaking', 'Breaking news: ' + text);
 }
 function clearBreaking() {
   setBreakingNews('');
@@ -226,15 +206,13 @@ function clearBreaking() {
   document.getElementById('breaking-status').innerHTML = `Banner is <strong>OFF</strong>`;
   document.getElementById('breaking-control').classList.remove('active');
   document.getElementById('breaking-text').value = '';
-  showToast('Breaking news banner cleared', 'info');
+  showToast('Breaking news cleared', 'info');
 }
 
-// Welcome banner
 if (getPosts().length === 0) {
   document.getElementById('welcome-banner').style.display = 'block';
 }
 
-// Init breaking state
 const bn = getBreakingNews();
 if (bn) {
   document.getElementById('breaking-toggle').checked = true;
@@ -244,21 +222,13 @@ if (bn) {
   document.getElementById('breaking-control').classList.add('active');
 }
 
-// Sync posts from GitHub then render
+// Sync from GitHub then render
 (async function() {
-  // Show sync indicator
   const list = document.getElementById('recent-posts-list');
-  if (list) list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--ink-muted);font-size:13px;">⟳ Loading posts from site…</div>';
-
-  const posts = await syncPostsFromGitHub();
-  console.log('[Dashboard] Got', posts.length, 'posts');
+  if (list) list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--ink-muted);font-size:13px;">⟳ Loading posts…</div>';
+  await syncPostsFromGitHub();
   loadStats();
   loadActivity();
-
-  // Show posts count in topbar
-  if (posts.length > 0) {
-    showToast(posts.length + ' post' + (posts.length !== 1 ? 's' : '') + ' loaded', 'success', 2000);
-  }
 })();
 </script>
 </body>
