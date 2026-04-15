@@ -17,7 +17,7 @@
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
       <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
-      <a href="write.html"  class="nav-item"><span class="nav-icon">✏️</span> New Post</a>
+      <a href="write.html"     class="nav-item"><span class="nav-icon">✏️</span> New Post</a>
       <a href="posts.html"     class="nav-item active"><span class="nav-icon">📰</span> All Posts</a>
       <div class="nav-section-label">Content</div>
       <a href="editorial.html" class="nav-item"><span class="nav-icon">⭐</span> Editorial Control</a>
@@ -46,14 +46,13 @@
   <main class="admin-main">
     <div class="card">
       <div class="filter-bar">
-        <input type="search" id="search-posts" placeholder="Search posts by title…" oninput="renderPosts()" aria-label="Search posts">
-        <select id="filter-status" onchange="renderPosts()" aria-label="Filter by status">
+        <input type="search" id="search-posts" placeholder="Search posts…" oninput="renderPosts()" aria-label="Search">
+        <select id="filter-status" onchange="renderPosts()">
           <option value="">All statuses</option>
           <option value="published">Published</option>
           <option value="draft">Draft</option>
-          <option value="scheduled">Scheduled</option>
         </select>
-        <select id="filter-category" onchange="renderPosts()" aria-label="Filter by category">
+        <select id="filter-category" onchange="renderPosts()">
           <option value="">All categories</option>
           <option value="national">National</option>
           <option value="politics">Politics</option>
@@ -62,21 +61,15 @@
           <option value="trending">Trending</option>
           <option value="gossip">Gossip</option>
           <option value="world">World</option>
-        </select>
-        <select id="filter-type" onchange="renderPosts()" aria-label="Filter by type">
-          <option value="">All types</option>
-          <option value="article">Article</option>
-          <option value="breaking">Breaking</option>
-          <option value="sponsored">Sponsored</option>
-          <option value="photo">Photo Story</option>
-          <option value="video">Video</option>
+          <option value="tech">Technology</option>
+          <option value="business">Business</option>
         </select>
       </div>
 
-      <div id="posts-count" class="text-sm text-muted mb-4" style="margin-bottom:12px;"></div>
+      <div id="posts-count" class="text-sm text-muted" style="margin-bottom:12px;"></div>
 
       <div style="overflow-x:auto;">
-        <table class="post-table" id="posts-table">
+        <table class="post-table">
           <thead>
             <tr>
               <th>Title</th>
@@ -94,7 +87,7 @@
       <div id="posts-empty" style="text-align:center;padding:48px;display:none;">
         <div style="font-size:40px;margin-bottom:12px;">📝</div>
         <div style="font-size:16px;font-weight:500;margin-bottom:8px;">No posts found</div>
-        <div style="font-size:13px;color:var(--ink-muted);margin-bottom:20px;">Try a different search or filter, or create a new post.</div>
+        <div style="font-size:13px;color:var(--ink-muted);margin-bottom:20px;">Create your first post to get started.</div>
         <a href="write.html" class="btn btn-primary">+ Create New Post</a>
       </div>
     </div>
@@ -102,24 +95,22 @@
 </div>
 
 <script src="js/auth.js"></script>
-<script src="js/publisher.js"></script>
 <script src="js/admin.js"></script>
 <script>
 function renderPosts() {
   let posts = getPosts();
-  const q   = document.getElementById('search-posts').value.toLowerCase();
+  const q   = (document.getElementById('search-posts').value||'').toLowerCase();
   const st  = document.getElementById('filter-status').value;
   const cat = document.getElementById('filter-category').value;
-  const typ = document.getElementById('filter-type').value;
 
   if (q)   posts = posts.filter(p => (p.title||'').toLowerCase().includes(q));
   if (st)  posts = posts.filter(p => p.status === st);
   if (cat) posts = posts.filter(p => p.category === cat);
-  if (typ) posts = posts.filter(p => p.type === typ);
 
   const tbody = document.getElementById('posts-tbody');
   const empty = document.getElementById('posts-empty');
-  document.getElementById('posts-count').textContent = `${posts.length} post${posts.length !== 1 ? 's' : ''}`;
+  const countEl = document.getElementById('posts-count');
+  if (countEl) countEl.textContent = `${posts.length} post${posts.length!==1?'s':''}`;
 
   if (!posts.length) {
     tbody.innerHTML = '';
@@ -131,25 +122,21 @@ function renderPosts() {
   tbody.innerHTML = posts.map(p => `
     <tr>
       <td class="post-title-cell">
-        ${p.title || '<em style="color:var(--ink-muted)">Untitled</em>'}
-        <small>${p.subtitle || ''}</small>
+        ${p.title||'<em style="color:var(--ink-muted)">Untitled</em>'}
+        <small>${p.subtitle||''}</small>
       </td>
       <td><span style="font-size:12px;text-transform:capitalize;">${p.category||'—'}</span></td>
       <td><span class="badge badge-${p.status||'draft'}">${p.status||'draft'}</span></td>
       <td style="font-size:18px;letter-spacing:2px;">
-        ${p.featured    ? '⭐' : ''}
-        ${p.pinned      ? '📌' : ''}
-        ${p.trending    ? '🔥' : ''}
-        ${p.editorsPick ? '✍️' : ''}
+        ${p.featured?'⭐':''}${p.pinned?'📌':''}${p.trending?'🔥':''}${p.editorsPick?'✍️':''}
       </td>
       <td style="font-size:12px;color:var(--ink-muted);white-space:nowrap;">${p.date||''}</td>
       <td>
         <div class="post-actions">
           <a href="write.html?id=${p.id}" class="btn btn-outline btn-sm">Edit</a>
-          ${p.status !== 'published'
-            ? `<button class="btn btn-success btn-sm" onclick="publishDraft('${p.id}')" title="Publish to site">🚀 Publish</button>`
-            : `<button class="btn btn-ghost btn-sm" onclick="toggleStatus('${p.id}')">Unpublish</button>`
-          }
+          <button class="btn btn-ghost btn-sm" onclick="toggleStatus('${p.id}')">
+            ${p.status==='published'?'Unpublish':'🚀 Publish'}
+          </button>
           <button class="btn btn-danger btn-sm btn-icon" onclick="removePost('${p.id}')" title="Delete">🗑</button>
         </div>
       </td>
@@ -161,105 +148,56 @@ async function toggleStatus(id) {
   const posts = getPosts();
   const post  = posts.find(p => p.id === id);
   if (!post) return;
-
-  const wasPublished = post.status === 'published';
-  post.status = wasPublished ? 'draft' : 'published';
-  savePost(post);
-  logActivity('status', `Post ${post.status}: ${post.title}`);
-  showToast(`Post set to ${post.status}…`, 'info');
-  renderPosts();
-
-  if (!hasToken()) return;
-
-  try {
-    if (wasPublished) {
-      // Unpublishing — remove HTML file from GitHub
-      await unpublishFromGitHub(post);
-    } else {
-      // Re-publishing — push HTML file back
-      await publishToGitHub(post);
-    }
-    // Always update posts.json
-    await updatePostsJSON(getPosts());
-    showToast(`Post ${post.status} on site ✓`, 'success');
-  } catch(err) {
-    showToast('GitHub sync error: ' + err.message, 'error', 5000);
-  }
-}
-
-async function removePost(id) {
-  const posts = getPosts();
-  const post  = posts.find(p => p.id === id);
-  if (!post) return;
-
-  confirmAction(`Delete "${post.title}"? This will remove it from the site permanently.`, async () => {
-    // 1. Delete from local storage
-    deletePost(id);
-    logActivity('delete', 'Deleted post: ' + post.title);
-    showToast('Deleting from site…', 'info');
-    renderPosts();
-
+  if (post.status !== 'published') {
+    // Publishing — need GitHub token
     if (!hasToken()) {
-      showToast('Post removed locally. Add GitHub token in Settings to remove from site.', 'error', 5000);
+      showToast('Add GitHub token in Settings first', 'error', 4000);
       return;
     }
-
+    showToast('Publishing…', 'info');
     try {
-      // 2. Delete the article HTML file from GitHub
-      if (post.filename || post.slug) {
-        const filename = post.filename || (post.slug + '.html');
-        await unpublishFromGitHub(post);
-      }
-
-      // 3. Update posts.json to remove this post
-      const remaining = getPosts();
-      await updatePostsJSON(remaining);
-
-      // 4. Update sitemap
-      try { await updateSitemap(remaining); } catch(e) {}
-
-      // 5. Update RSS
-      try { await updateRSSFeed(remaining); } catch(e) {}
-
-      showToast('Post deleted from site ✓', 'success');
-      logActivity('delete-github', 'Removed from GitHub: ' + post.title);
-
+      post.status = 'published';
+      const result = await publishToGitHub(post);
+      post.slug = result.slug;
+      savePost(post);
+      await updatePostsJSON(getPosts());
+      showToast('Published! Live in ~2 min 🎉', 'success', 4000);
+      logActivity('publish', 'Published: ' + post.title);
     } catch(err) {
-      showToast('Error removing from GitHub: ' + err.message, 'error', 6000);
-      console.error('Delete error:', err);
+      post.status = 'draft';
+      savePost(post);
+      showToast('Error: ' + err.message, 'error', 6000);
     }
+  } else {
+    post.status = 'draft';
+    savePost(post);
+    showToast('Set to draft', 'info');
+    logActivity('unpublish', 'Unpublished: ' + post.title);
+  }
+  renderPosts();
+}
+
+function removePost(id) {
+  const post = getPosts().find(p => p.id === id);
+  if (!post) return;
+  confirmAction(`Delete "${post.title}"? This cannot be undone.`, () => {
+    deletePost(id);
+    logActivity('delete', 'Deleted: ' + post.title);
+    showToast('Post deleted', 'info');
+    renderPosts();
   });
 }
 
 // Sync from GitHub then render
 (async function() {
-  const tbody  = document.getElementById('posts-tbody');
-  const countEl = document.getElementById('posts-count');
+  const tbody = document.getElementById('posts-tbody');
   if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--ink-muted);">⟳ Loading posts from GitHub…</td></tr>';
-  if (countEl) countEl.textContent = 'Loading…';
-
-  const posts = await syncPostsFromGitHub();
-  console.log('[Posts] Loaded', posts.length, 'posts');
-
-  if (posts.length === 0) {
-    // Show helpful message
-    if (tbody) tbody.innerHTML = '';
-    const emptyEl = document.getElementById('posts-empty');
-    if (emptyEl) {
-      emptyEl.style.display = 'block';
-      emptyEl.innerHTML = `
-        <div style="font-size:40px;margin-bottom:12px;">📰</div>
-        <div style="font-size:16px;font-weight:500;margin-bottom:8px;">No posts found</div>
-        <div style="font-size:13px;color:var(--ink-muted);margin-bottom:16px;">
-          Posts published from any device will appear here automatically.<br>
-          Make sure your GitHub token is set in Settings.
-        </div>
-        <a href="write.html" class="btn btn-primary">+ Create New Post</a>`;
-    }
-  } else {
-    renderPosts();
-  }
+  await syncPostsFromGitHub();
+  renderPosts();
 })();
 </script>
+
+<!-- Inline publisher for Publish button -->
+<script src="js/publisher.js"></script>
 </body>
 </html>
